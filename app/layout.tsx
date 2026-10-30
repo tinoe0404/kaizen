@@ -3,6 +3,7 @@ import { Outfit, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { TripProvider } from "@/components/trip/TripProvider";
 import { site } from "@/content/site";
 
@@ -50,6 +51,7 @@ export default function RootLayout({
           </main>
 
           <Footer />
+          <WhatsAppFloat />
         </TripProvider>
       </body>
     </html>

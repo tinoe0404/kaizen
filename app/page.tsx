@@ -7,8 +7,8 @@ import { Photo } from "@/components/ui/Photo";
 import { OfferingCard } from "@/components/OfferingCard";
 import { getAll, getFeatured } from "@/lib/content";
 import { categoryPath } from "@/lib/routes";
-import { whatsappLink } from "@/lib/whatsapp";
 import { Category } from "@/content/types";
+import { WhatsAppLink } from "@/components/WhatsAppLink";
 
 export const metadata: Metadata = {
   title: "Kaizen Travel and Adventures",
@@ -270,9 +270,9 @@ export default function HomePage() {
               <Button href="/trip" variant="primary">
                 Build your trip
               </Button>
-              <Button href={whatsappLink()} variant="outline-bone">
+              <WhatsAppLink variant="outline-bone">
                 WhatsApp us
-              </Button>
+              </WhatsAppLink>
             </div>
           </div>
         </Container>

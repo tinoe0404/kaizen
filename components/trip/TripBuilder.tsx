@@ -9,6 +9,10 @@ import { Category, Offering } from "@/content/types";
 import { currencies, Currency, ratesUpdated } from "@/content/currency";
 import { formatCurrencyAmount } from "@/lib/pricing";
 import { offeringHref } from "@/lib/routes";
+import { normalizeWhatsappNumber, buildTripMessage } from "@/lib/whatsapp";
+import { WhatsAppLink } from "@/components/WhatsAppLink";
+import { Button } from "@/components/ui/button";
+import { site } from "@/content/site";
 import { OfferingCard } from "@/components/OfferingCard";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
@@ -342,6 +346,70 @@ export function TripBuilder() {
               <div id="request-slot" className="mt-6 pt-6 border-t border-sand">
                 <RequestForm />
               </div>
+
+              {/* WhatsApp Alternative Action */}
+              {normalizeWhatsappNumber(site.whatsappNumber) && (
+                <div className="mt-4">
+                  <div className="relative my-4 text-center">
+                    <div
+                      className="absolute inset-0 flex items-center"
+                      aria-hidden="true"
+                    >
+                      <div className="w-full border-t border-sand" />
+                    </div>
+                    <span className="relative bg-white px-3 text-xs uppercase tracking-wider font-heading text-ink/50">
+                      or
+                    </span>
+                  </div>
+
+                  {state.ids.length > 0 ? (
+                    <WhatsAppLink
+                      message={buildTripMessage(state, derived)}
+                      variant="outline"
+                      className="w-full justify-center"
+                    >
+                      <svg
+                        className="w-4 h-4 mr-2 shrink-0"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                      </svg>
+                      Send this trip on WhatsApp
+                    </WhatsAppLink>
+                  ) : (
+                    <div>
+                      <Button
+                        variant="outline"
+                        disabled
+                        className="w-full justify-center"
+                      >
+                        <svg
+                          className="w-4 h-4 mr-2 shrink-0"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>
+                        Send this trip on WhatsApp
+                      </Button>
+                      <p className="text-xs text-center text-ink/60 mt-1.5 font-medium">
+                        Add at least one item
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

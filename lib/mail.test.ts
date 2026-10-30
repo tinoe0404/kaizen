@@ -11,6 +11,7 @@ describe("Mail Transport", () => {
   });
 
   afterEach(() => {
+    vi.unstubAllEnvs();
     process.env = originalEnv;
   });
 
@@ -22,8 +23,8 @@ describe("Mail Transport", () => {
   });
 
   it("in dry-run mode, logs to console and resolves without throwing", async () => {
-    process.env.MAIL_DRY_RUN = "true";
-    process.env.NODE_ENV = "test";
+    vi.stubEnv("MAIL_DRY_RUN", "true");
+    vi.stubEnv("NODE_ENV", "test");
 
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
 
@@ -47,8 +48,8 @@ describe("Mail Transport", () => {
   });
 
   it("prints full team and guest emails to console in dry-run mode for a full request", async () => {
-    process.env.MAIL_DRY_RUN = "true";
-    process.env.NODE_ENV = "test";
+    vi.stubEnv("MAIL_DRY_RUN", "true");
+    vi.stubEnv("NODE_ENV", "test");
 
     const { validateRequest, computeRequestSummary, makeReference } =
       await import("./request");

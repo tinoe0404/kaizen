@@ -10,6 +10,7 @@
     "start": "next start",
     "lint": "eslint",
     "check:content": "jiti scripts/check-content.ts",
+    "check:launch": "jiti scripts/check-launch.ts",
     "test": "vitest run"
   },
   "dependencies": {

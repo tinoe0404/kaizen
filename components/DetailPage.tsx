@@ -5,7 +5,7 @@ import { Category, Offering } from "@/content/types";
 import { getCategoryConfig } from "@/content/categories";
 import { getBySlug, getAll, getByDestination } from "@/lib/content";
 import { priceLine, unitLabel } from "@/lib/pricing";
-import { whatsappLink } from "@/lib/whatsapp";
+import { WhatsAppLink } from "@/components/WhatsAppLink";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
@@ -153,15 +153,13 @@ export function DetailPage({ category, slug }: DetailPageProps) {
                 >
                   Add to trip
                 </Button>
-                <Button
-                  href={whatsappLink(
-                    `Hi, I am interested in ${offering.name}.`
-                  )}
+                <WhatsAppLink
+                  message={`Hi, I am interested in ${offering.name}.`}
                   variant="outline"
                   className="w-full justify-center"
                 >
                   Ask on WhatsApp
-                </Button>
+                </WhatsAppLink>
                 <p className="text-xs text-ink/65 text-center mt-1 font-body">
                   This is a request, not a booking. We confirm availability and
                   payment with you.

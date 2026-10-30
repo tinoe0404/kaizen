@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { site } from "@/content/site";
+import { WhatsAppLink } from "@/components/WhatsAppLink";
 
 const EXPLORE_LINKS = [
   { href: "/destinations", label: "Destinations" },
@@ -12,7 +13,7 @@ const EXPLORE_LINKS = [
 
 export function Footer() {
   return (
-    <footer className="bg-ink text-bone border-t border-forest/30 mt-auto">
+    <footer className="bg-ink text-bone border-t border-forest/30 mt-auto pb-[calc(var(--float-bottom,16px)+56px)]">
       <Container className="py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
           {/* Business Info */}
@@ -50,14 +51,14 @@ export function Footer() {
               Contact
             </h3>
             <div className="flex flex-col space-y-2 text-sm">
-              <div className="min-h-[44px] flex flex-col justify-center">
+              <WhatsAppLink className="min-h-[44px] flex flex-col justify-center hover:text-sun transition-colors">
                 <span className="text-bone/60 text-xs uppercase tracking-wider font-heading">
                   WhatsApp
                 </span>
                 <span className="text-bone font-medium">
                   {site.whatsappNumber}
                 </span>
-              </div>
+              </WhatsAppLink>
               <div className="min-h-[44px] flex flex-col justify-center">
                 <span className="text-bone/60 text-xs uppercase tracking-wider font-heading">
                   Booking email

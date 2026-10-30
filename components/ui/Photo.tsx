@@ -17,7 +17,8 @@ export function Photo({
   sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
   priority = false,
 }: PhotoProps) {
-  const containerClasses = `relative overflow-hidden rounded-[14px] ${className}`.trim();
+  const hasRadius = /rounded/.test(className);
+  const containerClasses = `relative overflow-hidden ${hasRadius ? "" : "rounded-[14px] "}${className}`.trim();
 
   if (photo && photo.src) {
     return (

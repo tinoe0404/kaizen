@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-export type ButtonVariant = "primary" | "solid" | "outline";
+export type ButtonVariant = "primary" | "solid" | "outline" | "outline-bone";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -25,6 +25,8 @@ export function Button({
     solid: "bg-forest text-bone hover:bg-[#163920] active:bg-[#102b18]",
     outline:
       "bg-transparent border-2 border-forest text-forest hover:bg-forest hover:text-bone active:bg-[#163920]",
+    "outline-bone":
+      "bg-transparent border-2 border-bone text-bone hover:bg-bone hover:text-ink active:bg-bone/90 focus-visible:outline-bone",
   };
 
   const combinedClassName = `${baseStyles} ${variantStyles[variant]} ${className}`.trim();

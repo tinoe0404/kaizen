@@ -82,7 +82,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
             {/* Left Column: Text */}
             <div className="flex flex-col items-start">
-              <span className="font-heading font-semibold text-xs sm:text-sm tracking-[0.18em] text-sun uppercase select-none">
+              <span className="font-heading font-semibold text-sm tracking-[0.18em] text-sun uppercase select-none">
                 TRAVEL AND ADVENTURES
               </span>
               <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-bone leading-[1.15] mt-4 mb-4">

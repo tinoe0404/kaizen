@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { Photo as PhotoType } from "@/content/types";
 import { Photo } from "@/components/ui/Photo";
@@ -12,6 +12,8 @@ export interface GalleryProps {
 
 export function Gallery({ photos, label }: GalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
 
   // Case 0: No photos
   if (!photos || photos.length === 0) {
@@ -65,6 +67,33 @@ export function Gallery({ photos, label }: GalleryProps) {
     }
   };
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length === 1) {
+      touchStartXRef.current = e.touches[0].clientX;
+      touchStartYRef.current = e.touches[0].clientY;
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchEndX - touchStartXRef.current;
+    const deltaY = touchEndY - touchStartYRef.current;
+
+    // 40px threshold and horizontal motion dominates vertical
+    if (Math.abs(deltaX) >= 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX < 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+  };
+
   return (
     <div
       className="w-full flex flex-col gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-forest rounded-[14px]"
@@ -77,15 +106,21 @@ export function Gallery({ photos, label }: GalleryProps) {
         Photo {activeIndex + 1} of {photos.length}
       </div>
 
-      {/* Main Large Image (4:3) with Prev/Next buttons */}
-      <div className="relative aspect-[4/3] w-full rounded-[14px] overflow-hidden bg-sand/30 border border-sand select-none">
+      {/* Main Large Image (4:3) with Prev/Next buttons & swipe support */}
+      <div
+        data-testid="gallery-main-image"
+        className="relative aspect-[4/3] w-full rounded-[14px] overflow-hidden bg-sand/30 border border-sand select-none"
+        style={{ touchAction: "pan-y" }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <Image
           src={currentPhoto.src}
           alt={currentPhoto.alt || `${label} - Photo ${activeIndex + 1}`}
           fill
           sizes="(max-width: 1024px) 100vw, 60vw"
           priority={activeIndex === 0}
-          className="object-cover"
+          className="object-cover pointer-events-none"
         />
 
         {/* Previous Button */}
@@ -131,9 +166,9 @@ export function Gallery({ photos, label }: GalleryProps) {
         </button>
       </div>
 
-      {/* Thumbnails Row (scrolls horizontally on small screens) */}
+      {/* Thumbnails Row (scroll-snap, partially shows next thumbnail on mobile) */}
       <div
-        className="flex gap-3 overflow-x-auto pb-2 pt-1 scrollbar-none snap-x"
+        className="flex gap-3 overflow-x-auto pb-2 pt-1 scrollbar-none snap-x snap-mandatory"
         aria-label="Photo thumbnails"
       >
         {photos.map((photo, index) => {
@@ -145,7 +180,7 @@ export function Gallery({ photos, label }: GalleryProps) {
               onClick={() => setActiveIndex(index)}
               aria-label={`Show photo ${index + 1} of ${photos.length}`}
               aria-current={isActive ? "true" : undefined}
-              className={`relative shrink-0 w-20 h-16 sm:w-24 sm:h-18 rounded-[8px] overflow-hidden border-2 transition-colors min-h-[44px] min-w-[44px] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest ${
+              className={`relative shrink-0 snap-start w-20 h-16 sm:w-24 sm:h-18 rounded-[8px] overflow-hidden border-2 transition-colors min-h-[44px] min-w-[44px] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest ${
                 isActive
                   ? "border-forest ring-2 ring-forest/30"
                   : "border-sand hover:border-ink/40"
@@ -156,7 +191,7 @@ export function Gallery({ photos, label }: GalleryProps) {
                 alt=""
                 fill
                 sizes="96px"
-                className="object-cover"
+                className="object-cover pointer-events-none"
               />
             </button>
           );

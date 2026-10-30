@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <Section className="bg-bone py-20 md:py-32 flex-1 flex items-center justify-center">
       <Container className="text-center flex flex-col items-center">
-        <span className="font-heading font-semibold text-xs sm:text-sm tracking-[0.18em] text-forest uppercase mb-3">
+        <span className="font-heading font-semibold text-sm tracking-[0.18em] text-forest uppercase mb-3">
           404 ERROR
         </span>
         <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-ink">

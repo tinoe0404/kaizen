@@ -114,7 +114,7 @@ export function DetailPage({ category, slug }: DetailPageProps) {
                 <p className="font-heading font-semibold text-2xl sm:text-3xl text-forest">
                   {priceLine(offering)}
                 </p>
-                <p className="font-heading text-xs uppercase tracking-wider text-ink/60 mt-1">
+                <p className="font-heading text-sm uppercase tracking-wider text-ink/60 mt-1">
                   {unitLabel(offering.pricing.unit)}
                 </p>
               </div>
@@ -160,7 +160,7 @@ export function DetailPage({ category, slug }: DetailPageProps) {
                 >
                   Ask on WhatsApp
                 </WhatsAppLink>
-                <p className="text-xs text-ink/65 text-center mt-1 font-body">
+                <p className="text-sm text-ink/65 text-center mt-1 font-body">
                   This is a request, not a booking. We confirm availability and
                   payment with you.
                 </p>

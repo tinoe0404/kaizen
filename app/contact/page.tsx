@@ -78,7 +78,7 @@ export default function ContactPage() {
                   {site.bookingEmail}
                 </a>
               </div>
-              <div className="mt-6 pt-4 border-t border-sand text-xs text-ink/60">
+              <div className="mt-6 pt-4 border-t border-sand text-sm text-ink/60">
                 Direct booking and operational inbox
               </div>
             </div>
@@ -96,7 +96,7 @@ export default function ContactPage() {
                   {site.address}
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-sand text-xs text-ink/60">
+              <div className="mt-6 pt-4 border-t border-sand text-sm text-ink/60">
                 Visits by appointment
               </div>
             </div>
@@ -114,7 +114,7 @@ export default function ContactPage() {
                   {site.hours}
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-sand text-xs text-ink/60">
+              <div className="mt-6 pt-4 border-t border-sand text-sm text-ink/60">
                 Operating in Central Africa Time (CAT)
               </div>
             </div>

@@ -28,11 +28,11 @@ export function OfferingCard({
       />
 
       {/* Card Content */}
-      <div className="p-5 sm:p-6 flex flex-col flex-1">
-        <HeadingTag className="font-heading font-semibold text-xl text-ink group-hover:text-forest transition-colors">
+      <div className="p-5 sm:p-6 flex flex-col flex-1 min-w-0">
+        <HeadingTag className="font-heading font-semibold text-xl text-ink group-hover:text-forest transition-colors break-words">
           <Link
             href={href}
-            className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest rounded-[4px] after:absolute after:inset-0"
+            className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest rounded-[4px] after:absolute after:inset-0 break-words"
           >
             {offering.name}
           </Link>

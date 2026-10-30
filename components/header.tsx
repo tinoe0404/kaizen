@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { useTrip } from "@/components/trip/TripProvider";
@@ -22,6 +23,10 @@ const MOBILE_EXTRA_LINKS = [
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement | null>(null);
+  const wasOpenRef = useRef(false);
+  const pathname = usePathname();
   const { state, isReady } = useTrip();
 
   const tripCount = isReady ? state.ids.length : 0;
@@ -29,18 +34,78 @@ export function Header() {
   const tripAriaLabel =
     tripCount > 0 ? `Plan your trip, ${tripCount} items` : "Plan your trip";
 
-  // Close on Escape key press
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setIsOpen(false);
+  }
+
+  // Lock body scroll and handle focus when open/closed
   useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+
+      // Move focus to first link
+      const timer = setTimeout(() => {
+        firstLinkRef.current?.focus();
+      }, 50);
+
+      return () => {
+        clearTimeout(timer);
+        document.body.style.overflow = originalOverflow;
+      };
+    } else if (wasOpenRef.current) {
+      menuButtonRef.current?.focus();
+    }
+    wasOpenRef.current = isOpen;
+  }, [isOpen]);
+
+  // Trap focus and handle Escape
+  useEffect(() => {
+    if (!isOpen) return;
+
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape" && isOpen) {
+      if (event.key === "Escape") {
+        event.preventDefault();
         setIsOpen(false);
         menuButtonRef.current?.focus();
+        return;
+      }
+
+      if (event.key === "Tab") {
+        const panel = panelRef.current;
+        if (!panel) return;
+
+        const focusable = [
+          menuButtonRef.current,
+          ...Array.from(
+            panel.querySelectorAll<HTMLElement>(
+              'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            )
+          ),
+        ].filter(Boolean) as HTMLElement[];
+
+        if (focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (event.shiftKey) {
+          if (document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        }
       }
     }
 
-    if (isOpen) {
-      window.addEventListener("keydown", handleKeyDown);
-    }
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
@@ -136,13 +201,15 @@ export function Header() {
       {/* Mobile Navigation Panel */}
       {isOpen && (
         <div
+          ref={panelRef}
           id="mobile-navigation"
-          className="md:hidden w-full bg-white border-b border-sand shadow-none animate-in fade-in slide-in-from-top-2 duration-150"
+          className="md:hidden w-full bg-white border-b border-sand shadow-none overflow-y-auto max-h-[calc(100dvh-88px)]"
         >
           <Container className="py-4 flex flex-col gap-1">
-            {NAV_LINKS.map((link) => (
+            {NAV_LINKS.map((link, idx) => (
               <Link
                 key={link.href}
+                ref={idx === 0 ? firstLinkRef : undefined}
                 href={link.href}
                 onClick={handleClose}
                 className="font-heading font-semibold text-lg text-ink hover:text-forest transition-colors min-h-[44px] flex items-center border-b border-sand/40 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink rounded-[4px]"

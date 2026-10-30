@@ -25,7 +25,7 @@ export default function PrivacyPage() {
           <p className="font-body text-ink/80 text-base sm:text-lg mt-3 max-w-[70ch] leading-relaxed">
             {privacy.intro}
           </p>
-          <p className="text-xs font-heading font-semibold text-ink/50 uppercase tracking-wider mt-4">
+          <p className="text-sm font-heading font-semibold text-ink/50 uppercase tracking-wider mt-4">
             Last updated: {privacy.lastUpdated}
           </p>
         </Container>

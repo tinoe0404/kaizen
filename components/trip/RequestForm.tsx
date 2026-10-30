@@ -224,7 +224,8 @@ export function RequestForm() {
           }}
           aria-invalid={Boolean(fieldErrors.name)}
           aria-describedby={fieldErrors.name ? "name-error" : undefined}
-          className={`w-full px-3.5 py-2.5 rounded-[8px] bg-white border font-body text-base text-ink focus:outline-none focus:ring-2 focus:ring-forest transition-colors ${
+          style={{ scrollMarginBottom: "calc(var(--trip-bar-h, 0px) + 16px)" }}
+          className={`w-full min-h-[48px] px-3.5 py-2.5 rounded-[8px] bg-white border font-body text-base text-ink focus:outline-none focus:ring-2 focus:ring-forest transition-colors ${
             fieldErrors.name ? "border-red-600 bg-red-50/20" : "border-ink/20"
           }`}
         />
@@ -248,6 +249,7 @@ export function RequestForm() {
           id="request-email"
           name="email"
           type="email"
+          inputMode="email"
           autoComplete="email"
           required
           value={email}
@@ -259,7 +261,8 @@ export function RequestForm() {
           }}
           aria-invalid={Boolean(fieldErrors.email)}
           aria-describedby={fieldErrors.email ? "email-error" : undefined}
-          className={`w-full px-3.5 py-2.5 rounded-[8px] bg-white border font-body text-base text-ink focus:outline-none focus:ring-2 focus:ring-forest transition-colors ${
+          style={{ scrollMarginBottom: "calc(var(--trip-bar-h, 0px) + 16px)" }}
+          className={`w-full min-h-[48px] px-3.5 py-2.5 rounded-[8px] bg-white border font-body text-base text-ink focus:outline-none focus:ring-2 focus:ring-forest transition-colors ${
             fieldErrors.email ? "border-red-600 bg-red-50/20" : "border-ink/20"
           }`}
         />
@@ -295,7 +298,8 @@ export function RequestForm() {
           }}
           aria-invalid={Boolean(fieldErrors.phone)}
           aria-describedby={fieldErrors.phone ? "phone-error" : undefined}
-          className={`w-full px-3.5 py-2.5 rounded-[8px] bg-white border font-body text-base text-ink focus:outline-none focus:ring-2 focus:ring-forest transition-colors ${
+          style={{ scrollMarginBottom: "calc(var(--trip-bar-h, 0px) + 16px)" }}
+          className={`w-full min-h-[48px] px-3.5 py-2.5 rounded-[8px] bg-white border font-body text-base text-ink focus:outline-none focus:ring-2 focus:ring-forest transition-colors ${
             fieldErrors.phone ? "border-red-600 bg-red-50/20" : "border-ink/20"
           }`}
         />
@@ -328,6 +332,7 @@ export function RequestForm() {
           }}
           aria-invalid={Boolean(fieldErrors.message)}
           aria-describedby={fieldErrors.message ? "notes-error" : undefined}
+          style={{ scrollMarginBottom: "calc(var(--trip-bar-h, 0px) + 16px)" }}
           className={`w-full px-3.5 py-2.5 rounded-[8px] bg-white border font-body text-base text-ink focus:outline-none focus:ring-2 focus:ring-forest transition-colors resize-y ${
             fieldErrors.message
               ? "border-red-600 bg-red-50/20"
@@ -342,7 +347,7 @@ export function RequestForm() {
       </div>
 
       {/* Privacy Line */}
-      <p className="text-xs text-ink/60 leading-normal">
+      <p className="text-sm text-ink/60 leading-normal">
         {site.privacyNotice || "We use your details only to answer this request."}{" "}
         <Link
           href="/privacy"
@@ -359,13 +364,13 @@ export function RequestForm() {
           type="submit"
           disabled={isTripIncomplete || isSubmitting}
           aria-busy={isSubmitting}
-          className="w-full justify-center text-base py-3"
+          className="w-full justify-center text-base min-h-[48px] py-3"
         >
           {isSubmitting ? "Sending..." : "Send booking request"}
         </Button>
 
         {isTripIncomplete && missingReason && (
-          <p className="text-xs text-center text-ink/60 mt-2 font-medium">
+          <p className="text-sm text-center text-ink/60 mt-2 font-medium">
             {missingReason}
           </p>
         )}

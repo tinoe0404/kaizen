@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Outfit, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
+import { TripBar } from "@/components/trip/TripBar";
 import { TripProvider } from "@/components/trip/TripProvider";
 import { site } from "@/content/site";
 
@@ -27,6 +28,12 @@ export const metadata: Metadata = {
   description: site.tagline,
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,7 +41,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${outfit.variable} ${sourceSans.variable}`}>
-      <body className="min-h-screen flex flex-col font-body bg-bone text-ink antialiased">
+      <body
+        style={{ paddingBottom: "var(--trip-bar-h, 0px)" }}
+        className="min-h-screen flex flex-col font-body bg-bone text-ink antialiased"
+      >
         {/* Sticky skip link */}
         <a
           href="#main-content"
@@ -51,6 +61,7 @@ export default function RootLayout({
           </main>
 
           <Footer />
+          <TripBar />
           <WhatsAppFloat />
         </TripProvider>
       </body>

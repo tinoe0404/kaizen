@@ -85,7 +85,7 @@ export function TripBuilder() {
                 <div>
                   <label
                     htmlFor="trip-arrival"
-                    className="block font-heading font-semibold text-xs text-ink/80 uppercase tracking-wide mb-1"
+                    className="block font-heading font-semibold text-sm text-ink/80 uppercase tracking-wide mb-1"
                   >
                     Arrival Date
                   </label>
@@ -95,14 +95,15 @@ export function TripBuilder() {
                     min={todayIso}
                     value={state.arrival}
                     onChange={(e) => setDates(e.target.value, state.departure)}
-                    className="w-full px-3.5 py-2.5 rounded-[8px] bg-white border border-ink/20 font-body text-base text-ink focus:outline-none focus:ring-2 focus:ring-forest"
+                    style={{ scrollMarginBottom: "calc(var(--trip-bar-h, 0px) + 16px)" }}
+                    className="w-full min-h-[48px] h-[48px] px-3.5 py-2.5 rounded-[8px] bg-white border border-ink/20 font-body text-base text-ink focus:outline-none focus:ring-2 focus:ring-forest"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="trip-departure"
-                    className="block font-heading font-semibold text-xs text-ink/80 uppercase tracking-wide mb-1"
+                    className="block font-heading font-semibold text-sm text-ink/80 uppercase tracking-wide mb-1"
                   >
                     Departure Date
                   </label>
@@ -112,7 +113,8 @@ export function TripBuilder() {
                     min={minDeparture}
                     value={state.departure}
                     onChange={(e) => setDates(state.arrival, e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-[8px] bg-white border border-ink/20 font-body text-base text-ink focus:outline-none focus:ring-2 focus:ring-forest"
+                    style={{ scrollMarginBottom: "calc(var(--trip-bar-h, 0px) + 16px)" }}
+                    className="w-full min-h-[48px] h-[48px] px-3.5 py-2.5 rounded-[8px] bg-white border border-ink/20 font-body text-base text-ink focus:outline-none focus:ring-2 focus:ring-forest"
                   />
                 </div>
               </div>
@@ -124,7 +126,7 @@ export function TripBuilder() {
               )}
 
               {derived.needsDates && !derived.dateError && (
-                <p className="text-xs text-forest font-medium">
+                <p className="text-sm text-forest font-medium">
                   Some selected items require trip dates to calculate an
                   accurate price.
                 </p>
@@ -133,10 +135,10 @@ export function TripBuilder() {
               {/* Guest Stepper */}
               <div className="pt-2 border-t border-ink/10 flex items-center justify-between">
                 <div>
-                  <span className="block font-heading font-semibold text-sm text-ink">
+                  <span className="block font-heading font-semibold text-base text-ink">
                     Guests
                   </span>
-                  <span className="text-xs text-ink/65">
+                  <span className="text-sm text-ink/65">
                     1 to 30 travelers
                   </span>
                 </div>
@@ -213,9 +215,9 @@ export function TripBuilder() {
 
           {/* ── Right Column: Sticky Summary Panel (5 cols) ── */}
           <div className="lg:col-span-5">
-            <div className="bg-white border border-sand rounded-[14px] p-6 lg:sticky lg:top-24 shadow-sm">
+            <div id="trip-summary" className="bg-white border border-sand rounded-[14px] p-6 lg:sticky lg:top-24 shadow-sm">
               <div className="flex items-center justify-between pb-4 border-b border-sand">
-                <h2 className="font-heading font-bold text-xl text-ink">
+                <h2 tabIndex={-1} className="font-heading font-bold text-xl text-ink focus:outline-none">
                   Your trip
                 </h2>
 
@@ -223,7 +225,7 @@ export function TripBuilder() {
                   <button
                     type="button"
                     onClick={() => clear()}
-                    className="text-xs font-heading font-semibold text-ink/60 hover:text-red-700 underline focus-visible:outline focus-visible:outline-forest cursor-pointer"
+                    className="min-h-[44px] inline-flex items-center text-sm font-heading font-semibold text-ink/60 hover:text-red-700 underline focus-visible:outline focus-visible:outline-forest cursor-pointer"
                   >
                     Clear trip
                   </button>
@@ -234,8 +236,8 @@ export function TripBuilder() {
               <div className="py-4 border-b border-sand">
                 <fieldset>
                   <legend className="sr-only">Choose display currency</legend>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-heading font-semibold text-ink/65 uppercase tracking-wide mr-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-heading font-semibold text-ink/65 uppercase tracking-wide mr-1">
                       Currency:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
@@ -247,7 +249,7 @@ export function TripBuilder() {
                             type="button"
                             onClick={() => setCurrency(curr as Currency)}
                             aria-pressed={isSelected}
-                            className={`min-h-[36px] px-2.5 py-1 text-xs font-heading font-semibold rounded-[6px] transition-colors ${
+                            className={`min-h-[44px] min-w-[44px] px-3 py-2 text-sm font-heading font-semibold rounded-[6px] transition-colors cursor-pointer ${
                               isSelected
                                 ? "bg-sun text-ink shadow-xs"
                                 : "bg-bone border border-ink/15 text-ink/80 hover:bg-sand/60"
@@ -290,26 +292,26 @@ export function TripBuilder() {
                           <div className="flex-1 min-w-0">
                             <Link
                               href={offeringLink}
-                              className="font-heading font-semibold text-sm text-ink hover:text-forest transition-colors block truncate"
+                              className="font-heading font-semibold text-base text-ink hover:text-forest transition-colors block break-words"
                             >
                               {line.offering.name}
                             </Link>
-                            <p className="text-xs text-ink/60 mt-0.5">
+                            <p className="text-sm text-ink/60 mt-0.5">
                               {line.breakdown}
                             </p>
                           </div>
 
                           <div className="flex items-center gap-2 shrink-0">
-                            <span className="font-heading font-semibold text-sm text-ink">
+                            <span className="font-heading font-semibold text-base text-ink">
                               {formattedAmount}
                             </span>
                             <button
                               type="button"
                               onClick={() => remove(line.offering.id)}
                               aria-label={`Remove ${line.offering.name}`}
-                              className="w-7 h-7 inline-flex items-center justify-center rounded-[4px] text-ink/40 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
+                              className="w-11 h-11 min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-[8px] text-ink/40 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
                             >
-                              <span aria-hidden="true" className="text-base leading-none">
+                              <span aria-hidden="true" className="text-xl leading-none">
                                 ×
                               </span>
                             </button>
@@ -337,7 +339,7 @@ export function TripBuilder() {
                     )}
                   </span>
                 </div>
-                <p className="text-[11px] text-ink/50 mt-1 text-right">
+                <p className="text-sm text-ink/50 mt-1 text-right">
                   Rates as of {ratesUpdated}
                 </p>
               </div>
@@ -357,7 +359,7 @@ export function TripBuilder() {
                     >
                       <div className="w-full border-t border-sand" />
                     </div>
-                    <span className="relative bg-white px-3 text-xs uppercase tracking-wider font-heading text-ink/50">
+                    <span className="relative bg-white px-3 text-sm uppercase tracking-wider font-heading text-ink/50">
                       or
                     </span>
                   </div>
@@ -403,7 +405,7 @@ export function TripBuilder() {
                         </svg>
                         Send this trip on WhatsApp
                       </Button>
-                      <p className="text-xs text-center text-ink/60 mt-1.5 font-medium">
+                      <p className="text-sm text-center text-ink/60 mt-1.5 font-medium">
                         Add at least one item
                       </p>
                     </div>

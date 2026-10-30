@@ -77,7 +77,7 @@ export function Footer() {
             </h3>
             <div className="flex flex-col space-y-2 text-sm">
               <WhatsAppLink className="min-h-[44px] flex flex-col justify-center hover:text-sun transition-colors">
-                <span className="text-bone/60 text-xs uppercase tracking-wider font-heading">
+                <span className="text-bone/60 text-sm uppercase tracking-wider font-heading">
                   WhatsApp
                 </span>
                 <span className="text-bone font-medium">
@@ -85,7 +85,7 @@ export function Footer() {
                 </span>
               </WhatsAppLink>
               <div className="min-h-[44px] flex flex-col justify-center">
-                <span className="text-bone/60 text-xs uppercase tracking-wider font-heading">
+                <span className="text-bone/60 text-sm uppercase tracking-wider font-heading">
                   Booking email
                 </span>
                 <span className="text-bone font-medium">
@@ -97,7 +97,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 pt-8 border-t border-bone/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-bone/60">
+        <div className="mt-12 pt-8 border-t border-bone/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-bone/60">
           <p>© 2026 {site.name}. [All rights reserved].</p>
           <Link
             href="/contact"

@@ -20,6 +20,7 @@ const sourceSans = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://kaizen-travel.vercel.app"),
   title: site.name,
   description: site.tagline,
 };

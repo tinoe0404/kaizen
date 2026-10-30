@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
+import { site } from "@/content/site";
 
 const EXPLORE_LINKS = [
   { href: "/destinations", label: "Destinations" },
@@ -17,10 +18,10 @@ export function Footer() {
           {/* Business Info */}
           <div className="flex flex-col gap-3">
             <h2 className="font-heading font-bold text-xl text-bone">
-              Kaizen Travel and Adventures
+              {site.name}
             </h2>
             <p className="text-bone/80 text-sm leading-relaxed max-w-sm">
-              [Tour operator crafting guided safaris, overland journeys, lodge stays, and vehicle hire across Africa.]
+              {site.tagline}
             </p>
           </div>
 
@@ -54,7 +55,7 @@ export function Footer() {
                   WhatsApp
                 </span>
                 <span className="text-bone font-medium">
-                  [WhatsApp number]
+                  {site.whatsappNumber}
                 </span>
               </div>
               <div className="min-h-[44px] flex flex-col justify-center">
@@ -62,7 +63,7 @@ export function Footer() {
                   Booking email
                 </span>
                 <span className="text-bone font-medium">
-                  [Booking email]
+                  {site.bookingEmail}
                 </span>
               </div>
             </div>
@@ -71,7 +72,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-bone/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-bone/60">
-          <p>© 2026 Kaizen Travel and Adventures. [All rights reserved].</p>
+          <p>© 2026 {site.name}. [All rights reserved].</p>
           <Link
             href="/contact"
             className="inline-flex items-center min-h-[44px] text-bone/80 hover:text-sun transition-colors"

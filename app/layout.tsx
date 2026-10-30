@@ -3,6 +3,7 @@ import { Outfit, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { site } from "@/content/site";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -19,9 +20,8 @@ const sourceSans = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
-  title: "Kaizen Travel and Adventures",
-  description:
-    "[Bespoke safari expeditions, lodge reservations, and robust vehicle hire with Kaizen Travel and Adventures.]",
+  title: site.name,
+  description: site.tagline,
 };
 
 export default function RootLayout({

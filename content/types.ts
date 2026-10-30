@@ -1,0 +1,50 @@
+export type Category = "destination" | "activity" | "lodge" | "vehicle";
+
+export type PricingUnit =
+  | "per_person"
+  | "per_group"
+  | "per_person_per_night"
+  | "per_group_per_night"
+  | "per_group_per_day";
+
+export interface Pricing {
+  unit: PricingUnit;
+  amountUsd: number;
+}
+
+export interface Photo {
+  src: string;
+  alt: string;
+}
+
+export interface Offering {
+  id: string; // unique across the whole site, e.g. "lodge-a"
+  slug: string; // unique within its category
+  category: Category;
+  name: string;
+  summary: string; // one line, used on cards
+  description: string; // used on the detail page
+  pricing: Pricing;
+  photos: Photo[]; // may be empty for now
+  destinationSlug?: string; // optional link to a destination
+  capacity?: number; // optional, e.g. seats in a vehicle
+  featured?: boolean;
+}
+
+export interface SiteSocial {
+  facebook?: string;
+  instagram?: string;
+  twitter?: string;
+  linkedin?: string;
+  [key: string]: string | undefined;
+}
+
+export interface SiteConfig {
+  name: string;
+  tagline: string;
+  whatsappNumber: string;
+  bookingEmail: string;
+  address: string;
+  social: SiteSocial;
+}
+

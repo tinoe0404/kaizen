@@ -1,0 +1,29 @@
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+
+@theme {
+  --color-forest: #1E4D2B;
+  --color-ink: #0F2A1A;
+  --color-sun: #E08A1E;
+  --color-sand: #F2EADA;
+  --color-bone: #FBF8F1;
+
+  --font-heading: var(--font-outfit), sans-serif;
+  --font-body: var(--font-source-sans), sans-serif;
+
+  --radius-control: 8px;
+  --radius-card: 14px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #FBF8F1;
+  color: #0F2A1A;
+  font-family: var(--font-source-sans), sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}

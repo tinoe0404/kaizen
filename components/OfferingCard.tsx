@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Offering } from "@/content/types";
 import { Photo } from "@/components/ui/Photo";
+import { AddToTripButton } from "@/components/trip/AddToTripButton";
 import { priceLine } from "@/lib/pricing";
 import { offeringHref } from "@/lib/routes";
 
@@ -45,14 +46,21 @@ export function OfferingCard({
           {priceLine(offering)}
         </p>
 
-        {/* Visual button (aria-hidden and non-interactive to preserve 1 tab stop per card via the stretched link) */}
-        <div className="mt-4">
-          <span
+        {/* Card actions: AddToTripButton + View details */}
+        <div className="mt-4 pt-2 flex items-center gap-3">
+          <AddToTripButton
+            id={offering.id}
+            name={offering.name}
+            className="flex-1"
+          />
+          <Link
+            href={href}
+            tabIndex={-1}
             aria-hidden="true"
-            className="w-full inline-flex items-center justify-center font-heading font-semibold text-base min-h-[44px] px-5 py-2.5 rounded-[8px] bg-forest text-bone group-hover:bg-[#163920] transition-colors select-none text-center pointer-events-none"
+            className="inline-flex items-center justify-center font-heading font-semibold text-sm min-h-[44px] px-3.5 py-2 rounded-[8px] border border-sand hover:border-forest/40 text-ink/80 hover:text-forest transition-colors select-none relative z-10 text-center"
           >
             View details
-          </span>
+          </Link>
         </div>
       </div>
     </div>

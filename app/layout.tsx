@@ -3,6 +3,7 @@ import { Outfit, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { TripProvider } from "@/components/trip/TripProvider";
 import { site } from "@/content/site";
 
 const outfit = Outfit({
@@ -41,13 +42,15 @@ export default function RootLayout({
           Skip to content
         </a>
 
-        <Header />
+        <TripProvider>
+          <Header />
 
-        <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
-          {children}
-        </main>
+          <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
+            {children}
+          </main>
 
-        <Footer />
+          <Footer />
+        </TripProvider>
       </body>
     </html>
   );

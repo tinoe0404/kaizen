@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
+import { useTrip } from "@/components/trip/TripProvider";
 
 const NAV_LINKS = [
   { href: "/destinations", label: "Destinations" },
@@ -16,6 +17,12 @@ const NAV_LINKS = [
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
+  const { state, isReady } = useTrip();
+
+  const tripCount = isReady ? state.ids.length : 0;
+  const tripLabel = tripCount > 0 ? `Plan your trip (${tripCount})` : "Plan your trip";
+  const tripAriaLabel =
+    tripCount > 0 ? `Plan your trip, ${tripCount} items` : "Plan your trip";
 
   // Close on Escape key press
   useEffect(() => {
@@ -73,8 +80,8 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <Button href="/trip" variant="primary">
-            Plan your trip
+          <Button href="/trip" variant="primary" aria-label={tripAriaLabel}>
+            {tripLabel}
           </Button>
         </nav>
 
@@ -143,9 +150,10 @@ export function Header() {
                 href="/trip"
                 variant="primary"
                 className="w-full justify-center"
+                aria-label={tripAriaLabel}
                 onClick={handleClose}
               >
-                Plan your trip
+                {tripLabel}
               </Button>
             </div>
           </Container>

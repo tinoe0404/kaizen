@@ -110,12 +110,23 @@ export function formatMoney(
   locale = "en-US"
 ): string {
   const converted = convertFromUsd(amountUsd, currency);
+  return formatCurrencyAmount(converted, currency, locale);
+}
+
+/**
+ * Formats an amount already in the target currency using Intl.NumberFormat.
+ */
+export function formatCurrencyAmount(
+  amount: number,
+  currency: Currency,
+  locale = "en-US"
+): string {
   return new Intl.NumberFormat(locale, {
     style: "currency",
     currency,
     maximumFractionDigits: 0,
     minimumFractionDigits: 0,
-  }).format(converted);
+  }).format(amount);
 }
 
 /**

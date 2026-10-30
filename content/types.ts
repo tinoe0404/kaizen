@@ -46,5 +46,6 @@ export interface SiteConfig {
   bookingEmail: string;
   address: string;
   social: SiteSocial;
+  privacyNotice?: string;
 }
 

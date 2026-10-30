@@ -1,15 +1,11 @@
-import { Container } from "@/components/ui/container";
-import { Section } from "@/components/ui/section";
+import type { Metadata } from "next";
+import { TripBuilder } from "@/components/trip/TripBuilder";
+
+export const metadata: Metadata = {
+  title: "Build your trip | Kaizen Travel and Adventures",
+  robots: { index: false, follow: false },
+};
 
 export default function TripPage() {
-  return (
-    <Section>
-      <Container>
-        <h1 className="font-heading font-bold text-3xl md:text-4xl text-ink">
-          Plan Your Trip
-        </h1>
-      </Container>
-    </Section>
-  );
+  return <TripBuilder />;
 }
-

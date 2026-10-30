@@ -12,5 +12,6 @@ export const site: SiteConfig = {
     twitter: "[Twitter URL]",
     linkedin: "[LinkedIn URL]",
   },
+  privacyNotice: "We use your details only to answer this request.",
 };
 

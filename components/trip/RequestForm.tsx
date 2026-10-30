@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { useTrip } from "./TripProvider";
 import { validateRequest, RequestPayload } from "@/lib/request";
 import { site } from "@/content/site";
@@ -342,7 +343,13 @@ export function RequestForm() {
 
       {/* Privacy Line */}
       <p className="text-xs text-ink/60 leading-normal">
-        {site.privacyNotice || "We use your details only to answer this request."}
+        {site.privacyNotice || "We use your details only to answer this request."}{" "}
+        <Link
+          href="/privacy"
+          className="underline hover:text-forest focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
+        >
+          Read our privacy notice.
+        </Link>
       </p>
 
       {/* Submit Button & Incomplete Trip Hint */}

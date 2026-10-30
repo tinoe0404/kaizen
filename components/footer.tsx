@@ -11,11 +11,17 @@ const EXPLORE_LINKS = [
   { href: "/vehicle-hire", label: "Vehicle hire" },
 ];
 
+const COMPANY_LINKS = [
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+  { href: "/privacy", label: "Privacy" },
+];
+
 export function Footer() {
   return (
     <footer className="bg-ink text-bone border-t border-forest/30 mt-auto pb-[calc(var(--float-bottom,16px)+56px)]">
       <Container className="py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Business Info */}
           <div className="flex flex-col gap-3">
             <h2 className="font-heading font-bold text-xl text-bone">
@@ -33,6 +39,25 @@ export function Footer() {
             </h3>
             <ul className="flex flex-col space-y-1">
               {EXPLORE_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="inline-flex items-center min-h-[44px] text-bone/90 hover:text-sun transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun rounded-[4px]"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company Links */}
+          <div className="flex flex-col gap-3">
+            <h3 className="font-heading font-semibold text-lg text-bone">
+              Company
+            </h3>
+            <ul className="flex flex-col space-y-1">
+              {COMPANY_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}

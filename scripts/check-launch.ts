@@ -4,9 +4,13 @@ import { activities } from "../content/activities";
 import { lodges } from "../content/lodges";
 import { vehicles } from "../content/vehicles";
 import { ratesUpdated } from "../content/currency";
+import { about } from "../content/about";
+import { privacy } from "../content/privacy";
 import type { Offering } from "../content/types";
 
-function normalizeWhatsappNumber(raw: string | undefined | null): string | null {
+function normalizeWhatsappNumber(
+  raw: string | undefined | null
+): string | null {
   if (!raw || typeof raw !== "string") return null;
   if (raw.includes("[") || raw.includes("]")) return null;
 
@@ -30,30 +34,40 @@ function normalizeWhatsappNumber(raw: string | undefined | null): string | null 
 
 const issues: string[] = [];
 
-// 1. Check site.ts for placeholders and valid WhatsApp number
-function checkSiteString(key: string, value: unknown) {
+// Helper to inspect objects/arrays recursively for "[" placeholders
+function checkPlaceholders(filename: string, value: unknown, path = "") {
   if (typeof value === "string") {
     if (value.includes("[")) {
-      issues.push(`site.${key} contains placeholder: "${value}"`);
+      issues.push(`${filename}: "${path}" contains placeholder: "${value}"`);
     }
+  } else if (Array.isArray(value)) {
+    value.forEach((item, idx) => {
+      checkPlaceholders(filename, item, `${path}[${idx}]`);
+    });
   } else if (typeof value === "object" && value !== null) {
-    for (const [subKey, subVal] of Object.entries(value)) {
-      checkSiteString(`${key}.${subKey}`, subVal);
+    for (const [key, val] of Object.entries(value)) {
+      const nextPath = path ? `${path}.${key}` : key;
+      checkPlaceholders(filename, val, nextPath);
     }
   }
 }
 
-for (const [key, value] of Object.entries(site)) {
-  checkSiteString(key, value);
-}
+// 1. Check site.ts for placeholders and valid WhatsApp number
+checkPlaceholders("content/site.ts", site);
 
 if (!normalizeWhatsappNumber(site.whatsappNumber)) {
   issues.push(
-    `site.whatsappNumber is missing or invalid: "${site.whatsappNumber}"`
+    `content/site.ts: "whatsappNumber" is missing or invalid: "${site.whatsappNumber}"`
   );
 }
 
-// 2. Check offerings for placeholder names, zero price, and zero photos
+// 2. Check about.ts for placeholders
+checkPlaceholders("content/about.ts", about);
+
+// 3. Check privacy.ts for placeholders
+checkPlaceholders("content/privacy.ts", privacy);
+
+// 4. Check offerings for placeholder names, zero price, and zero photos
 const allOfferings: Offering[] = [
   ...destinations,
   ...activities,
@@ -81,7 +95,7 @@ for (const item of allOfferings) {
   }
 }
 
-// 3. Check ratesUpdated older than 90 days
+// 5. Check ratesUpdated older than 90 days
 const updatedDate = new Date(ratesUpdated);
 const now = new Date();
 const diffMs = now.getTime() - updatedDate.getTime();
@@ -95,7 +109,7 @@ if (isNaN(updatedDate.getTime())) {
   );
 }
 
-// 4. Report results
+// 6. Report results
 if (issues.length > 0) {
   console.error(`\n❌ Launch check found ${issues.length} unfinished item(s):\n`);
   for (const issue of issues) {
@@ -107,7 +121,7 @@ if (issues.length > 0) {
   process.exit(1);
 } else {
   console.log(
-    `✓ Launch check passed: verified 0 placeholders, all offerings priced with photos, and currency rates are up to date.`
+    `✓ Launch check passed: verified 0 placeholders across all pages and content, all offerings priced with photos, and currency rates are up to date.`
   );
   process.exit(0);
 }

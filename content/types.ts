@@ -31,6 +31,11 @@ export interface Offering {
   featured?: boolean;
 }
 
+export interface SocialLink {
+  label: string;
+  href: string;
+}
+
 export interface SiteSocial {
   facebook?: string;
   instagram?: string;
@@ -45,7 +50,41 @@ export interface SiteConfig {
   whatsappNumber: string;
   bookingEmail: string;
   address: string;
+  hours: string;
   social: SiteSocial;
+  socialLinks?: SocialLink[];
   privacyNotice?: string;
+  contactHeading?: string;
+  contactIntro?: string;
+}
+
+export interface AboutSection {
+  title: string;
+  paragraphs: string[];
+}
+
+export interface AboutValue {
+  title: string;
+  text: string;
+}
+
+export interface AboutContent {
+  heading: string;
+  intro: string;
+  sections: AboutSection[];
+  values?: AboutValue[];
+  photos?: Photo[];
+}
+
+export interface PrivacySection {
+  title: string;
+  paragraphs: string[];
+}
+
+export interface PrivacyContent {
+  title: string;
+  intro: string;
+  lastUpdated: string;
+  sections: PrivacySection[];
 }
 

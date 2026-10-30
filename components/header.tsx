@@ -14,6 +14,11 @@ const NAV_LINKS = [
   { href: "/vehicle-hire", label: "Vehicle hire" },
 ];
 
+const MOBILE_EXTRA_LINKS = [
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -136,6 +141,16 @@ export function Header() {
         >
           <Container className="py-4 flex flex-col gap-1">
             {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={handleClose}
+                className="font-heading font-semibold text-lg text-ink hover:text-forest transition-colors min-h-[44px] flex items-center border-b border-sand/40 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink rounded-[4px]"
+              >
+                {link.label}
+              </Link>
+            ))}
+            {MOBILE_EXTRA_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

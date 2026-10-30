@@ -119,6 +119,18 @@ export function formatMoney(
 }
 
 /**
+ * Generates a human-readable price line for an offering.
+ * e.g. "From $120 per person". If amountUsd is 0, returns "[PRICE] <unitLabel>".
+ */
+export function priceLine(offering: Offering): string {
+  const unit = unitLabel(offering.pricing.unit);
+  if (offering.pricing.amountUsd === 0) {
+    return `[PRICE] ${unit}`;
+  }
+  return `From ${formatMoney(offering.pricing.amountUsd, "USD")} ${unit}`;
+}
+
+/**
  * Returns human-readable label for a pricing unit.
  */
 export function unitLabel(unit: PricingUnit): string {

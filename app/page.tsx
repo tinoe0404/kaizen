@@ -4,9 +4,9 @@ import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Photo } from "@/components/ui/Photo";
+import { OfferingCard } from "@/components/OfferingCard";
 import { getAll, getFeatured } from "@/lib/content";
-import { formatMoney, unitLabel } from "@/lib/pricing";
-import { categoryPath, offeringHref } from "@/lib/routes";
+import { categoryPath } from "@/lib/routes";
 import { whatsappLink } from "@/lib/whatsapp";
 import { Category } from "@/content/types";
 
@@ -243,43 +243,13 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-              {featuredOfferings.map((offering) => {
-                const priceDisplay =
-                  offering.pricing.amountUsd === 0
-                    ? "[PRICE]"
-                    : `From ${formatMoney(offering.pricing.amountUsd, "USD")} ${unitLabel(offering.pricing.unit)}`;
-
-                return (
-                  <div
-                    key={offering.id}
-                    className="flex flex-col bg-white rounded-[14px] border border-sand overflow-hidden"
-                  >
-                    <Photo
-                      photo={offering.photos?.[0]}
-                      label={offering.name}
-                      className="aspect-[16/10] w-full"
-                    />
-                    <div className="p-5 sm:p-6 flex flex-col flex-1">
-                      <h3 className="font-heading font-semibold text-xl text-ink">
-                        {offering.name}
-                      </h3>
-                      <p className="font-body text-sm text-ink/75 mt-2 line-clamp-2 flex-1">
-                        {offering.summary}
-                      </p>
-                      <p className="font-heading font-semibold text-sm text-forest mt-4">
-                        {priceDisplay}
-                      </p>
-                      <Button
-                        href={offeringHref(offering)}
-                        variant="solid"
-                        className="w-full mt-4"
-                      >
-                        View details
-                      </Button>
-                    </div>
-                  </div>
-                );
-              })}
+              {featuredOfferings.map((offering) => (
+                <OfferingCard
+                  key={offering.id}
+                  offering={offering}
+                  headingLevel="h3"
+                />
+              ))}
             </div>
           </Container>
         </Section>

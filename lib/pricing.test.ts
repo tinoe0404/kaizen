@@ -6,6 +6,7 @@ import {
   convertFromUsd,
   formatMoney,
   unitLabel,
+  priceLine,
 } from "./pricing";
 import { Offering, PricingUnit } from "@/content/types";
 
@@ -218,6 +219,18 @@ describe("Pricing Logic", () => {
       expect(unitLabel("per_person_per_night")).toBe("per person, per night");
       expect(unitLabel("per_group_per_night")).toBe("per group, per night");
       expect(unitLabel("per_group_per_day")).toBe("per group, per day");
+    });
+  });
+
+  describe("priceLine", () => {
+    it("returns '[PRICE] <unit>' when amountUsd is 0", () => {
+      const offering = makeOffering("per_person", 0);
+      expect(priceLine(offering)).toBe("[PRICE] per person");
+    });
+
+    it("returns 'From $<amount> <unit>' when amountUsd is greater than 0", () => {
+      const offering = makeOffering("per_person", 120);
+      expect(priceLine(offering)).toBe("From $120 per person");
     });
   });
 });

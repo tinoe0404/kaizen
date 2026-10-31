@@ -77,6 +77,7 @@ const HOW_STEPS = [
 
 export default function HomePage() {
   const featuredOfferings = getFeatured().slice(0, 3);
+  const heroPhoto = featuredOfferings[0]?.photos?.[0];
 
   const agencyData = stripUndefined({
     "@context": "https://schema.org",
@@ -93,48 +94,156 @@ export default function HomePage() {
   return (
     <div className="w-full flex flex-col">
       {hasAgencyData && <JsonLd data={agencyData as Record<string, unknown>} />}
-      {/* A. HERO SECTION */}
-      <section className="bg-ink text-bone py-14 sm:py-20 lg:py-24 border-b border-forest/30">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-            {/* Left Column: Text */}
-            <div className="flex flex-col items-start">
-              <span className="font-heading font-semibold text-sm tracking-[0.18em] text-sun uppercase select-none">
-                TRAVEL AND ADVENTURES
-              </span>
-              <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-bone leading-[1.15] mt-4 mb-4">
-                Build your trip. Send one request.
+      {/* A. HERO SECTION (100% viewport height below header) */}
+      <section className="relative w-full min-h-[calc(100dvh-88px)] flex flex-col justify-between bg-ink text-bone border-b border-forest/30 overflow-hidden">
+        {/* Ambient atmospheric lighting (contained within inset-0 so rect never overflows viewports) */}
+        <div
+          className="absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,rgba(224,138,30,0.15),transparent_45%),radial-gradient(circle_at_15%_85%,rgba(30,77,43,0.35),transparent_50%),radial-gradient(circle_at_50%_50%,rgba(15,42,26,0.5),transparent_100%)] pointer-events-none"
+          aria-hidden="true"
+        />
+
+        {/* Main Content Area */}
+        <Container className="relative z-10 w-full flex-1 flex items-center py-10 sm:py-14 lg:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center w-full">
+            {/* Left Column: Text & CTAs (7 cols) */}
+            <div className="lg:col-span-7 flex flex-col items-start">
+              {/* Luxury Badge */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-forest/40 border border-forest/60 text-sun text-xs sm:text-sm font-heading font-semibold tracking-wider uppercase mb-5 backdrop-blur-sm select-none">
+                <span className="w-2 h-2 rounded-full bg-sun inline-block shrink-0 shadow-[0_0_8px_rgba(224,138,30,0.8)]" />
+                <span>Southern Africa Expeditions</span>
+              </div>
+
+              {/* High-impact H1 */}
+              <h1 className="font-heading font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-bone leading-[1.12] tracking-tight mb-5">
+                Build your trip.
+                <span className="block text-sun mt-1">Send one request.</span>
               </h1>
-              <p className="font-body text-bone/85 text-base sm:text-lg leading-relaxed max-w-xl mb-8">
-                Pick your destinations, activities, lodges and vehicle. See
-                your total in USD, EUR, GBP or ZAR, then send us a booking
-                request.
+
+              {/* Compelling Value Proposition */}
+              <p className="font-body text-bone/85 text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl mb-8">
+                Pick your destinations, activities, lodges and 4x4 vehicle hire across Southern Africa. See your estimated total in USD, EUR, GBP or ZAR — then send us a single booking request.
               </p>
-              <div className="flex flex-wrap items-center gap-4">
-                <Button href="/trip" variant="primary">
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-4 mb-8 sm:mb-10">
+                <Button href="/trip" variant="primary" className="text-base sm:text-lg px-7 py-3">
                   Build your trip
                 </Button>
-                <Button href="#how" variant="outline-bone">
+                <Button href="#how" variant="outline-bone" className="text-base sm:text-lg px-6 py-3">
                   How it works
                 </Button>
               </div>
+
+              {/* Quick Explorer Pill Row */}
+              <div className="w-full pt-6 border-t border-forest/30 max-w-xl">
+                <p className="text-xs font-heading font-semibold tracking-wider uppercase text-bone/60 mb-3 select-none">
+                  Explore by category
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  {CATEGORIES_DATA.map((cat) => (
+                    <Link
+                      key={cat.category}
+                      href={categoryPath[cat.category]}
+                      className="min-h-[44px] px-3 py-2 rounded-[8px] bg-forest/20 hover:bg-forest/40 border border-forest/40 hover:border-sun/60 text-bone/90 hover:text-bone text-xs sm:text-sm font-heading font-semibold flex items-center justify-center text-center transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun"
+                    >
+                      {cat.title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
 
-            {/* Right Column: Hero Photo */}
-            <div className="relative w-full max-w-[540px] lg:max-w-none mx-auto">
-              {/* Optional decorative sun-colored circle in the corner */}
+            {/* Right Column: Visual Showcase (5 cols) */}
+            <div className="lg:col-span-5 relative w-full max-w-[480px] lg:max-w-none mx-auto">
+              {/* Outer decorative amber glow */}
               <div
-                className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-sun/20 blur-sm pointer-events-none"
+                className="absolute -inset-1 rounded-[22px] bg-gradient-to-tr from-sun/20 via-forest/30 to-sun/10 blur-md pointer-events-none"
                 aria-hidden="true"
               />
-              <Photo
-                label="HERO, [DESTINATION NAME]"
-                priority
-                className="aspect-[4/3] w-full rounded-[16px] border border-forest/40"
-              />
+
+              {/* Showcase Card Frame */}
+              <div className="relative rounded-[20px] bg-forest/25 border border-forest/50 p-3 sm:p-4 shadow-2xl backdrop-blur-sm overflow-hidden">
+                {/* Showcase Top Bar */}
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-forest/30 text-xs font-heading font-medium text-bone/80">
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-sun" />
+                    Curated Itineraries
+                  </span>
+                  <span className="text-sun tracking-wider uppercase font-semibold">
+                    4 Currencies Live
+                  </span>
+                </div>
+
+                {/* Photo Container */}
+                <div className="relative rounded-[14px] overflow-hidden">
+                  <Photo
+                    photo={heroPhoto}
+                    label="SOUTHERN AFRICA SAFARIS"
+                    priority
+                    className="aspect-[4/3] w-full"
+                  />
+
+                  {/* Floating Itinerary Tag at Bottom of Photo */}
+                  <div className="absolute inset-x-2.5 bottom-2.5 p-3 rounded-[12px] bg-ink/90 border border-forest/50 backdrop-blur-md">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <p className="text-xs font-heading font-semibold uppercase tracking-wider text-sun">
+                          Southern Africa
+                        </p>
+                        <p className="text-sm sm:text-base font-heading font-bold text-bone leading-snug">
+                          Victoria Falls • Hwange • Mana Pools
+                        </p>
+                      </div>
+                      <span className="shrink-0 px-2 py-0.5 rounded-[6px] bg-forest text-[11px] font-heading font-semibold text-bone select-none">
+                        Custom
+                      </span>
+                    </div>
+                    <p className="text-xs font-body text-bone/70 mt-1">
+                      Add destinations, game drives, camps & 4x4s into one request.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Showcase Highlights Bar */}
+                <div className="grid grid-cols-3 gap-2 pt-3 mt-1 text-center">
+                  <div className="p-2 rounded-[8px] bg-ink/40 border border-forest/30">
+                    <p className="text-[11px] font-heading text-bone/60">Estimates</p>
+                    <p className="text-xs font-heading font-bold text-sun">USD • ZAR</p>
+                  </div>
+                  <div className="p-2 rounded-[8px] bg-ink/40 border border-forest/30">
+                    <p className="text-[11px] font-heading text-bone/60">Coordination</p>
+                    <p className="text-xs font-heading font-bold text-bone">Direct Team</p>
+                  </div>
+                  <div className="p-2 rounded-[8px] bg-ink/40 border border-forest/30">
+                    <p className="text-[11px] font-heading text-bone/60">Response</p>
+                    <p className="text-xs font-heading font-bold text-sun">Fast & Personal</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </Container>
+
+        {/* Bottom Scroll Prompt */}
+        <div className="relative z-10 w-full pb-4 pt-2 flex items-center justify-center">
+          <a
+            href="#how"
+            className="min-h-[44px] min-w-[44px] inline-flex items-center gap-2 text-xs font-heading font-medium tracking-wider uppercase text-bone/70 hover:text-sun transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun rounded-[8px] px-3 py-2"
+            aria-label="Scroll down to how it works"
+          >
+            <span>Scroll to explore</span>
+            <svg
+              className="w-4 h-4 text-sun animate-bounce"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </a>
+        </div>
       </section>
 
       {/* B. TRUST STRIP */}

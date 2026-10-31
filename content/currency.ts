@@ -4,7 +4,7 @@ export type Currency = (typeof currencies)[number];
 
 export const baseCurrency: Currency = "USD";
 
-// TODO: Replace with agreed rates. Update by hand.
+// Exchange rates against 1 USD. Update via npm run currency:update or edit directly.
 export const rates: Record<Currency, number> = {
   USD: 1,
   EUR: 0.92,

@@ -14,37 +14,76 @@ export const maxDuration = 30;
 // Maximum allowed payload size (20 KB)
 const MAX_BODY_BYTES = 20 * 1024;
 
-// ─── In-memory Rate Limiting ─────────────────────────────────────────────
-// Best-effort in-memory rate limit: 5 requests per IP per 10 minutes.
-// NOTE: On serverless infrastructure (e.g. Vercel), instances are ephemeral,
-// so this rate limiter acts as a best-effort defense layer per instance.
+// ─── Sliding-Window Rate Limiting ─────────────────────────────────────────
+// 5 requests per IP per 10 minutes with RFC-compliant headers & automatic GC
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
 const MAX_REQUESTS_PER_WINDOW = 5;
+
+interface RateLimitResult {
+  allowed: boolean;
+  limit: number;
+  remaining: number;
+  resetSeconds: number;
+}
 
 const ipRequestsMap = new Map<string, number[]>();
 
 export function _resetRateLimitForTesting(): void {
   ipRequestsMap.clear();
+  idempotencyMap.clear();
 }
 
-function checkRateLimit(ip: string): boolean {
+function checkRateLimit(ip: string): RateLimitResult {
   const now = Date.now();
   const timestamps = ipRequestsMap.get(ip) || [];
 
-  // Filter out timestamps older than the window
+  // Prune entries older than the window
   const validTimestamps = timestamps.filter(
     (time) => now - time < RATE_LIMIT_WINDOW_MS
   );
 
+  // Periodic garbage collection to prevent memory leaks in long-running instances
+  if (ipRequestsMap.size > 1000) {
+    for (const [key, list] of ipRequestsMap.entries()) {
+      if (list.every((t) => now - t >= RATE_LIMIT_WINDOW_MS)) {
+        ipRequestsMap.delete(key);
+      }
+    }
+  }
+
+  const oldestTime = validTimestamps[0] || now;
+  const resetSeconds = Math.max(
+    1,
+    Math.ceil((oldestTime + RATE_LIMIT_WINDOW_MS - now) / 1000)
+  );
+
   if (validTimestamps.length >= MAX_REQUESTS_PER_WINDOW) {
     ipRequestsMap.set(ip, validTimestamps);
-    return false;
+    return {
+      allowed: false,
+      limit: MAX_REQUESTS_PER_WINDOW,
+      remaining: 0,
+      resetSeconds,
+    };
   }
 
   validTimestamps.push(now);
   ipRequestsMap.set(ip, validTimestamps);
-  return true;
+  return {
+    allowed: true,
+    limit: MAX_REQUESTS_PER_WINDOW,
+    remaining: Math.max(0, MAX_REQUESTS_PER_WINDOW - validTimestamps.length),
+    resetSeconds,
+  };
 }
+
+// ─── Idempotency Cache ──────────────────────────────────────────────────
+interface CachedResponse {
+  reference: string;
+  confirmationSent: boolean;
+  timestamp: number;
+}
+const idempotencyMap = new Map<string, CachedResponse>();
 
 // ─── POST Handler ────────────────────────────────────────────────────────
 
@@ -115,20 +154,53 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
   }
 
-  // c) Best-effort in-memory rate limit: 5 requests per IP per 10 minutes
+  // c) Sliding-window rate limit with standard headers
   const clientIp =
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     req.headers.get("x-real-ip") ||
     "unknown";
 
-  if (!checkRateLimit(clientIp)) {
+  const rateLimit = checkRateLimit(clientIp);
+
+  if (!rateLimit.allowed) {
     return NextResponse.json(
       {
         error:
           "Too many requests. Please wait a few minutes before trying again or message us on WhatsApp.",
       },
-      { status: 429 }
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(rateLimit.resetSeconds),
+          "X-RateLimit-Limit": String(rateLimit.limit),
+          "X-RateLimit-Remaining": String(rateLimit.remaining),
+          "X-RateLimit-Reset": String(rateLimit.resetSeconds),
+        },
+      }
     );
+  }
+
+  // Check idempotency header for network retries / duplicate submits
+  const idempotencyKey = req.headers.get("idempotency-key");
+  if (idempotencyKey && idempotencyMap.has(idempotencyKey)) {
+    const cached = idempotencyMap.get(idempotencyKey)!;
+    if (Date.now() - cached.timestamp < 10 * 60 * 1000) {
+      return NextResponse.json(
+        {
+          ok: true,
+          reference: cached.reference,
+          confirmationSent: cached.confirmationSent,
+        },
+        {
+          status: 200,
+          headers: {
+            "X-Idempotency": "HIT",
+            "X-RateLimit-Limit": String(rateLimit.limit),
+            "X-RateLimit-Remaining": String(rateLimit.remaining),
+          },
+        }
+      );
+    }
   }
 
   // d) Honeypot: if "website" is non-empty, or submitted < 3 seconds after openedAt
@@ -143,11 +215,18 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       Date.now() - rawObj.openedAt < 3000);
 
   if (isHoneypotTriggered) {
-    // Return normal 200 success WITHOUT sending anything
+    // Artificial 50ms delay blinds automated bot timing analysis
+    await new Promise((r) => setTimeout(r, 50));
     const dummyRef = makeReference();
     return NextResponse.json(
       { ok: true, reference: dummyRef, confirmationSent: true },
-      { status: 200 }
+      {
+        status: 200,
+        headers: {
+          "X-RateLimit-Limit": String(rateLimit.limit),
+          "X-RateLimit-Remaining": String(rateLimit.remaining),
+        },
+      }
     );
   }
 
@@ -156,7 +235,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   if (!validation.ok) {
     return NextResponse.json(
       { ok: false, errors: validation.errors },
-      { status: 400 }
+      {
+        status: 400,
+        headers: {
+          "X-RateLimit-Limit": String(rateLimit.limit),
+          "X-RateLimit-Remaining": String(rateLimit.remaining),
+        },
+      }
     );
   }
 
@@ -191,7 +276,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         error:
           "We could not send your request. Please try again or message us on WhatsApp.",
       },
-      { status: 500 }
+      {
+        status: 500,
+        headers: {
+          "X-RateLimit-Limit": String(rateLimit.limit),
+          "X-RateLimit-Remaining": String(rateLimit.remaining),
+        },
+      }
     );
   }
 
@@ -217,13 +308,27 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     confirmationSent = false;
   }
 
+  // Store idempotency record if client passed a key
+  if (idempotencyKey) {
+    idempotencyMap.set(idempotencyKey, {
+      reference,
+      confirmationSent,
+      timestamp: Date.now(),
+    });
+  }
+
   return NextResponse.json(
     {
       ok: true,
       reference,
       confirmationSent,
     },
-    { status: 200 }
+    {
+      status: 200,
+      headers: {
+        "X-RateLimit-Limit": String(rateLimit.limit),
+        "X-RateLimit-Remaining": String(rateLimit.remaining),
+      },
+    }
   );
 }
-

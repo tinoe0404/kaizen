@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { site } from "@/content/site";
 import { normalizeWhatsappNumber } from "@/lib/whatsapp";
 
@@ -99,7 +100,7 @@ export default function GlobalError({
             >
               Try again
             </button>
-            <a
+            <Link
               href="/"
               style={{
                 backgroundColor: "transparent",
@@ -116,7 +117,7 @@ export default function GlobalError({
               }}
             >
               Back to home
-            </a>
+            </Link>
           </div>
 
           <div

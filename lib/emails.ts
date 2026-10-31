@@ -33,7 +33,13 @@ export function buildTeamEmail(
   data: RequestPayload,
   reference: string
 ): EmailContent {
-  const subject = `New trip request ${reference}: ${data.name}, ${data.arrival} to ${data.departure}`;
+  // Defensive subject line sanitization to prevent CRLF injection
+  const safeName = data.name.replace(/[\r\n\x00-\x1F\x7F]/g, " ").trim();
+  const safeRef = reference.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim();
+  const safeArrival = data.arrival.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim();
+  const safeDeparture = data.departure.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim();
+
+  const subject = `New trip request ${safeRef}: ${safeName}, ${safeArrival} to ${safeDeparture}`;
 
   const formattedGuestTotal = formatCurrencyAmount(
     summary.totalConverted,
@@ -205,7 +211,8 @@ export function buildGuestEmail(
   data: RequestPayload,
   reference: string
 ): EmailContent {
-  const subject = `We received your trip request ${reference}`;
+  const safeRef = reference.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim();
+  const subject = `We received your trip request ${safeRef}`;
 
   const formattedGuestTotal = formatCurrencyAmount(
     summary.totalConverted,

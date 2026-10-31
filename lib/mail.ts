@@ -97,7 +97,8 @@ export async function sendMail(options: SendMailOptions): Promise<void> {
   const fromName = process.env.MAIL_FROM_NAME!;
   const fromAddress = process.env.SMTP_USER!;
 
-  await transporter.sendMail({
+  // 15-second fail-safe timeout prevents serverless lambdas from hanging on stalled SMTP handshakes
+  const sendPromise = transporter.sendMail({
     from: `"${fromName}" <${fromAddress}>`,
     to: options.to,
     replyTo: options.replyTo,
@@ -105,5 +106,19 @@ export async function sendMail(options: SendMailOptions): Promise<void> {
     text: options.text,
     html: options.html,
   });
+
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    const timer = setTimeout(() => {
+      const err = new Error("SMTP connection timed out after 15 seconds");
+      (err as { code?: string }).code = "ETIMEDOUT";
+      reject(err);
+    }, 15000);
+    // Unref timer in Node.js so it does not hold the process open
+    if (typeof timer.unref === "function") {
+      timer.unref();
+    }
+  });
+
+  await Promise.race([sendPromise, timeoutPromise]);
 }
 

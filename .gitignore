@@ -36,6 +36,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# original source photos (never commit, too large)
+/photos-source/
+
 # vercel
 .vercel
 

@@ -12,7 +12,8 @@
     "check:content": "jiti scripts/check-content.ts",
     "check:launch": "jiti scripts/check-launch.ts",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "images:optimize": "jiti scripts/optimize-images.ts"
   },
   "dependencies": {
     "next": "16.4.3",
@@ -29,6 +30,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^5.0.5"

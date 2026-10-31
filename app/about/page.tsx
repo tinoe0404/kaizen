@@ -6,9 +6,10 @@ import { Photo } from "@/components/ui/Photo";
 import { about } from "@/content/about";
 
 export const metadata: Metadata = {
-  title: "About | Kaizen Travel and Adventures",
+  title: "About",
   description:
     "Learn about Kaizen Travel and Adventures, our approach to safari planning, and our commitment to Southern African journeys.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

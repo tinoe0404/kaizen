@@ -6,11 +6,13 @@ import { getCategoryConfig } from "@/content/categories";
 import { getBySlug, getAll, getByDestination } from "@/lib/content";
 import { priceLine, unitLabel } from "@/lib/pricing";
 import { WhatsAppLink } from "@/components/WhatsAppLink";
+import { JsonLd } from "@/components/JsonLd";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Gallery } from "@/components/Gallery";
 import { OfferingCard } from "@/components/OfferingCard";
+import { safeStr } from "@/lib/structured-data";
 
 export interface DetailPageProps {
   category: Category;
@@ -54,8 +56,61 @@ export function DetailPage({ category, slug }: DetailPageProps) {
       .slice(0, 3);
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "";
+  const pageUrl = `${siteUrl}${config.path}/${offering.slug}`;
+  const safeName = safeStr(offering.name);
+  const safeDesc = safeStr(offering.description);
+  const firstPhoto = offering.photos?.[0];
+
+  // BreadcrumbList JSON-LD
+  const breadcrumbLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: siteUrl || undefined,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: config.title,
+        item: siteUrl ? `${siteUrl}${config.path}` : undefined,
+      },
+      ...(safeName
+        ? [
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: safeName,
+            },
+          ]
+        : []),
+    ],
+  };
+
+  // TouristDestination JSON-LD (destinations only, with real data)
+  const showDestinationLd =
+    category === "destination" && safeName && safeDesc;
+
+  const destinationLd: Record<string, unknown> | null = showDestinationLd
+    ? {
+        "@context": "https://schema.org",
+        "@type": "TouristDestination",
+        name: safeName,
+        description: safeDesc,
+        url: siteUrl ? pageUrl : undefined,
+        ...(firstPhoto ? { image: firstPhoto.src } : {}),
+      }
+    : null;
+
   return (
     <div className="w-full flex flex-col">
+      {safeName && <JsonLd data={breadcrumbLd} />}
+      {destinationLd && <JsonLd data={destinationLd} />}
+
       {/* Top Section with Breadcrumb, Gallery, and Info Panel */}
       <Section className="bg-bone pt-4 pb-12 md:pb-16">
         <Container>

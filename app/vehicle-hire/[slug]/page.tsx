@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DetailPage } from "@/components/DetailPage";
 import { getAll, getBySlug } from "@/lib/content";
+import { getCategoryConfig } from "@/content/categories";
 
 export const dynamicParams = false;
 
@@ -24,13 +25,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {};
   }
 
+  const config = getCategoryConfig("vehicle");
   const firstPhoto = offering.photos?.[0];
 
   return {
-    title: `${offering.name} | Kaizen Travel and Adventures`,
+    title: offering.name,
     description: offering.summary,
+    alternates: { canonical: `${config.path}/${slug}` },
     openGraph: {
-      title: `${offering.name} | Kaizen Travel and Adventures`,
+      title: offering.name,
       description: offering.summary,
       images: firstPhoto ? [firstPhoto.src] : [],
     },

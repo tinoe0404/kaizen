@@ -1,6 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import { Photo as PhotoType } from "@/content/types";
+import photoMeta from "@/content/generated/photo-meta.json";
+
+const meta: Record<string, { width: number; height: number; blurDataURL: string }> =
+  photoMeta as Record<string, { width: number; height: number; blurDataURL: string }>;
 
 export interface PhotoProps {
   photo?: PhotoType;
@@ -21,12 +25,29 @@ export function Photo({
   const containerClasses = `relative overflow-hidden ${hasRadius ? "" : "rounded-[14px] "}${className}`.trim();
 
   if (photo && photo.src) {
+    const m = meta[photo.src];
+
     return (
       <div className={containerClasses}>
         <Image
           src={photo.src}
           alt={photo.alt || label}
-          fill
+          fill={!m}
+          {...(m
+            ? {
+                width: m.width,
+                height: m.height,
+                placeholder: "blur" as const,
+                blurDataURL: m.blurDataURL,
+                style: {
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover" as const,
+                  position: "absolute" as const,
+                  inset: 0,
+                },
+              }
+            : {})}
           sizes={sizes}
           priority={priority}
           className="object-cover"
@@ -51,4 +72,3 @@ export function Photo({
     </div>
   );
 }
-

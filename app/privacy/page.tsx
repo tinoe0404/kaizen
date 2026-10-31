@@ -4,13 +4,10 @@ import { Section } from "@/components/ui/section";
 import { privacy } from "@/content/privacy";
 
 export const metadata: Metadata = {
-  title: "Privacy | Kaizen Travel and Adventures",
+  title: "Privacy",
   description:
     "Read our privacy notice. Learn what information we collect when you use this website, why we collect it, and how your data is handled.",
-  robots: {
-    index: true,
-    follow: true,
-  },
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {

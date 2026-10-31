@@ -5,15 +5,19 @@ import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Photo } from "@/components/ui/Photo";
 import { OfferingCard } from "@/components/OfferingCard";
+import { JsonLd } from "@/components/JsonLd";
 import { getAll, getFeatured } from "@/lib/content";
 import { categoryPath } from "@/lib/routes";
 import { Category } from "@/content/types";
 import { WhatsAppLink } from "@/components/WhatsAppLink";
+import { site } from "@/content/site";
+import { safeStr, stripUndefined } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Kaizen Travel and Adventures",
   description:
-    "Build your trip online and send one booking request. Destinations, activities, lodges and vehicle hire.",
+    "Build your trip online and send one booking request. Destinations, activities, lodges and vehicle hire across Southern Africa.",
+  alternates: { canonical: "/" },
 };
 
 const CATEGORIES_DATA: {
@@ -74,8 +78,21 @@ const HOW_STEPS = [
 export default function HomePage() {
   const featuredOfferings = getFeatured().slice(0, 3);
 
+  const agencyData = stripUndefined({
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    name: safeStr(site.name),
+    url: process.env.NEXT_PUBLIC_SITE_URL || undefined,
+    email: safeStr(site.bookingEmail),
+    address: safeStr(site.address),
+  });
+
+  // Only render if at least name is present (not a placeholder)
+  const hasAgencyData = Boolean(agencyData.name);
+
   return (
     <div className="w-full flex flex-col">
+      {hasAgencyData && <JsonLd data={agencyData as Record<string, unknown>} />}
       {/* A. HERO SECTION */}
       <section className="bg-ink text-bone py-14 sm:py-20 lg:py-24 border-b border-forest/30">
         <Container>

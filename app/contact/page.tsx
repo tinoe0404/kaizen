@@ -3,21 +3,36 @@ import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { WhatsAppLink } from "@/components/WhatsAppLink";
+import { JsonLd } from "@/components/JsonLd";
 import { site } from "@/content/site";
 import { normalizeWhatsappNumber } from "@/lib/whatsapp";
+import { safeStr, stripUndefined } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Contact | Kaizen Travel and Adventures",
+  title: "Contact",
   description:
     "Get in touch with Kaizen Travel and Adventures. Contact us via WhatsApp, email, or visit our office.",
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {
   const isWhatsAppValid = normalizeWhatsappNumber(site.whatsappNumber) !== null;
   const hasSocialLinks = Boolean(site.socialLinks && site.socialLinks.length > 0);
 
+  const agencyData = stripUndefined({
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    name: safeStr(site.name),
+    url: process.env.NEXT_PUBLIC_SITE_URL || undefined,
+    email: safeStr(site.bookingEmail),
+    address: safeStr(site.address),
+  });
+
+  const hasAgencyData = Boolean(agencyData.name);
+
   return (
     <div className="w-full flex flex-col">
+      {hasAgencyData && <JsonLd data={agencyData as Record<string, unknown>} />}
       {/* Top Header Section */}
       <Section sand className="py-12 md:py-16 border-b border-forest/10">
         <Container>

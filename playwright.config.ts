@@ -27,6 +27,10 @@ export default defineConfig({
     url: BASE_URL,
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
+    env: {
+      VERCEL_ENV: "production",
+      NEXT_PUBLIC_SITE_URL: BASE_URL,
+    },
   },
 });
 

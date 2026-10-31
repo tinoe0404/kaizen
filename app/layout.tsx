@@ -22,10 +22,40 @@ const sourceSans = Source_Sans_3({
   display: "swap",
 });
 
+function getSiteUrl(): URL {
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return new URL(process.env.NEXT_PUBLIC_SITE_URL);
+  }
+  if (process.env.VERCEL_ENV === "production") {
+    throw new Error(
+      "NEXT_PUBLIC_SITE_URL is required in production. Set it in your Vercel environment variables."
+    );
+  }
+  return new URL("http://localhost:3000");
+}
+
+const description =
+  "Build your trip online and send one booking request. Destinations, activities, lodges and vehicle hire across Southern Africa.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kaizen-travel.vercel.app"),
-  title: site.name,
-  description: site.tagline,
+  metadataBase: getSiteUrl(),
+  title: {
+    template: "%s | Kaizen Travel and Adventures",
+    default: site.name,
+  },
+  description,
+  openGraph: {
+    siteName: site.name,
+    locale: "en",
+    type: "website",
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GSC_VERIFICATION } }
+    : {}),
 };
 
 export const viewport: Viewport = {

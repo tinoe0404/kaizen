@@ -93,7 +93,7 @@ for (const item of allOfferings) {
     }
   }
 
-  // Photos check: src must exist under /public
+  // Photos check: src must exist under /public, size limits, alt text
   if (Array.isArray(item.photos)) {
     for (const photo of item.photos) {
       if (!photo.src || photo.src.trim() === "") {
@@ -108,6 +108,34 @@ for (const item of allOfferings) {
         errors.push(
           `Item ID "${item.id}" (${item.name}) references photo "${photo.src}" which does not exist under /public (${photoPath}).`
         );
+      } else {
+        // Check file size
+        const stat = fs.statSync(photoPath);
+        const sizeKB = Math.round(stat.size / 1024);
+        if (stat.size > 800 * 1024) {
+          errors.push(
+            `Item ID "${item.id}" (${item.name}) photo "${photo.src}" is ${sizeKB} KB (exceeds 800 KB limit).`
+          );
+        } else if (stat.size > 400 * 1024) {
+          console.warn(
+            `  ⚠ Warning: Item ID "${item.id}" (${item.name}) photo "${photo.src}" is ${sizeKB} KB (over 400 KB recommended).`
+          );
+        }
+      }
+
+      // Alt text checks
+      if (!photo.alt || photo.alt.trim() === "") {
+        errors.push(
+          `Item ID "${item.id}" (${item.name}) photo "${photo.src}" has no alt text.`
+        );
+      } else {
+        // Check alt is not just a filename (e.g. "IMG_1234.jpg")
+        const altTrimmed = photo.alt.trim();
+        if (/^[A-Za-z0-9_-]+\.\w{2,4}$/.test(altTrimmed)) {
+          errors.push(
+            `Item ID "${item.id}" (${item.name}) photo "${photo.src}" has alt text that looks like a filename: "${altTrimmed}".`
+          );
+        }
       }
     }
   }

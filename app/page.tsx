@@ -77,7 +77,6 @@ const HOW_STEPS = [
 
 export default function HomePage() {
   const featuredOfferings = getFeatured().slice(0, 3);
-  const heroPhoto = featuredOfferings[0]?.photos?.[0];
 
   const agencyData = stripUndefined({
     "@context": "https://schema.org",
@@ -94,49 +93,53 @@ export default function HomePage() {
   return (
     <div className="w-full flex flex-col">
       {hasAgencyData && <JsonLd data={agencyData as Record<string, unknown>} />}
-      {/* A. HERO SECTION (100% viewport height below header) */}
-      <section className="relative w-full min-h-[calc(100dvh-88px)] flex flex-col justify-between bg-ink text-bone border-b border-forest/30 overflow-hidden">
-        {/* Ambient atmospheric lighting (contained within inset-0 so rect never overflows viewports) */}
+      {/* A. HERO SECTION (100% viewport height below header, standard luxury travel editorial style) */}
+      <section className="relative w-full min-h-[calc(100dvh-88px)] flex flex-col justify-between bg-bone text-ink border-b border-sand overflow-hidden">
+        {/* Soft, warm ambient backdrop */}
         <div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,rgba(224,138,30,0.15),transparent_45%),radial-gradient(circle_at_15%_85%,rgba(30,77,43,0.35),transparent_50%),radial-gradient(circle_at_50%_50%,rgba(15,42,26,0.5),transparent_100%)] pointer-events-none"
+          className="absolute inset-0 bg-gradient-to-b from-white/70 via-bone to-sand/40 pointer-events-none"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute -top-24 right-0 w-96 h-96 bg-sun/5 rounded-full blur-3xl pointer-events-none"
           aria-hidden="true"
         />
 
         {/* Main Content Area */}
         <Container className="relative z-10 w-full flex-1 flex items-center py-10 sm:py-14 lg:py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center w-full">
             {/* Left Column: Text & CTAs (7 cols) */}
             <div className="lg:col-span-7 flex flex-col items-start">
-              {/* Luxury Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-forest/40 border border-forest/60 text-sun text-xs sm:text-sm font-heading font-semibold tracking-wider uppercase mb-5 backdrop-blur-sm select-none">
-                <span className="w-2 h-2 rounded-full bg-sun inline-block shrink-0 shadow-[0_0_8px_rgba(224,138,30,0.8)]" />
+              {/* Refined Eyebrow Badge */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-sand shadow-sm text-ink text-xs sm:text-sm font-heading font-semibold tracking-wider uppercase mb-5 select-none">
+                <span className="w-2 h-2 rounded-full bg-sun inline-block shrink-0" />
                 <span>Southern Africa Expeditions</span>
               </div>
 
-              {/* High-impact H1 */}
-              <h1 className="font-heading font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-bone leading-[1.12] tracking-tight mb-5">
+              {/* Authoritative Standard H1 */}
+              <h1 className="font-heading font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-ink leading-[1.12] tracking-tight mb-5">
                 Build your trip.
-                <span className="block text-sun mt-1">Send one request.</span>
+                <span className="block text-forest mt-1 sm:mt-1.5">Send one request.</span>
               </h1>
 
-              {/* Compelling Value Proposition */}
-              <p className="font-body text-bone/85 text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl mb-8">
+              {/* Clear Value Proposition */}
+              <p className="font-body text-ink/80 text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl mb-8">
                 Pick your destinations, activities, lodges and 4x4 vehicle hire across Southern Africa. See your estimated total in USD, EUR, GBP or ZAR — then send us a single booking request.
               </p>
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-4 mb-8 sm:mb-10">
-                <Button href="/trip" variant="primary" className="text-base sm:text-lg px-7 py-3">
+                <Button href="/trip" variant="primary" className="text-base sm:text-lg px-7 py-3 shadow-sm">
                   Build your trip
                 </Button>
-                <Button href="#how" variant="outline-bone" className="text-base sm:text-lg px-6 py-3">
+                <Button href="#how" variant="outline" className="text-base sm:text-lg px-6 py-3">
                   How it works
                 </Button>
               </div>
 
-              {/* Quick Explorer Pill Row */}
-              <div className="w-full pt-6 border-t border-forest/30 max-w-xl">
-                <p className="text-xs font-heading font-semibold tracking-wider uppercase text-bone/60 mb-3 select-none">
+              {/* Quick Explorer Category Grid */}
+              <div className="w-full pt-6 border-t border-sand max-w-xl">
+                <p className="text-xs font-heading font-semibold tracking-wider uppercase text-ink/60 mb-3 select-none">
                   Explore by category
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -144,7 +147,7 @@ export default function HomePage() {
                     <Link
                       key={cat.category}
                       href={categoryPath[cat.category]}
-                      className="min-h-[44px] px-3 py-2 rounded-[8px] bg-forest/20 hover:bg-forest/40 border border-forest/40 hover:border-sun/60 text-bone/90 hover:text-bone text-xs sm:text-sm font-heading font-semibold flex items-center justify-center text-center transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun"
+                      className="min-h-[44px] px-3.5 py-2.5 rounded-[10px] bg-white hover:bg-sand/40 border border-sand hover:border-forest/40 text-ink hover:text-forest text-xs sm:text-sm font-heading font-semibold flex items-center justify-center text-center transition-all shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"
                     >
                       {cat.title}
                     </Link>
@@ -153,71 +156,111 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column: Visual Showcase (5 cols) */}
-            <div className="lg:col-span-5 relative w-full max-w-[480px] lg:max-w-none mx-auto">
-              {/* Outer decorative amber glow */}
+            {/* Right Column: Clean Itinerary Showcase Card (5 cols) */}
+            <div className="lg:col-span-5 relative w-full max-w-[480px] lg:max-w-none mx-auto mt-6 lg:mt-0">
+              {/* Subtle ambient shadow */}
               <div
-                className="absolute -inset-1 rounded-[22px] bg-gradient-to-tr from-sun/20 via-forest/30 to-sun/10 blur-md pointer-events-none"
+                className="absolute -inset-1 rounded-[22px] bg-sand/60 blur-sm pointer-events-none"
                 aria-hidden="true"
               />
 
-              {/* Showcase Card Frame */}
-              <div className="relative rounded-[20px] bg-forest/25 border border-forest/50 p-3 sm:p-4 shadow-2xl backdrop-blur-sm overflow-hidden">
-                {/* Showcase Top Bar */}
-                <div className="flex items-center justify-between pb-3 mb-3 border-b border-forest/30 text-xs font-heading font-medium text-bone/80">
-                  <span className="inline-flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-sun" />
-                    Curated Itineraries
-                  </span>
-                  <span className="text-sun tracking-wider uppercase font-semibold">
+              {/* White Itinerary Card */}
+              <div className="relative rounded-[20px] bg-white border border-sand p-5 sm:p-6 shadow-xl overflow-hidden">
+                {/* Card Top Bar */}
+                <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-sand">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-sun" />
+                    <span className="font-heading font-semibold text-sm text-ink">
+                      Sample Safari Itinerary
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-heading font-semibold uppercase tracking-wider text-forest bg-sand/60 px-2.5 py-1 rounded-full">
                     4 Currencies Live
                   </span>
                 </div>
 
-                {/* Photo Container */}
-                <div className="relative rounded-[14px] overflow-hidden">
-                  <Photo
-                    photo={heroPhoto}
-                    label="SOUTHERN AFRICA SAFARIS"
-                    priority
-                    className="aspect-[4/3] w-full"
-                  />
+                {/* Sub-header context */}
+                <div className="rounded-[10px] bg-bone border border-sand/70 p-3 mb-3.5">
+                  <div className="flex items-center justify-between text-xs font-heading font-semibold text-ink/80 mb-1">
+                    <span>Route: Victoria Falls • Hwange • Mana Pools</span>
+                    <span className="text-forest">Custom Dates</span>
+                  </div>
+                  <p className="text-[11px] font-body text-ink/65 leading-normal">
+                    Combine your choice of destinations, camps, activities and 4x4s into one request.
+                  </p>
+                </div>
 
-                  {/* Floating Itinerary Tag at Bottom of Photo */}
-                  <div className="absolute inset-x-2.5 bottom-2.5 p-3 rounded-[12px] bg-ink/90 border border-forest/50 backdrop-blur-md">
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <p className="text-xs font-heading font-semibold uppercase tracking-wider text-sun">
-                          Southern Africa
-                        </p>
-                        <p className="text-sm sm:text-base font-heading font-bold text-bone leading-snug">
-                          Victoria Falls • Hwange • Mana Pools
-                        </p>
-                      </div>
-                      <span className="shrink-0 px-2 py-0.5 rounded-[6px] bg-forest text-[11px] font-heading font-semibold text-bone select-none">
-                        Custom
+                {/* 4-Pillar Itinerary Steps */}
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center justify-between p-2.5 rounded-[10px] bg-bone/70 border border-sand/60 text-xs">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-6 h-6 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-[11px] shrink-0">
+                        1
                       </span>
+                      <div>
+                        <p className="font-heading font-semibold text-ink">Victoria Falls & Zambezi</p>
+                        <p className="text-[11px] text-ink/60">Destination • 2 Nights</p>
+                      </div>
                     </div>
-                    <p className="text-xs font-body text-bone/70 mt-1">
-                      Add destinations, game drives, camps & 4x4s into one request.
-                    </p>
+                    <span className="font-heading font-semibold text-forest text-xs">Included</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-2.5 rounded-[10px] bg-bone/70 border border-sand/60 text-xs">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-6 h-6 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-[11px] shrink-0">
+                        2
+                      </span>
+                      <div>
+                        <p className="font-heading font-semibold text-ink">Hwange Game Drive & Safari</p>
+                        <p className="text-[11px] text-ink/60">Activity • Guided Excursion</p>
+                      </div>
+                    </div>
+                    <span className="font-heading font-semibold text-forest text-xs">Included</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-2.5 rounded-[10px] bg-bone/70 border border-sand/60 text-xs">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-6 h-6 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-[11px] shrink-0">
+                        3
+                      </span>
+                      <div>
+                        <p className="font-heading font-semibold text-ink">Luxury Wilderness Camp</p>
+                        <p className="text-[11px] text-ink/60">Lodge • Full Board</p>
+                      </div>
+                    </div>
+                    <span className="font-heading font-semibold text-forest text-xs">Included</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-2.5 rounded-[10px] bg-bone/70 border border-sand/60 text-xs">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-6 h-6 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-[11px] shrink-0">
+                        4
+                      </span>
+                      <div>
+                        <p className="font-heading font-semibold text-ink">Equipped 4x4 Safari Vehicle</p>
+                        <p className="text-[11px] text-ink/60">Vehicle Hire • Unlimited KM</p>
+                      </div>
+                    </div>
+                    <span className="font-heading font-semibold text-forest text-xs">Included</span>
                   </div>
                 </div>
 
-                {/* Showcase Highlights Bar */}
-                <div className="grid grid-cols-3 gap-2 pt-3 mt-1 text-center">
-                  <div className="p-2 rounded-[8px] bg-ink/40 border border-forest/30">
-                    <p className="text-[11px] font-heading text-bone/60">Estimates</p>
-                    <p className="text-xs font-heading font-bold text-sun">USD • ZAR</p>
+                {/* Card Bottom: Live Multi-Currency Total & Action */}
+                <div className="pt-3.5 border-t border-sand flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] font-heading font-medium text-ink/60 uppercase tracking-wider">
+                      Live Multi-Currency Total
+                    </p>
+                    <p className="font-heading font-bold text-sm sm:text-base text-ink">
+                      Calculated as you build
+                    </p>
                   </div>
-                  <div className="p-2 rounded-[8px] bg-ink/40 border border-forest/30">
-                    <p className="text-[11px] font-heading text-bone/60">Coordination</p>
-                    <p className="text-xs font-heading font-bold text-bone">Direct Team</p>
-                  </div>
-                  <div className="p-2 rounded-[8px] bg-ink/40 border border-forest/30">
-                    <p className="text-[11px] font-heading text-bone/60">Response</p>
-                    <p className="text-xs font-heading font-bold text-sun">Fast & Personal</p>
-                  </div>
+                  <Link
+                    href="/trip"
+                    className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center px-4 py-2 rounded-[8px] bg-forest text-bone hover:bg-[#163920] font-heading font-semibold text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
+                  >
+                    Build trip →
+                  </Link>
                 </div>
               </div>
             </div>
@@ -228,12 +271,12 @@ export default function HomePage() {
         <div className="relative z-10 w-full pb-4 pt-2 flex items-center justify-center">
           <a
             href="#how"
-            className="min-h-[44px] min-w-[44px] inline-flex items-center gap-2 text-xs font-heading font-medium tracking-wider uppercase text-bone/70 hover:text-sun transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun rounded-[8px] px-3 py-2"
+            className="min-h-[44px] min-w-[44px] inline-flex items-center gap-2 text-xs font-heading font-semibold tracking-wider uppercase text-ink/60 hover:text-forest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest rounded-[8px] px-3 py-2"
             aria-label="Scroll down to how it works"
           >
             <span>Scroll to explore</span>
             <svg
-              className="w-4 h-4 text-sun animate-bounce"
+              className="w-4 h-4 text-forest"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"

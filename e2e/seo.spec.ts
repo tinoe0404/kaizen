@@ -73,10 +73,24 @@ test.describe("SEO: per-page", () => {
       const canonical = await canonicalEl.getAttribute("href");
       expect(canonical, `missing canonical on ${route}`).toBeTruthy();
 
-      // ── No "[" in JSON-LD ──
+      // ── No "[" in JSON-LD string values ──
       const ldScripts = await page.locator('script[type="application/ld+json"]').allTextContents();
       for (const ld of ldScripts) {
-        expect(ld, `JSON-LD contains placeholder on ${route}`).not.toContain("[");
+        try {
+          const parsed = JSON.parse(ld);
+          const checkStrings = (obj: unknown) => {
+            if (typeof obj === "string") {
+              expect(obj, `JSON-LD value contains placeholder on ${route}`).not.toContain("[");
+            } else if (Array.isArray(obj)) {
+              obj.forEach(checkStrings);
+            } else if (typeof obj === "object" && obj !== null) {
+              Object.values(obj).forEach(checkStrings);
+            }
+          };
+          checkStrings(parsed);
+        } catch {
+          expect(ld, `JSON-LD contains placeholder on ${route}`).not.toMatch(/\[[A-Za-z]/);
+        }
       }
     });
   }

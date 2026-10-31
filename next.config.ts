@@ -1,4 +1,8 @@
 import type { NextConfig } from "next";
+import { validateEnv } from "./lib/env";
+
+// Enforce environment variable validation at build time
+validateEnv();
 
 const isProduction = process.env.VERCEL_ENV === "production";
 

@@ -13,7 +13,8 @@
     "check:launch": "jiti scripts/check-launch.ts",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "images:optimize": "jiti scripts/optimize-images.ts"
+    "images:optimize": "jiti scripts/optimize-images.ts",
+    "smoke": "jiti scripts/smoke.ts"
   },
   "dependencies": {
     "next": "16.4.3",
@@ -24,13 +25,17 @@
   "devDependencies": {
     "@playwright/test": "^1.64.1",
     "@tailwindcss/turbopack": "^4",
+    "@types/mailparser": "^3.9.0",
     "@types/node": "^24",
     "@types/nodemailer": "^8.0.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/smtp-server": "^3.5.13",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
+    "mailparser": "^3.14.1",
     "sharp": "^0.35.5",
+    "smtp-server": "^3.21.3",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^5.0.5"

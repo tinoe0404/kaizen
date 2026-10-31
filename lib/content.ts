@@ -1,8 +1,10 @@
 import { Category, Offering } from "@/content/types";
-import { destinations } from "@/content/destinations";
-import { activities } from "@/content/activities";
-import { lodges } from "@/content/lodges";
-import { vehicles } from "@/content/vehicles";
+import {
+  destinations,
+  activities,
+  lodges,
+  vehicles,
+} from "@/content";
 
 const categoryMap: Record<Category, Offering[]> = {
   destination: destinations,

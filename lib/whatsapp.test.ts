@@ -107,7 +107,7 @@ describe("WhatsApp Integration", () => {
 
     it("displays 'Dates: not set yet' when dates are missing", () => {
       const trip: TripState = {
-        ids: ["destination-a", "activity-a"],
+        ids: ["destination-victoria-falls", "activity-bunji"],
         arrival: "",
         departure: "",
         guests: 3,
@@ -118,8 +118,8 @@ describe("WhatsApp Integration", () => {
 
       expect(msg).toContain("Dates: not set yet");
       expect(msg).toContain("Guests: 3");
-      expect(msg).toContain("- [Destination A]");
-      expect(msg).toContain("- [Activity A]");
+      expect(msg).toContain("- Victoria Falls");
+      expect(msg).toContain("- Bungee Jumping");
       expect(msg).toContain("Estimated total:");
       expect(msg).toContain("(USD)");
       expect(msg).toContain("Please let me know what is available.");
@@ -127,7 +127,7 @@ describe("WhatsApp Integration", () => {
 
     it("formats dates and night count when dates are provided", () => {
       const trip: TripState = {
-        ids: ["destination-a"],
+        ids: ["destination-victoria-falls"],
         arrival: "2027-03-12",
         departure: "2027-03-16",
         guests: 4,
@@ -138,14 +138,14 @@ describe("WhatsApp Integration", () => {
 
       expect(msg).toContain("Dates: 12 Mar 2027 to 16 Mar 2027 (4 nights)");
       expect(msg).toContain("Guests: 4");
-      expect(msg).toContain("- [Destination A]");
+      expect(msg).toContain("- Victoria Falls");
       expect(msg).toContain("Estimated total:");
     });
 
     it("names the currency code for all four supported currencies", () => {
       for (const currency of currencies) {
         const trip: TripState = {
-          ids: ["destination-a", "activity-a"],
+          ids: ["destination-victoria-falls", "activity-bunji"],
           arrival: "2027-03-12",
           departure: "2027-03-16",
           guests: 2,
@@ -161,10 +161,10 @@ describe("WhatsApp Integration", () => {
     it("truncates very long trips with '...and N more items.' and stays under 1800 encoded characters", () => {
       // Create a trip with all 16 items repeated or duplicated in derived lines
       const allIds = [
-        "destination-a", "destination-b", "destination-c", "destination-d",
-        "activity-a", "activity-b", "activity-c", "activity-d",
-        "lodge-a", "lodge-b", "lodge-c", "lodge-d",
-        "vehicle-a", "vehicle-b", "vehicle-c", "vehicle-d",
+        "destination-victoria-falls", "destination-chobe", "destination-namibia",
+        "activity-bunji", "activity-rafting", "activity-cruises", "activity-flights-over-the-falls",
+        "lodge-victoria-falls-safari-lodge", "lodge-hwange-safari-lodge", "lodge-mana-pools-camp", "lodge-matobo-hills-lodge",
+        "vehicle-toyota-land-cruiser", "vehicle-toyota-hilux", "vehicle-ford-ranger", "vehicle-isuzu-dmax", "vehicle-safari-van",
       ];
 
       const trip: TripState = {

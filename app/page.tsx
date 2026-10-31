@@ -78,10 +78,10 @@ const HOW_STEPS = [
 export default function HomePage() {
   const featuredOfferings = getFeatured().slice(0, 3);
 
-  const sampleDest = getAll("destination")[0]?.name || "[Destination A]";
-  const sampleAct = getAll("activity")[0]?.name || "[Activity A]";
-  const sampleLodge = getAll("lodge")[0]?.name || "[Lodge A]";
-  const sampleVeh = getAll("vehicle")[0]?.name || "[Vehicle A]";
+  const sampleDest = getAll("destination")[0]?.name || "Victoria Falls";
+  const sampleAct = getAll("activity")[0]?.name || "Bungee Jumping";
+  const sampleLodge = getAll("lodge")[0]?.name || "Victoria Falls Safari Lodge";
+  const sampleVeh = getAll("vehicle")[0]?.name || "Toyota Land Cruiser";
 
   const agencyData = stripUndefined({
     "@context": "https://schema.org",
@@ -165,7 +165,9 @@ export default function HomePage() {
                   {/* Sub-header context */}
                   <div className="rounded-[10px] bg-bone border border-sand p-3.5 mb-4">
                     <div className="flex items-center justify-between text-sm font-heading font-semibold text-ink/80 mb-1">
-                      <span>Route: [Destination A] • [Destination B]</span>
+                      <span>
+                        Route: {sampleDest} • {getAll("destination")[1]?.name || "Chobe, Botswana"}
+                      </span>
                       <span className="text-forest">Custom Dates</span>
                     </div>
                     <p className="text-sm font-body text-ink/70 leading-normal">

@@ -11,7 +11,7 @@ import { Currency, currencies } from "@/content/currency";
 
 function makeValidPayload(overrides: Partial<RequestPayload> = {}): RequestPayload {
   return {
-    ids: ["destination-a", "activity-a"],
+    ids: ["destination-victoria-falls", "activity-bunji"],
     arrival: "2026-11-10",
     departure: "2026-11-15",
     guests: 2,
@@ -35,7 +35,7 @@ describe("Request Logic", () => {
       if (result.ok) {
         expect(result.data.name).toBe("John Doe");
         expect(result.data.email).toBe("john@example.com");
-        expect(result.data.ids).toEqual(["destination-a", "activity-a"]);
+        expect(result.data.ids).toEqual(["destination-victoria-falls", "activity-bunji"]);
       }
     });
 
@@ -54,7 +54,7 @@ describe("Request Logic", () => {
       });
 
       it("rejects more than 20 items", () => {
-        const tooMany = Array.from({ length: 21 }, () => "destination-a");
+        const tooMany = Array.from({ length: 21 }, () => "destination-victoria-falls");
         const res = validateRequest(makeValidPayload({ ids: tooMany }));
         expect(res.ok).toBe(false);
         if (!res.ok) expect(res.errors.ids).toContain("20 items");
@@ -70,7 +70,7 @@ describe("Request Logic", () => {
 
       it("rejects duplicate offering IDs", () => {
         const res = validateRequest(
-          makeValidPayload({ ids: ["destination-a", "destination-a"] })
+          makeValidPayload({ ids: ["destination-victoria-falls", "destination-victoria-falls"] })
         );
         expect(res.ok).toBe(false);
         if (!res.ok) expect(res.errors.ids).toContain("Duplicate");
@@ -272,7 +272,7 @@ describe("Request Logic", () => {
       for (const currency of currencies) {
         const payload = makeValidPayload({
           currency,
-          ids: ["destination-a", "lodge-a", "activity-a"],
+          ids: ["destination-victoria-falls", "lodge-victoria-falls-safari-lodge", "activity-bunji"],
           arrival: "2026-11-10",
           departure: "2026-11-14",
           guests: 3,

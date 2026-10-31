@@ -56,7 +56,7 @@ describe("Mail Transport", () => {
     const { buildTeamEmail, buildGuestEmail } = await import("./emails");
 
     const payload = {
-      ids: ["destination-a", "activity-a"],
+      ids: ["destination-victoria-falls", "activity-bunji"],
       arrival: "2026-11-10",
       departure: "2026-11-15",
       guests: 2,

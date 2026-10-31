@@ -31,7 +31,7 @@ function createJsonRequest(
 
 function makeValidBody() {
   return {
-    ids: ["destination-a", "activity-a"],
+    ids: ["destination-victoria-falls", "activity-bunji"],
     arrival: "2026-11-10",
     departure: "2026-11-15",
     guests: 2,
@@ -223,7 +223,7 @@ describe("POST /api/request", () => {
       ...makeValidBody(),
       total: 0.01,
       totalUsd: 1,
-      prices: { "destination-a": 0, "activity-a": 0 },
+      prices: { "destination-victoria-falls": 0, "activity-bunji": 0 },
     };
 
     const req = createJsonRequest(forgedBody);

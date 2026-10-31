@@ -5,7 +5,7 @@ import { site } from "@/content/site";
 
 function makeTestData(overrides: Partial<RequestPayload> = {}): RequestPayload {
   return {
-    ids: ["destination-a", "activity-a"],
+    ids: ["destination-victoria-falls", "activity-bunji"],
     arrival: "2026-11-10",
     departure: "2026-11-15",
     guests: 2,

@@ -56,6 +56,7 @@ export interface SiteConfig {
   privacyNotice?: string;
   contactHeading?: string;
   contactIntro?: string;
+  heroPhoto?: Photo;
 }
 
 export interface AboutSection {

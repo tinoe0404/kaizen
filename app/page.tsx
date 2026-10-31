@@ -78,6 +78,11 @@ const HOW_STEPS = [
 export default function HomePage() {
   const featuredOfferings = getFeatured().slice(0, 3);
 
+  const sampleDest = getAll("destination")[0]?.name || "[Destination A]";
+  const sampleAct = getAll("activity")[0]?.name || "[Activity A]";
+  const sampleLodge = getAll("lodge")[0]?.name || "[Lodge A]";
+  const sampleVeh = getAll("vehicle")[0]?.name || "[Vehicle A]";
+
   const agencyData = stripUndefined({
     "@context": "https://schema.org",
     "@type": "TravelAgency",
@@ -94,27 +99,22 @@ export default function HomePage() {
     <div className="w-full flex flex-col">
       {hasAgencyData && <JsonLd data={agencyData as Record<string, unknown>} />}
       {/* A. HERO SECTION (100% viewport height below header, standard luxury travel editorial style) */}
-      <section className="relative w-full min-h-[calc(100dvh-88px)] flex flex-col justify-between bg-bone text-ink border-b border-sand overflow-hidden">
+      <section className="relative w-full min-h-[calc(100dvh-88px)] flex flex-col justify-center bg-bone text-ink border-b border-sand overflow-hidden">
         {/* Soft, warm ambient backdrop */}
         <div
           className="absolute inset-0 bg-gradient-to-b from-white/70 via-bone to-sand/40 pointer-events-none"
           aria-hidden="true"
         />
-        <div
-          className="absolute -top-24 right-0 w-96 h-96 bg-sun/5 rounded-full blur-3xl pointer-events-none"
-          aria-hidden="true"
-        />
 
         {/* Main Content Area */}
-        <Container className="relative z-10 w-full flex-1 flex items-center py-10 sm:py-14 lg:py-16">
+        <Container className="relative z-10 w-full py-12 sm:py-16 lg:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center w-full">
             {/* Left Column: Text & CTAs (7 cols) */}
             <div className="lg:col-span-7 flex flex-col items-start">
-              {/* Refined Eyebrow Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-sand shadow-sm text-ink text-xs sm:text-sm font-heading font-semibold tracking-wider uppercase mb-5 select-none">
-                <span className="w-2 h-2 rounded-full bg-sun inline-block shrink-0" />
-                <span>Southern Africa Expeditions</span>
-              </div>
+              {/* Small Label */}
+              <span className="font-heading font-semibold text-sm tracking-[0.18em] text-sun uppercase select-none mb-3">
+                TRAVEL AND ADVENTURES
+              </span>
 
               {/* Authoritative Standard H1 */}
               <h1 className="font-heading font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-ink leading-[1.12] tracking-tight mb-5">
@@ -128,165 +128,136 @@ export default function HomePage() {
               </p>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4 mb-8 sm:mb-10">
-                <Button href="/trip" variant="primary" className="text-base sm:text-lg px-7 py-3 shadow-sm">
+              <div className="flex flex-wrap items-center gap-4">
+                <Button href="/trip" variant="primary" className="text-base sm:text-lg px-7 py-3">
                   Build your trip
                 </Button>
                 <Button href="#how" variant="outline" className="text-base sm:text-lg px-6 py-3">
                   How it works
                 </Button>
               </div>
-
-              {/* Quick Explorer Category Grid */}
-              <div className="w-full pt-6 border-t border-sand max-w-xl">
-                <p className="text-xs font-heading font-semibold tracking-wider uppercase text-ink/60 mb-3 select-none">
-                  Explore by category
-                </p>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                  {CATEGORIES_DATA.map((cat) => (
-                    <Link
-                      key={cat.category}
-                      href={categoryPath[cat.category]}
-                      className="min-h-[44px] px-3.5 py-2.5 rounded-[10px] bg-white hover:bg-sand/40 border border-sand hover:border-forest/40 text-ink hover:text-forest text-xs sm:text-sm font-heading font-semibold flex items-center justify-center text-center transition-all shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"
-                    >
-                      {cat.title}
-                    </Link>
-                  ))}
-                </div>
-              </div>
             </div>
 
-            {/* Right Column: Clean Itinerary Showcase Card (5 cols) */}
-            <div className="lg:col-span-5 relative w-full max-w-[480px] lg:max-w-none mx-auto mt-6 lg:mt-0">
-              {/* Subtle ambient shadow */}
-              <div
-                className="absolute -inset-1 rounded-[22px] bg-sand/60 blur-sm pointer-events-none"
-                aria-hidden="true"
-              />
-
-              {/* White Itinerary Card */}
-              <div className="relative rounded-[20px] bg-white border border-sand p-5 sm:p-6 shadow-xl overflow-hidden">
-                {/* Card Top Bar */}
-                <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-sand">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-sun" />
-                    <span className="font-heading font-semibold text-sm text-ink">
-                      Sample Safari Itinerary
+            {/* Right Column: Swappable Hero Visual (Hero Photo or Example Trip Card) (5 cols) */}
+            <div className="lg:col-span-5 relative w-full max-w-[500px] lg:max-w-none mx-auto mt-6 lg:mt-0">
+              {site.heroPhoto ? (
+                <Photo
+                  photo={site.heroPhoto}
+                  label="Hero visual"
+                  priority
+                  className="aspect-[4/3] w-full rounded-[16px] border border-sand"
+                />
+              ) : (
+                <div className="relative rounded-[16px] bg-white border border-sand p-5 sm:p-6">
+                  {/* Card Top Bar */}
+                  <div className="flex items-center justify-between pb-4 mb-4 border-b border-sand">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-sun" aria-hidden="true" />
+                      <span className="font-heading font-semibold text-base sm:text-lg text-ink">
+                        Example trip
+                      </span>
+                    </div>
+                    <span className="text-sm font-medium text-forest bg-sand/60 px-3 py-1 rounded-full">
+                      4 currencies
                     </span>
                   </div>
-                  <span className="text-[11px] font-heading font-semibold uppercase tracking-wider text-forest bg-sand/60 px-2.5 py-1 rounded-full">
-                    4 Currencies Live
-                  </span>
-                </div>
 
-                {/* Sub-header context */}
-                <div className="rounded-[10px] bg-bone border border-sand/70 p-3 mb-3.5">
-                  <div className="flex items-center justify-between text-xs font-heading font-semibold text-ink/80 mb-1">
-                    <span>Route: Victoria Falls • Hwange • Mana Pools</span>
-                    <span className="text-forest">Custom Dates</span>
-                  </div>
-                  <p className="text-[11px] font-body text-ink/65 leading-normal">
-                    Combine your choice of destinations, camps, activities and 4x4s into one request.
-                  </p>
-                </div>
-
-                {/* 4-Pillar Itinerary Steps */}
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center justify-between p-2.5 rounded-[10px] bg-bone/70 border border-sand/60 text-xs">
-                    <div className="flex items-center gap-2.5">
-                      <span className="w-6 h-6 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-[11px] shrink-0">
-                        1
-                      </span>
-                      <div>
-                        <p className="font-heading font-semibold text-ink">Victoria Falls & Zambezi</p>
-                        <p className="text-[11px] text-ink/60">Destination • 2 Nights</p>
-                      </div>
+                  {/* Sub-header context */}
+                  <div className="rounded-[10px] bg-bone border border-sand p-3.5 mb-4">
+                    <div className="flex items-center justify-between text-sm font-heading font-semibold text-ink/80 mb-1">
+                      <span>Route: [Destination A] • [Destination B]</span>
+                      <span className="text-forest">Custom Dates</span>
                     </div>
-                    <span className="font-heading font-semibold text-forest text-xs">Included</span>
-                  </div>
-
-                  <div className="flex items-center justify-between p-2.5 rounded-[10px] bg-bone/70 border border-sand/60 text-xs">
-                    <div className="flex items-center gap-2.5">
-                      <span className="w-6 h-6 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-[11px] shrink-0">
-                        2
-                      </span>
-                      <div>
-                        <p className="font-heading font-semibold text-ink">Hwange Game Drive & Safari</p>
-                        <p className="text-[11px] text-ink/60">Activity • Guided Excursion</p>
-                      </div>
-                    </div>
-                    <span className="font-heading font-semibold text-forest text-xs">Included</span>
-                  </div>
-
-                  <div className="flex items-center justify-between p-2.5 rounded-[10px] bg-bone/70 border border-sand/60 text-xs">
-                    <div className="flex items-center gap-2.5">
-                      <span className="w-6 h-6 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-[11px] shrink-0">
-                        3
-                      </span>
-                      <div>
-                        <p className="font-heading font-semibold text-ink">Luxury Wilderness Camp</p>
-                        <p className="text-[11px] text-ink/60">Lodge • Full Board</p>
-                      </div>
-                    </div>
-                    <span className="font-heading font-semibold text-forest text-xs">Included</span>
-                  </div>
-
-                  <div className="flex items-center justify-between p-2.5 rounded-[10px] bg-bone/70 border border-sand/60 text-xs">
-                    <div className="flex items-center gap-2.5">
-                      <span className="w-6 h-6 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-[11px] shrink-0">
-                        4
-                      </span>
-                      <div>
-                        <p className="font-heading font-semibold text-ink">Equipped 4x4 Safari Vehicle</p>
-                        <p className="text-[11px] text-ink/60">Vehicle Hire • Unlimited KM</p>
-                      </div>
-                    </div>
-                    <span className="font-heading font-semibold text-forest text-xs">Included</span>
-                  </div>
-                </div>
-
-                {/* Card Bottom: Live Multi-Currency Total & Action */}
-                <div className="pt-3.5 border-t border-sand flex items-center justify-between">
-                  <div>
-                    <p className="text-[10px] font-heading font-medium text-ink/60 uppercase tracking-wider">
-                      Live Multi-Currency Total
-                    </p>
-                    <p className="font-heading font-bold text-sm sm:text-base text-ink">
-                      Calculated as you build
+                    <p className="text-sm font-body text-ink/70 leading-normal">
+                      Combine your choice of destinations, lodges, activities and vehicle into one request.
                     </p>
                   </div>
-                  <Link
-                    href="/trip"
-                    className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center px-4 py-2 rounded-[8px] bg-forest text-bone hover:bg-[#163920] font-heading font-semibold text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
-                  >
-                    Build trip →
-                  </Link>
+
+                  {/* 4-Pillar Itinerary Steps */}
+                  <div className="space-y-3 mb-5">
+                    <div className="flex items-center justify-between p-3 rounded-[10px] bg-bone border border-sand text-sm">
+                      <div className="flex items-center gap-3">
+                        <span className="w-7 h-7 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-sm shrink-0">
+                          1
+                        </span>
+                        <div>
+                          <p className="font-heading font-semibold text-ink">{sampleDest}</p>
+                          <p className="text-sm text-ink/65">2 nights • Custom dates</p>
+                        </div>
+                      </div>
+                      <span className="font-heading font-semibold text-forest text-sm">
+                        Destination
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between p-3 rounded-[10px] bg-bone border border-sand text-sm">
+                      <div className="flex items-center gap-3">
+                        <span className="w-7 h-7 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-sm shrink-0">
+                          2
+                        </span>
+                        <div>
+                          <p className="font-heading font-semibold text-ink">{sampleAct}</p>
+                          <p className="text-sm text-ink/65">Guided excursion</p>
+                        </div>
+                      </div>
+                      <span className="font-heading font-semibold text-forest text-sm">
+                        Activity
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between p-3 rounded-[10px] bg-bone border border-sand text-sm">
+                      <div className="flex items-center gap-3">
+                        <span className="w-7 h-7 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-sm shrink-0">
+                          3
+                        </span>
+                        <div>
+                          <p className="font-heading font-semibold text-ink">{sampleLodge}</p>
+                          <p className="text-sm text-ink/65">Full board reservation</p>
+                        </div>
+                      </div>
+                      <span className="font-heading font-semibold text-forest text-sm">
+                        Lodge
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between p-3 rounded-[10px] bg-bone border border-sand text-sm">
+                      <div className="flex items-center gap-3">
+                        <span className="w-7 h-7 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-sm shrink-0">
+                          4
+                        </span>
+                        <div>
+                          <p className="font-heading font-semibold text-ink">{sampleVeh}</p>
+                          <p className="text-sm text-ink/65">Equipped 4x4 hire</p>
+                        </div>
+                      </div>
+                      <span className="font-heading font-semibold text-forest text-sm">
+                        Vehicle hire
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Card Bottom: Live Multi-Currency Total & Action */}
+                  <div className="pt-4 border-t border-sand flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-heading font-medium text-ink/70">
+                        Estimated total in USD, EUR, GBP or ZAR
+                      </p>
+                      <p className="font-heading font-bold text-base text-ink">
+                        Calculated as you build
+                      </p>
+                    </div>
+                    <Link
+                      href="/trip"
+                      className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center px-4 py-2 rounded-[8px] bg-forest text-bone hover:bg-[#163920] font-heading font-semibold text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
+                    >
+                      Build trip →
+                    </Link>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </Container>
-
-        {/* Bottom Scroll Prompt */}
-        <div className="relative z-10 w-full pb-4 pt-2 flex items-center justify-center">
-          <a
-            href="#how"
-            className="min-h-[44px] min-w-[44px] inline-flex items-center gap-2 text-xs font-heading font-semibold tracking-wider uppercase text-ink/60 hover:text-forest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest rounded-[8px] px-3 py-2"
-            aria-label="Scroll down to how it works"
-          >
-            <span>Scroll to explore</span>
-            <svg
-              className="w-4 h-4 text-forest"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
-          </a>
-        </div>
       </section>
 
       {/* B. TRUST STRIP */}

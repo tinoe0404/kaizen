@@ -2,6 +2,117 @@ import { Offering } from "./types";
 
 export const activities: Offering[] = [
   {
+    id: "activity-bunji",
+    slug: "bunji",
+    category: "activity",
+    name: "Bunji Jumping",
+    summary: "111-meter bungee jump from the Victoria Falls Bridge over the Zambezi River.",
+    description:
+      "Experience the ultimate adrenaline rush with a 111-meter bungee jump from the iconic Victoria Falls Bridge. Suspended directly over the roaring Zambezi River against the backdrop of the majestic falls, this world-renowned leap combines sheer thrill with breathtaking canyon views. Fully supervised by certified jump masters with international safety standards.",
+    pricing: {
+      unit: "per_person",
+      amountUsd: 160,
+    },
+    photos: [],
+    destinationSlug: "destination-a",
+    featured: true,
+  },
+  {
+    id: "activity-rafting",
+    slug: "rafting",
+    category: "activity",
+    name: "White Water Rafting",
+    summary: "World-class Grade 5 white water rafting down the turbulent Batoka Gorge.",
+    description:
+      "Recognized globally as one of the premier white-water rafting adventures on earth. Navigate the turbulent churning rapids of the Batoka Gorge directly beneath Victoria Falls, accompanied by expert river guides and full safety equipment. An unforgettable full-day or half-day excursion of high adventure, dramatic canyon scenery, and adrenaline.",
+    pricing: {
+      unit: "per_person",
+      amountUsd: 130,
+    },
+    photos: [],
+    destinationSlug: "destination-a",
+    featured: true,
+  },
+  {
+    id: "activity-cruises",
+    slug: "cruises",
+    category: "activity",
+    name: "Zambezi River Cruises",
+    summary: "Sunset and dinner boat cruises along the upper Zambezi River with wildlife viewing.",
+    description:
+      "Drift peacefully along the tranquil waters of the upper Zambezi River above Victoria Falls. Enjoy panoramic golden-hour sunsets, complimentary refreshments, and frequent sightings of hippos, crocodiles, elephants on the riverbanks, and vibrant birdlife. A quintessentially relaxing African river safari experience.",
+    pricing: {
+      unit: "per_person",
+      amountUsd: 75,
+    },
+    photos: [],
+    destinationSlug: "destination-a",
+    featured: true,
+  },
+  {
+    id: "activity-flights-over-the-falls",
+    slug: "flights-over-the-falls",
+    category: "activity",
+    name: "Flights Over the Falls",
+    summary: "Scenic helicopter tours offering breathtaking aerial views of Victoria Falls and the Batoka Gorge.",
+    description:
+      "Take to the skies for an awe-inspiring aerial perspective of Victoria Falls, known locally as the 'Flight of Angels'. Marvel at the sheer scale of the curtain of water, the zigzagging gorges carved by the Zambezi River, and surrounding national park landscapes. Spectacular photo opportunities from specially designed viewing windows.",
+    pricing: {
+      unit: "per_person",
+      amountUsd: 175,
+    },
+    photos: [],
+    destinationSlug: "destination-a",
+    featured: true,
+  },
+  {
+    id: "activity-game-drives",
+    slug: "game-drives",
+    category: "activity",
+    name: "Guided Game Drives",
+    summary: "Open-vehicle wildlife game drives tracking Africa's Big Five across pristine national parks.",
+    description:
+      "Embark on sunrise or afternoon game drives in open 4x4 safari vehicles guided by professional trackers. Explore the diverse wilderness habitats of Hwange and Victoria Falls National Parks, tracking lions, leopards, elephant herds, buffalo, and a rich array of plains wildlife in their natural environment.",
+    pricing: {
+      unit: "per_person",
+      amountUsd: 110,
+    },
+    photos: [],
+    destinationSlug: "destination-a",
+    featured: true,
+  },
+  {
+    id: "activity-tour-of-zimbabwe",
+    slug: "tour-of-zimbabwe",
+    category: "activity",
+    name: "Tour of Zimbabwe",
+    summary: "Multi-day guided safari and cultural expedition across Zimbabwe's iconic landmarks.",
+    description:
+      "A curated travel journey connecting Zimbabwe's greatest treasures: the mist of Victoria Falls, the vast wilderness of Hwange National Park, the granite domes of Matobo Hills, and the ancient stone architecture of Great Zimbabwe. Includes private transportation, certified regional guides, and personalized route coordination.",
+    pricing: {
+      unit: "per_person",
+      amountUsd: 850,
+    },
+    photos: [],
+    featured: true,
+  },
+  {
+    id: "activity-car-hires",
+    slug: "car-hires",
+    category: "activity",
+    name: "Car Hires",
+    summary: "Equipped 4x4 safari vehicles and rugged SUVs for self-drive expeditions across Southern Africa.",
+    description:
+      "Explore Southern Africa on your own terms with dependable, fully maintained 4x4 vehicles and rugged SUVs. Options include rooftop tents, camping gear, GPS satellite tracking, and unlimited kilometers. Ideal for self-drive safaris, national park excursions, and scenic overland routes.",
+    pricing: {
+      unit: "per_group_per_day",
+      amountUsd: 120,
+    },
+    photos: [],
+    capacity: 4,
+    featured: true,
+  },
+  {
     id: "activity-a",
     slug: "activity-a",
     category: "activity",
@@ -14,7 +125,7 @@ export const activities: Offering[] = [
     },
     photos: [],
     destinationSlug: "destination-a",
-    featured: true,
+    featured: false,
   },
   {
     id: "activity-b",

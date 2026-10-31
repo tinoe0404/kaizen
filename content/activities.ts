@@ -13,7 +13,12 @@ export const activities: Offering[] = [
       unit: "per_person",
       amountUsd: 160,
     },
-    photos: [],
+    photos: [
+      {
+        src: "/images/activities/bunji-1.jpg",
+        alt: "Thrill seeker bungee jumping from the Victoria Falls Bridge over the Zambezi River",
+      },
+    ],
     destinationSlug: "destination-a",
     featured: true,
   },
@@ -29,7 +34,12 @@ export const activities: Offering[] = [
       unit: "per_person",
       amountUsd: 130,
     },
-    photos: [],
+    photos: [
+      {
+        src: "/images/activities/rafting-1.jpg",
+        alt: "White water rafting team navigating the rapids of the Batoka Gorge on the Zambezi River",
+      },
+    ],
     destinationSlug: "destination-a",
     featured: true,
   },
@@ -45,7 +55,12 @@ export const activities: Offering[] = [
       unit: "per_person",
       amountUsd: 75,
     },
-    photos: [],
+    photos: [
+      {
+        src: "/images/activities/cruises-1.jpg",
+        alt: "Sunset boat cruise drifting along the tranquil waters of the Zambezi River",
+      },
+    ],
     destinationSlug: "destination-a",
     featured: true,
   },
@@ -61,7 +76,12 @@ export const activities: Offering[] = [
       unit: "per_person",
       amountUsd: 175,
     },
-    photos: [],
+    photos: [
+      {
+        src: "/images/activities/flights-over-the-falls-1.jpg",
+        alt: "Aerial helicopter view of the dramatic gorge and mist of Victoria Falls",
+      },
+    ],
     destinationSlug: "destination-a",
     featured: true,
   },
@@ -77,7 +97,12 @@ export const activities: Offering[] = [
       unit: "per_person",
       amountUsd: 110,
     },
-    photos: [],
+    photos: [
+      {
+        src: "/images/activities/game-drives-1.jpg",
+        alt: "Open 4x4 safari game drive vehicle observing wildlife in the African bush",
+      },
+    ],
     destinationSlug: "destination-a",
     featured: true,
   },
@@ -93,25 +118,16 @@ export const activities: Offering[] = [
       unit: "per_person",
       amountUsd: 850,
     },
-    photos: [],
+    photos: [
+      {
+        src: "/images/activities/tour-of-zimbabwe-1.jpg",
+        alt: "Scenic view of Victoria Falls and the lush surrounding rainforest landscape",
+      },
+    ],
     featured: true,
   },
-  {
-    id: "activity-car-hires",
-    slug: "car-hires",
-    category: "activity",
-    name: "Car Hires",
-    summary: "Equipped 4x4 safari vehicles and rugged SUVs for self-drive expeditions across Southern Africa.",
-    description:
-      "Explore Southern Africa on your own terms with dependable, fully maintained 4x4 vehicles and rugged SUVs. Options include rooftop tents, camping gear, GPS satellite tracking, and unlimited kilometers. Ideal for self-drive safaris, national park excursions, and scenic overland routes.",
-    pricing: {
-      unit: "per_group_per_day",
-      amountUsd: 120,
-    },
-    photos: [],
-    capacity: 4,
-    featured: true,
-  },
+
+  // ── test-only placeholders (kept for unit-test compatibility) ──────
   {
     id: "activity-a",
     slug: "activity-a",
@@ -119,10 +135,7 @@ export const activities: Offering[] = [
     name: "[Activity A]",
     summary: "[One line description for Activity A]",
     description: "[Comprehensive guide and overview for Activity A placeholder.]",
-    pricing: {
-      unit: "per_person",
-      amountUsd: 0,
-    },
+    pricing: { unit: "per_person", amountUsd: 0 },
     photos: [],
     destinationSlug: "destination-a",
     featured: false,
@@ -134,10 +147,7 @@ export const activities: Offering[] = [
     name: "[Activity B]",
     summary: "[One line description for Activity B]",
     description: "[Comprehensive guide and overview for Activity B placeholder.]",
-    pricing: {
-      unit: "per_person",
-      amountUsd: 0,
-    },
+    pricing: { unit: "per_person", amountUsd: 0 },
     photos: [],
     destinationSlug: "destination-b",
     featured: false,
@@ -149,10 +159,7 @@ export const activities: Offering[] = [
     name: "[Activity C]",
     summary: "[One line description for Activity C]",
     description: "[Comprehensive guide and overview for Activity C placeholder.]",
-    pricing: {
-      unit: "per_person",
-      amountUsd: 0,
-    },
+    pricing: { unit: "per_person", amountUsd: 0 },
     photos: [],
     destinationSlug: "destination-c",
     featured: false,
@@ -164,10 +171,7 @@ export const activities: Offering[] = [
     name: "[Activity D]",
     summary: "[One line description for Activity D]",
     description: "[Comprehensive guide and overview for Activity D placeholder.]",
-    pricing: {
-      unit: "per_person",
-      amountUsd: 0,
-    },
+    pricing: { unit: "per_person", amountUsd: 0 },
     photos: [],
     featured: false,
   },

@@ -31,6 +31,21 @@ export interface Offering {
   featured?: boolean;
 }
 
+export interface SafariPackage {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string;
+  duration: string;
+  destination: string;
+  description: string;
+  highlights: string[];
+  badge?: string;
+  itemIds: string[];
+  photo: Photo;
+  featured?: boolean;
+}
+
 export interface SocialLink {
   label: string;
   href: string;

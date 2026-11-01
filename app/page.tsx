@@ -5,8 +5,9 @@ import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Photo } from "@/components/ui/Photo";
 import { OfferingCard } from "@/components/OfferingCard";
+import { PackageCard } from "@/components/PackageCard";
 import { JsonLd } from "@/components/JsonLd";
-import { getAll, getFeatured } from "@/lib/content";
+import { getAll, getFeatured, getPackages } from "@/lib/content";
 import { categoryPath } from "@/lib/routes";
 import { Category } from "@/content/types";
 import { WhatsAppLink } from "@/components/WhatsAppLink";
@@ -77,6 +78,7 @@ const HOW_STEPS = [
 
 export default function HomePage() {
   const featuredOfferings = getFeatured().slice(0, 3);
+  const curatedPackages = getPackages().slice(0, 2);
 
   const sampleDest = getAll("destination")[0]?.name || "Victoria Falls";
   const sampleAct = getAll("activity")[0]?.name || "Bungee Jumping";
@@ -368,7 +370,40 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* E. FEATURED EXPERIENCES */}
+      {/* E. CURATED SAFARI PACKAGES */}
+      {curatedPackages.length > 0 && (
+        <Section sand className="border-t border-forest/10 py-12 md:py-16">
+          <Container>
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+              <div>
+                <span className="font-heading font-semibold text-xs uppercase tracking-wider text-sun mb-1 block select-none">
+                  Curated Expeditions
+                </span>
+                <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-ink">
+                  Ready-made safari packages
+                </h2>
+                <p className="font-body text-sm sm:text-base text-ink/75 mt-2 max-w-xl leading-relaxed">
+                  Hand-crafted multi-day itineraries you can add to your trip planner with one click, then adjust to your dates.
+                </p>
+              </div>
+              <Link
+                href="/packages"
+                className="font-heading font-semibold text-forest hover:text-ink min-h-[44px] inline-flex items-center text-sm sm:text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest rounded-[4px] shrink-0"
+              >
+                All packages ({getPackages().length}) →
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+              {curatedPackages.map((pkg) => (
+                <PackageCard key={pkg.id} pkg={pkg} headingLevel="h3" />
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
+
+      {/* F. FEATURED EXPERIENCES */}
       {featuredOfferings.length > 0 && (
         <Section className="bg-bone">
           <Container>

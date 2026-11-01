@@ -30,6 +30,15 @@ describe("Trip Logic (/lib/trip.ts)", () => {
       expect(state.ids).toEqual([validId1]);
     });
 
+    it("add_many: adds multiple valid IDs, skips duplicates and unknown IDs", () => {
+      let state = { ...initialTrip };
+      state = tripReducer(state, {
+        type: "ADD_MANY",
+        ids: [validId1, "unknown-id", validId2, validId1],
+      });
+      expect(state.ids).toEqual([validId1, validId2]);
+    });
+
     it("remove: removes existing ID, ignores non-existent", () => {
       let state = { ...initialTrip, ids: [validId1, validId2] };
       state = tripReducer(state, { type: "REMOVE", id: validId1 });

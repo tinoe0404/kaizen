@@ -1,10 +1,11 @@
-import { Category, Offering } from "@/content/types";
+import { Category, Offering, SafariPackage } from "@/content/types";
 import {
   destinations,
   activities,
   lodges,
   vehicles,
 } from "@/content";
+import { packages } from "@/content/packages";
 
 const categoryMap: Record<Category, Offering[]> = {
   destination: destinations,
@@ -44,5 +45,13 @@ export function getById(id: string): Offering | undefined {
 
 export function getByDestination(destinationSlug: string): Offering[] {
   return allOfferings.filter((item) => item.destinationSlug === destinationSlug);
+}
+
+export function getPackages(): SafariPackage[] {
+  return packages;
+}
+
+export function getPackageBySlug(slug: string): SafariPackage | undefined {
+  return packages.find((p) => p.slug === slug);
 }
 

@@ -26,6 +26,7 @@ export const initialTrip: TripState = {
 
 export type TripAction =
   | { type: "ADD"; id: string }
+  | { type: "ADD_MANY"; ids: string[] }
   | { type: "REMOVE"; id: string }
   | { type: "TOGGLE"; id: string }
   | { type: "SET_DATES"; arrival: string; departure: string }
@@ -78,6 +79,22 @@ export function tripReducer(state: TripState, action: TripAction): TripState {
       return {
         ...state,
         ids: [...state.ids, action.id],
+      };
+    }
+
+    case "ADD_MANY": {
+      const existing = new Set(state.ids);
+      const toAdd: string[] = [];
+      for (const id of action.ids) {
+        if (!existing.has(id) && Boolean(getById(id))) {
+          existing.add(id);
+          toAdd.push(id);
+        }
+      }
+      if (toAdd.length === 0) return state;
+      return {
+        ...state,
+        ids: [...state.ids, ...toAdd],
       };
     }
 

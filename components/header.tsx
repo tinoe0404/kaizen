@@ -10,6 +10,7 @@ import { useTrip } from "@/components/trip/TripProvider";
 
 const NAV_LINKS = [
   { href: "/destinations", label: "Destinations" },
+  { href: "/packages", label: "Packages" },
   { href: "/activities", label: "Activities" },
   { href: "/lodges", label: "Lodges" },
   { href: "/vehicle-hire", label: "Vehicle hire" },

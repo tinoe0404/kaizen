@@ -27,6 +27,7 @@ interface TripContextValue {
   derived: DerivedTrip;
   isReady: boolean;
   add: (id: string) => void;
+  addMany: (ids: string[]) => void;
   remove: (id: string) => void;
   toggle: (id: string) => void;
   setDates: (arrival: string, departure: string) => void;
@@ -70,6 +71,10 @@ export function TripProvider({ children }: { children: React.ReactNode }) {
   }, [state]);
 
   const add = useCallback((id: string) => dispatch({ type: "ADD", id }), []);
+  const addMany = useCallback(
+    (ids: string[]) => dispatch({ type: "ADD_MANY", ids }),
+    []
+  );
   const remove = useCallback(
     (id: string) => dispatch({ type: "REMOVE", id }),
     []
@@ -101,6 +106,7 @@ export function TripProvider({ children }: { children: React.ReactNode }) {
       derived,
       isReady,
       add,
+      addMany,
       remove,
       toggle,
       setDates,
@@ -113,6 +119,7 @@ export function TripProvider({ children }: { children: React.ReactNode }) {
       derived,
       isReady,
       add,
+      addMany,
       remove,
       toggle,
       setDates,

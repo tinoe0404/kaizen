@@ -17,8 +17,11 @@ describe("Company Pages & Content Logic", () => {
     });
 
     it("normalizes placeholder whatsappNumber to null so WhatsApp elements are hidden", () => {
-      // In development / initial content, site.whatsappNumber is "[WhatsApp number]"
-      expect(normalizeWhatsappNumber(site.whatsappNumber)).toBeNull();
+      expect(normalizeWhatsappNumber("[WhatsApp number]")).toBeNull();
+    });
+
+    it("normalizes site.whatsappNumber correctly to international format", () => {
+      expect(normalizeWhatsappNumber(site.whatsappNumber)).toBe("263772123456");
     });
 
     it("when whatsappNumber is valid, normalizes correctly", () => {
@@ -85,7 +88,7 @@ describe("Company Pages & Content Logic", () => {
 
       // Who handles it (email provider)
       expect(sectionTitles.some((t) => t.includes("who handles"))).toBe(true);
-      expect(allText).toContain("[email provider]");
+      expect(allText).toContain("smtp");
 
       // What stays on device (local storage, no cookies, no analytics)
       expect(sectionTitles.some((t) => t.includes("device") || t.includes("browser"))).toBe(true);
@@ -95,7 +98,7 @@ describe("Company Pages & Content Logic", () => {
 
       // How long we keep emails
       expect(sectionTitles.some((t) => t.includes("how long"))).toBe(true);
-      expect(allText).toContain("[retention period]");
+      expect(allText).toContain("12 months");
 
       // Guest requests / rights
       expect(sectionTitles.some((t) => t.includes("rights") || t.includes("requests"))).toBe(true);

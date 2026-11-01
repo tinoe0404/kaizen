@@ -28,7 +28,7 @@ export const privacy: PrivacyContent = {
     {
       title: "Who handles your information",
       paragraphs: [
-        `Your booking request is emailed directly to our team's operational mailbox (${site.bookingEmail}). It is transmitted through our email delivery provider ([EMAIL PROVIDER]).`,
+        `Your booking request is emailed directly to our team's operational mailbox (${site.bookingEmail}). It is transmitted securely through our authenticated SMTP mail service.`,
         "We do not store your booking requests or personal details in a database or cloud customer management system on this website.",
       ],
     },
@@ -42,7 +42,7 @@ export const privacy: PrivacyContent = {
     {
       title: "How long we keep your information",
       paragraphs: [
-        "We retain the booking request emails in our operational mailbox for [RETENTION PERIOD], after which they are archived or deleted in accordance with our data retention schedule.",
+        "We retain the booking request emails in our operational mailbox for 12 months, after which they are archived or deleted in accordance with our data retention schedule.",
       ],
     },
     {

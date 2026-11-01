@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/faq" },
 };
 
+
+
 export default function FaqPage() {
   const faqSchema: Record<string, unknown> = {
     "@context": "https://schema.org",

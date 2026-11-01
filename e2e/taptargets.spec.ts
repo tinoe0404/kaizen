@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const ROUTES = ["/", "/packages", "/trip", "/destinations/destination-a"];
+const ROUTES = ["/", "/packages", "/faq", "/trip", "/destinations/destination-a"];
 
 test.describe("Tap targets at 360px viewport", () => {
   for (const route of ROUTES) {

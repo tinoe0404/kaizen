@@ -17,6 +17,7 @@ const NAV_LINKS = [
 ];
 
 const MOBILE_EXTRA_LINKS = [
+  { href: "/faq", label: "FAQ & Guide" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

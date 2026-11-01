@@ -10,6 +10,7 @@ const ROUTES = [
   "/trip",
   "/contact",
   "/about",
+  "/faq",
   "/privacy",
   "/destinations/destination-a",
   "/activities/activity-a",

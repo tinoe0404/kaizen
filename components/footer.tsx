@@ -14,6 +14,7 @@ const EXPLORE_LINKS = [
 
 const COMPANY_LINKS = [
   { href: "/about", label: "About" },
+  { href: "/faq", label: "FAQ & Guide" },
   { href: "/contact", label: "Contact" },
   { href: "/privacy", label: "Privacy" },
 ];

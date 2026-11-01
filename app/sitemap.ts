@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/packages",
     ...Object.values(categories).map((c) => c.path),
     "/about",
+    "/faq",
     "/contact",
     "/privacy",
   ];

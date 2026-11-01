@@ -5,7 +5,7 @@ import { getAll } from "@/lib/content";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
-import { OfferingCard } from "@/components/OfferingCard";
+import { CategoryGrid } from "@/components/CategoryGrid";
 
 export interface CategoryPageProps {
   category: Category;
@@ -14,6 +14,7 @@ export interface CategoryPageProps {
 export function CategoryPage({ category }: CategoryPageProps) {
   const config = getCategoryConfig(category);
   const items = getAll(category);
+  const destinations = getAll("destination");
 
   return (
     <div className="w-full flex flex-col">
@@ -29,7 +30,7 @@ export function CategoryPage({ category }: CategoryPageProps) {
         </Container>
       </Section>
 
-      {/* Main Grid Section */}
+      {/* Main Grid Section with Destination Filtering */}
       <Section className="bg-bone py-12 md:py-16">
         <Container>
           {items.length === 0 ? (
@@ -39,21 +40,20 @@ export function CategoryPage({ category }: CategoryPageProps) {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {items.map((item) => (
-                <OfferingCard
-                  key={item.id}
-                  offering={item}
-                  headingLevel="h2"
-                />
-              ))}
-            </div>
+            <CategoryGrid
+              category={category}
+              items={items}
+              destinations={destinations}
+            />
           )}
         </Container>
       </Section>
 
       {/* Bottom CTA Band */}
-      <Section sand className="border-t border-forest/10 py-12 md:py-16 text-center">
+      <Section
+        sand
+        className="border-t border-forest/10 py-12 md:py-16 text-center"
+      >
         <Container>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl text-ink mb-6">
             Ready to put it together?
@@ -66,4 +66,3 @@ export function CategoryPage({ category }: CategoryPageProps) {
     </div>
   );
 }
-

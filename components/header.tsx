@@ -117,8 +117,16 @@ export function Header() {
     setIsOpen(false);
   };
 
+  const isHome = pathname === "/";
+
   return (
-    <header className="w-full bg-white border-b border-sand sticky top-0 z-40">
+    <header
+      className={`w-full sticky top-0 z-40 transition-colors duration-300 ${
+        isHome
+          ? "bg-transparent border-b border-white/10"
+          : "bg-white border-b border-sand"
+      }`}
+    >
       <Container className="flex items-center justify-between h-[88px]">
         {/* Logo */}
         <Link
@@ -133,7 +141,9 @@ export function Header() {
             width={116}
             height={72}
             priority
-            className="h-[72px] w-auto object-contain"
+            className={`h-[72px] w-auto object-contain transition-all duration-300 ${
+              isHome ? "brightness-0 invert" : ""
+            }`}
             style={{ height: "72px", width: "auto" }}
           />
         </Link>
@@ -147,7 +157,11 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="font-heading font-semibold text-ink hover:text-forest transition-colors min-h-[44px] inline-flex items-center px-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink rounded-[4px]"
+              className={`font-heading font-semibold transition-colors min-h-[44px] inline-flex items-center px-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 rounded-[4px] ${
+                isHome
+                  ? "text-white/90 hover:text-white focus-visible:outline-white"
+                  : "text-ink hover:text-forest focus-visible:outline-ink"
+              }`}
             >
               {link.label}
             </Link>
@@ -161,7 +175,11 @@ export function Header() {
         <button
           ref={menuButtonRef}
           type="button"
-          className="md:hidden w-[48px] h-[48px] min-h-[48px] min-w-[48px] inline-flex items-center justify-center rounded-[8px] border border-sand text-ink hover:bg-sand/40 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink cursor-pointer"
+          className={`md:hidden w-[48px] h-[48px] min-h-[48px] min-w-[48px] inline-flex items-center justify-center rounded-[8px] border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer ${
+            isHome
+              ? "border-white/40 text-white hover:bg-white/15 focus-visible:outline-white"
+              : "border-sand text-ink hover:bg-sand/40 focus-visible:outline-ink"
+          }`}
           aria-label={isOpen ? "Close menu" : "Open menu"}
           aria-expanded={isOpen}
           aria-controls="mobile-navigation"

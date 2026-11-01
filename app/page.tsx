@@ -7,6 +7,7 @@ import { Photo } from "@/components/ui/Photo";
 import { OfferingCard } from "@/components/OfferingCard";
 import { PackageCard } from "@/components/PackageCard";
 import { JsonLd } from "@/components/JsonLd";
+import { HeroVideo } from "@/components/HeroVideo";
 import { getAll, getFeatured, getPackages } from "@/lib/content";
 import { categoryPath } from "@/lib/routes";
 import { Category } from "@/content/types";
@@ -80,11 +81,6 @@ export default function HomePage() {
   const featuredOfferings = getFeatured().slice(0, 3);
   const curatedPackages = getPackages().slice(0, 2);
 
-  const sampleDest = getAll("destination")[0]?.name || "Victoria Falls";
-  const sampleAct = getAll("activity")[0]?.name || "Bungee Jumping";
-  const sampleLodge = getAll("lodge")[0]?.name || "Victoria Falls Safari Lodge";
-  const sampleVeh = getAll("vehicle")[0]?.name || "Toyota Land Cruiser";
-
   const agencyData = stripUndefined({
     "@context": "https://schema.org",
     "@type": "TravelAgency",
@@ -100,169 +96,10 @@ export default function HomePage() {
   return (
     <div className="w-full flex flex-col">
       {hasAgencyData && <JsonLd data={agencyData as Record<string, unknown>} />}
-      {/* A. HERO SECTION (100% viewport height below header, standard luxury travel editorial style) */}
-      <section className="relative w-full min-h-[calc(100dvh-88px)] flex flex-col justify-center bg-bone text-ink border-b border-sand overflow-hidden">
-        {/* Soft, warm ambient backdrop */}
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-white/70 via-bone to-sand/40 pointer-events-none"
-          aria-hidden="true"
-        />
-
-        {/* Main Content Area */}
-        <Container className="relative z-10 w-full py-12 sm:py-16 lg:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center w-full">
-            {/* Left Column: Text & CTAs (7 cols) */}
-            <div className="lg:col-span-7 flex flex-col items-start">
-              {/* Small Label */}
-              <span className="font-heading font-semibold text-sm tracking-[0.18em] text-sun uppercase select-none mb-3">
-                TRAVEL AND ADVENTURES
-              </span>
-
-              {/* Authoritative Standard H1 */}
-              <h1 className="font-heading font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-ink leading-[1.12] tracking-tight mb-5">
-                Build your trip.
-                <span className="block text-forest mt-1 sm:mt-1.5">Send one request.</span>
-              </h1>
-
-              {/* Clear Value Proposition */}
-              <p className="font-body text-ink/80 text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl mb-8">
-                Pick your destinations, activities, lodges and 4x4 vehicle hire across Southern Africa. See your estimated total in USD, EUR, GBP or ZAR — then send us a single booking request.
-              </p>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4">
-                <Button href="/trip" variant="primary" className="text-base sm:text-lg px-7 py-3">
-                  Build your trip
-                </Button>
-                <Button href="#how" variant="outline" className="text-base sm:text-lg px-6 py-3">
-                  How it works
-                </Button>
-              </div>
-            </div>
-
-            {/* Right Column: Swappable Hero Visual (Hero Photo or Example Trip Card) (5 cols) */}
-            <div className="lg:col-span-5 relative w-full max-w-[500px] lg:max-w-none mx-auto mt-6 lg:mt-0">
-              {site.heroPhoto ? (
-                <Photo
-                  photo={site.heroPhoto}
-                  label="Hero visual"
-                  priority
-                  className="aspect-[4/3] w-full rounded-[16px] border border-sand"
-                />
-              ) : (
-                <div className="relative rounded-[16px] bg-white border border-sand p-5 sm:p-6">
-                  {/* Card Top Bar */}
-                  <div className="flex items-center justify-between pb-4 mb-4 border-b border-sand">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-sun" aria-hidden="true" />
-                      <span className="font-heading font-semibold text-base sm:text-lg text-ink">
-                        Example trip
-                      </span>
-                    </div>
-                    <span className="text-sm font-medium text-forest bg-sand/60 px-3 py-1 rounded-full">
-                      4 currencies
-                    </span>
-                  </div>
-
-                  {/* Sub-header context */}
-                  <div className="rounded-[10px] bg-bone border border-sand p-3.5 mb-4">
-                    <div className="flex items-center justify-between text-sm font-heading font-semibold text-ink/80 mb-1">
-                      <span>
-                        Route: {sampleDest} • {getAll("destination")[1]?.name || "Chobe, Botswana"}
-                      </span>
-                      <span className="text-forest">Custom Dates</span>
-                    </div>
-                    <p className="text-sm font-body text-ink/70 leading-normal">
-                      Combine your choice of destinations, lodges, activities and vehicle into one request.
-                    </p>
-                  </div>
-
-                  {/* 4-Pillar Itinerary Steps */}
-                  <div className="space-y-3 mb-5">
-                    <div className="flex items-center justify-between p-3 rounded-[10px] bg-bone border border-sand text-sm">
-                      <div className="flex items-center gap-3">
-                        <span className="w-7 h-7 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-sm shrink-0">
-                          1
-                        </span>
-                        <div>
-                          <p className="font-heading font-semibold text-ink">{sampleDest}</p>
-                          <p className="text-sm text-ink/65">2 nights • Custom dates</p>
-                        </div>
-                      </div>
-                      <span className="font-heading font-semibold text-forest text-sm">
-                        Destination
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between p-3 rounded-[10px] bg-bone border border-sand text-sm">
-                      <div className="flex items-center gap-3">
-                        <span className="w-7 h-7 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-sm shrink-0">
-                          2
-                        </span>
-                        <div>
-                          <p className="font-heading font-semibold text-ink">{sampleAct}</p>
-                          <p className="text-sm text-ink/65">Guided excursion</p>
-                        </div>
-                      </div>
-                      <span className="font-heading font-semibold text-forest text-sm">
-                        Activity
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between p-3 rounded-[10px] bg-bone border border-sand text-sm">
-                      <div className="flex items-center gap-3">
-                        <span className="w-7 h-7 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-sm shrink-0">
-                          3
-                        </span>
-                        <div>
-                          <p className="font-heading font-semibold text-ink">{sampleLodge}</p>
-                          <p className="text-sm text-ink/65">Full board reservation</p>
-                        </div>
-                      </div>
-                      <span className="font-heading font-semibold text-forest text-sm">
-                        Lodge
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between p-3 rounded-[10px] bg-bone border border-sand text-sm">
-                      <div className="flex items-center gap-3">
-                        <span className="w-7 h-7 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-sm shrink-0">
-                          4
-                        </span>
-                        <div>
-                          <p className="font-heading font-semibold text-ink">{sampleVeh}</p>
-                          <p className="text-sm text-ink/65">Equipped 4x4 hire</p>
-                        </div>
-                      </div>
-                      <span className="font-heading font-semibold text-forest text-sm">
-                        Vehicle hire
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Card Bottom: Live Multi-Currency Total & Action */}
-                  <div className="pt-4 border-t border-sand flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-heading font-medium text-ink/70">
-                        Estimated total in USD, EUR, GBP or ZAR
-                      </p>
-                      <p className="font-heading font-bold text-base text-ink">
-                        Calculated as you build
-                      </p>
-                    </div>
-                    <Link
-                      href="/trip"
-                      className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center px-4 py-2 rounded-[8px] bg-forest text-bone hover:bg-[#163920] font-heading font-semibold text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest"
-                    >
-                      Build trip →
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </Container>
-      </section>
+      {/* A. HERO SECTION — full-bleed video slideshow (homepage only) */}
+      <div className="-mt-[88px]">
+        <HeroVideo />
+      </div>
 
       {/* B. TRUST STRIP */}
       <Section sand className="py-6 sm:py-8 border-b border-forest/10">

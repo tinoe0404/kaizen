@@ -43,7 +43,7 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search questions (e.g. visa, malaria, currency, rafting)..."
-            className="w-full min-h-[44px] px-4 py-2.5 rounded-control bg-white border border-sand text-ink placeholder:text-ink/50 text-sm sm:text-base font-body focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest transition-colors"
+            className="w-full min-h-[44px] px-4 py-2.5 rounded-control bg-white border border-sand text-ink placeholder:text-ink/50 text-base font-body focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest transition-colors"
           />
           {searchQuery && (
             <button

@@ -250,9 +250,9 @@ export function Header() {
         <div
           ref={panelRef}
           id="mobile-navigation"
-          className="md:hidden w-full bg-white border-b border-sand shadow-none overflow-y-auto max-h-[calc(100dvh-88px)]"
+          className="md:hidden w-full bg-white/98 backdrop-blur-md border-b border-sand shadow-lg overflow-y-auto max-h-[calc(100dvh-88px)]"
         >
-          <Container className="py-4 flex flex-col gap-1">
+          <Container className="py-4 pb-[calc(20px+env(safe-area-inset-bottom,0px))] flex flex-col gap-1">
             {NAV_LINKS.map((link, idx) => (
               <Link
                 key={link.href}

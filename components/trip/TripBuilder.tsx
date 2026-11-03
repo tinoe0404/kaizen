@@ -91,7 +91,7 @@ export function TripBuilder() {
           {/* ── Left Column: Offerings & Preferences (7 cols) ── */}
           <div className="lg:col-span-7 space-y-8">
             {/* Dates & Guests Control Panel */}
-            <div className="bg-sand/40 border border-sand rounded-[12px] p-5 sm:p-6 space-y-5">
+            <div className="bg-sand/40 border border-sand rounded-[12px] p-4 sm:p-6 space-y-4 sm:space-y-5">
               <h2 className="font-heading font-semibold text-lg text-ink">
                 Dates and group size
               </h2>
@@ -187,12 +187,12 @@ export function TripBuilder() {
               </div>
             </div>
 
-            {/* Category Filter Pills */}
+            {/* Category Filter Tabs */}
             <div>
               <div
                 role="tablist"
                 aria-label="Offerings categories"
-                className="flex flex-wrap gap-2 mb-4"
+                className="grid grid-cols-3 sm:flex sm:flex-wrap gap-1.5 sm:gap-2 mb-4"
               >
                 {CATEGORIES.map((cat) => {
                   const isActive = activeCategory === cat.key;
@@ -203,7 +203,7 @@ export function TripBuilder() {
                       role="tab"
                       aria-selected={isActive}
                       onClick={() => setActiveCategory(cat.key)}
-                      className={`min-h-[44px] px-4 py-2 rounded-[8px] font-heading font-semibold text-sm transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest ${
+                      className={`min-h-[44px] px-2 sm:px-4 py-2 rounded-[8px] font-heading font-semibold text-xs sm:text-sm transition-colors cursor-pointer text-center flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest ${
                         isActive
                           ? "bg-forest text-bone"
                           : "bg-white border border-ink/20 text-ink/80 hover:bg-sand/50"
@@ -217,7 +217,7 @@ export function TripBuilder() {
 
               {/* Destination filter sub-bar for Activities & Lodges */}
               {activeCategory !== "vehicle" && (
-                <div className="flex flex-col gap-2 mb-6 p-4 rounded-[12px] bg-sand/30 border border-sand">
+                <div className="flex flex-col gap-2 mb-6 p-3 sm:p-4 rounded-[12px] bg-sand/30 border border-sand">
                   <div className="flex items-center justify-between text-xs font-heading">
                     <span className="font-semibold uppercase tracking-wider text-ink/70">
                       Filter by destination:
@@ -232,17 +232,17 @@ export function TripBuilder() {
                       </button>
                     )}
                   </div>
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1.5 no-scrollbar -mx-3 px-3 sm:mx-0 sm:px-0 sm:flex-wrap">
                     <button
                       type="button"
                       onClick={() => setSelectedDestination("all")}
-                      className={`min-h-[44px] px-3.5 py-1.5 rounded-full text-xs font-heading font-semibold transition-colors cursor-pointer ${
+                      className={`min-h-[44px] px-3.5 py-1.5 rounded-full text-xs font-heading font-semibold transition-colors cursor-pointer shrink-0 ${
                         selectedDestination === "all"
                           ? "bg-forest text-bone shadow-xs"
                           : "bg-white border border-sand text-ink/80 hover:bg-sand/60"
                       }`}
                     >
-                      All destinations ({allCategoryOfferings.length})
+                      All ({allCategoryOfferings.length})
                     </button>
                     {destinations.map((dest) => {
                       const count = allCategoryOfferings.filter(
@@ -255,7 +255,7 @@ export function TripBuilder() {
                           key={dest.slug}
                           type="button"
                           onClick={() => setSelectedDestination(dest.slug)}
-                          className={`min-h-[44px] px-3.5 py-1.5 rounded-full text-xs font-heading font-semibold transition-colors cursor-pointer ${
+                          className={`min-h-[44px] px-3.5 py-1.5 rounded-full text-xs font-heading font-semibold transition-colors cursor-pointer shrink-0 ${
                             isSel
                               ? "bg-forest text-bone shadow-xs"
                               : "bg-white border border-sand text-ink/80 hover:bg-sand/60"
@@ -299,7 +299,7 @@ export function TripBuilder() {
 
           {/* ── Right Column: Sticky Summary Panel (5 cols) ── */}
           <div className="lg:col-span-5">
-            <div id="trip-summary" className="bg-white border border-sand rounded-[14px] p-6 lg:sticky lg:top-24 shadow-sm">
+            <div id="trip-summary" className="bg-white border border-sand rounded-[14px] p-4 sm:p-6 lg:sticky lg:top-24 shadow-sm">
               <div className="flex items-center justify-between pb-4 border-b border-sand">
                 <h2 tabIndex={-1} className="font-heading font-bold text-xl text-ink focus:outline-none">
                   Your trip

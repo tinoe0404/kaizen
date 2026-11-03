@@ -127,8 +127,8 @@ export function DetailPage({ category, slug }: DetailPageProps) {
       <Section className="bg-bone pt-4 pb-12 md:pb-16">
         <Container>
           {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="pb-6">
-            <ol className="flex flex-wrap items-center gap-2 text-sm text-ink/75 font-body">
+          <nav aria-label="Breadcrumb" className="pb-6 overflow-x-auto no-scrollbar py-1">
+            <ol className="flex items-center gap-2 text-sm text-ink/75 font-body whitespace-nowrap">
               <li>
                 <Link
                   href="/"
@@ -168,7 +168,7 @@ export function DetailPage({ category, slug }: DetailPageProps) {
             </div>
 
             {/* Info Panel */}
-            <div className="lg:col-span-5 w-full flex flex-col bg-white p-6 sm:p-8 rounded-[14px] border border-sand">
+            <div className="lg:col-span-5 w-full flex flex-col bg-white p-4 sm:p-6 md:p-8 rounded-[14px] border border-sand">
               <h1 className="font-heading font-bold text-3xl sm:text-4xl text-ink leading-tight">
                 {offering.name}
               </h1>

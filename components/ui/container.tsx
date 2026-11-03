@@ -12,7 +12,7 @@ export function Container({
 }: ContainerProps) {
   return (
     <div
-      className={`max-w-[1200px] mx-auto px-6 w-full box-border ${className}`.trim()}
+      className={`max-w-[1200px] mx-auto px-4 sm:px-6 w-full box-border ${className}`.trim()}
       {...props}
     >
       {children}

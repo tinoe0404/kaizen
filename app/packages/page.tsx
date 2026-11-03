@@ -102,14 +102,14 @@ export default function PackagesPage() {
             Build your unique expedition from scratch with our interactive trip
             planner or contact our safari specialists directly.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Button href="/trip" variant="primary">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto max-w-md sm:max-w-none mx-auto">
+            <Button href="/trip" variant="primary" className="w-full sm:w-auto justify-center">
               Build custom trip
             </Button>
             <Button
               href="/contact"
               variant="outline"
-              className="text-bone border-bone/40 hover:bg-bone/10"
+              className="text-bone border-bone/40 hover:bg-bone/10 w-full sm:w-auto justify-center"
             >
               Contact our team
             </Button>

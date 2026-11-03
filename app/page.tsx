@@ -272,7 +272,7 @@ export default function HomePage() {
       {/* F. CTA BAND */}
       <section className="py-8 md:py-14">
         <Container>
-          <div className="bg-forest text-bone rounded-[20px] p-8 sm:p-12 lg:p-16 flex flex-col items-center text-center">
+          <div className="bg-forest text-bone rounded-[16px] sm:rounded-[20px] p-6 sm:p-12 lg:p-16 flex flex-col items-center text-center">
             <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-bone">
               Ready when you are.
             </h2>
@@ -280,11 +280,11 @@ export default function HomePage() {
               Build your trip in a few minutes, or message us on WhatsApp and we
               will help.
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <Button href="/trip" variant="primary">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
+              <Button href="/trip" variant="primary" className="w-full sm:w-auto justify-center">
                 Build your trip
               </Button>
-              <WhatsAppLink variant="outline-bone">
+              <WhatsAppLink variant="outline-bone" className="w-full sm:w-auto justify-center">
                 WhatsApp us
               </WhatsAppLink>
             </div>

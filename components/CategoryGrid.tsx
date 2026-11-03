@@ -96,8 +96,8 @@ export function CategoryGrid({
           role="region"
           aria-label="Filter by destination"
         >
-          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-            <span className="text-xs uppercase tracking-wider font-heading font-semibold text-ink/60 select-none mr-1">
+          <div className="flex items-center gap-2 sm:gap-2.5 overflow-x-auto pb-1.5 no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
+            <span className="text-xs uppercase tracking-wider font-heading font-semibold text-ink/60 select-none mr-1 shrink-0">
               Destination:
             </span>
 
@@ -105,7 +105,7 @@ export function CategoryGrid({
               type="button"
               onClick={() => handleSelect("all")}
               aria-pressed={selectedDestination === "all"}
-              className={`min-h-[44px] px-4 py-2 rounded-control font-heading text-sm transition-colors flex items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest ${
+              className={`min-h-[44px] px-4 py-2 rounded-control font-heading text-sm transition-colors flex items-center gap-2 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest ${
                 selectedDestination === "all"
                   ? "bg-forest text-bone font-medium shadow-none"
                   : "bg-white text-ink/80 hover:text-ink hover:bg-sand/40 border border-sand"
@@ -131,7 +131,7 @@ export function CategoryGrid({
                   type="button"
                   onClick={() => handleSelect(dest.slug)}
                   aria-pressed={isSelected}
-                  className={`min-h-[44px] px-4 py-2 rounded-control font-heading text-sm transition-colors flex items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest ${
+                  className={`min-h-[44px] px-4 py-2 rounded-control font-heading text-sm transition-colors flex items-center gap-2 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest ${
                     isSelected
                       ? "bg-forest text-bone font-medium shadow-none"
                       : "bg-white text-ink/80 hover:text-ink hover:bg-sand/40 border border-sand"

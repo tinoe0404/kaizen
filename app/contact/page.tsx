@@ -171,7 +171,7 @@ export default function ContactPage() {
             Pick your destinations, activities, lodges, and vehicles to get an
             estimated total and send one request.
           </p>
-          <Button href="/trip" variant="primary">
+          <Button href="/trip" variant="primary" className="w-full sm:w-auto justify-center max-w-xs mx-auto">
             Build your trip
           </Button>
         </Container>

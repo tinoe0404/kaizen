@@ -46,7 +46,7 @@ export function OfferingCard({
       />
 
       {/* Card Content */}
-      <div className="p-5 sm:p-6 flex flex-col flex-1 min-w-0">
+      <div className="p-4 sm:p-6 flex flex-col flex-1 min-w-0">
         <HeadingTag className="font-heading font-semibold text-xl text-ink group-hover:text-forest transition-colors break-words">
           <Link
             href={href}
@@ -83,7 +83,7 @@ export function OfferingCard({
         )}
 
         {/* Card actions: For destinations -> Explore button. For others -> AddToTripButton + View details */}
-        <div className="mt-4 pt-2 flex items-center gap-3">
+        <div className="mt-4 pt-2 flex items-center gap-2.5 sm:gap-3">
           {isDestination ? (
             <Link
               href={href}
@@ -102,7 +102,7 @@ export function OfferingCard({
                 href={href}
                 tabIndex={-1}
                 aria-hidden="true"
-                className="inline-flex items-center justify-center font-heading font-semibold text-sm min-h-[44px] px-3.5 py-2 rounded-[8px] border border-sand hover:border-forest/40 text-ink/80 hover:text-forest transition-colors select-none relative z-10 text-center"
+                className="inline-flex items-center justify-center font-heading font-semibold text-xs sm:text-sm min-h-[44px] px-3 sm:px-3.5 py-2 rounded-[8px] border border-sand hover:border-forest/40 text-ink/80 hover:text-forest transition-colors select-none relative z-10 text-center shrink-0"
               >
                 View details
               </Link>

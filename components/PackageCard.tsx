@@ -61,7 +61,7 @@ export function PackageCard({ pkg, headingLevel = "h2" }: PackageCardProps) {
       </div>
 
       {/* Card Body */}
-      <div className="p-5 sm:p-6 flex flex-col flex-1">
+      <div className="p-4 sm:p-6 flex flex-col flex-1">
         <HeadingTag className="font-heading font-bold text-xl text-ink group-hover:text-forest transition-colors">
           {pkg.title}
         </HeadingTag>

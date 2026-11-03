@@ -43,6 +43,8 @@ export function HeroVideo() {
   const [isLoaded, setIsLoaded] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
 
   const slideCount = SLIDES.length;
 
@@ -55,6 +57,33 @@ export function HeroVideo() {
 
   const next = useCallback(() => goTo(active + 1), [active, goTo]);
   const prev = useCallback(() => goTo(active - 1), [active, goTo]);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLElement>) => {
+    if (e.touches.length === 1) {
+      touchStartXRef.current = e.touches[0].clientX;
+      touchStartYRef.current = e.touches[0].clientY;
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLElement>) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchEndX - touchStartXRef.current;
+    const deltaY = touchEndY - touchStartYRef.current;
+
+    // 40px threshold and horizontal motion dominates vertical
+    if (Math.abs(deltaX) >= 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX < 0) {
+        next();
+      } else {
+        prev();
+      }
+    }
+
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+  };
 
   // Auto-advance timer
   useEffect(() => {
@@ -81,8 +110,10 @@ export function HeroVideo() {
 
   return (
     <section
-      className="relative w-full h-[100dvh] min-h-[520px] max-h-[1200px] overflow-hidden"
+      className="relative w-full h-[100dvh] min-h-[520px] max-h-[1200px] overflow-hidden touch-pan-y"
       aria-label="Hero slideshow"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {/* ── Video layers ── */}
       {SLIDES.map((slide, i) => (
@@ -131,35 +162,35 @@ export function HeroVideo() {
 
       {/* ── Content overlay ── */}
       <div
-        className={`relative z-10 flex flex-col justify-end h-full px-5 sm:px-8 md:px-12 lg:px-20 pb-20 sm:pb-24 md:pb-28 lg:pb-32 transition-opacity duration-700 ${
+        className={`relative z-10 flex flex-col justify-end h-full px-4 sm:px-8 md:px-12 lg:px-20 pb-20 sm:pb-24 md:pb-28 lg:pb-32 transition-opacity duration-700 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
       >
         {/* Label badge */}
         {SLIDES[active].label && (
-          <span className="font-heading font-semibold text-xs sm:text-sm tracking-[0.2em] uppercase text-bone/90 mb-3 sm:mb-4 select-none">
+          <span className="font-heading font-semibold text-xs sm:text-sm tracking-[0.2em] uppercase text-bone/90 mb-2 sm:mb-4 select-none">
             — {SLIDES[active].label}
           </span>
         )}
 
         {/* Headline */}
         <h1
-          className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.08] tracking-tight max-w-3xl whitespace-pre-line"
+          className="font-heading font-bold text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.1] sm:leading-[1.08] tracking-tight max-w-3xl whitespace-pre-line"
           key={`headline-${active}`}
         >
           {SLIDES[active].headline}
         </h1>
 
         {/* Subtitle */}
-        <p className="font-body text-base sm:text-lg md:text-xl text-white/85 max-w-xl mt-4 sm:mt-5 leading-relaxed">
+        <p className="font-body text-sm sm:text-lg md:text-xl text-white/85 max-w-xl mt-3 sm:mt-5 leading-relaxed">
           {SLIDES[active].subtitle}
         </p>
 
         {/* CTA */}
-        <div className="flex flex-wrap items-center gap-4 mt-6 sm:mt-8">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mt-6 sm:mt-8">
           <a
             href="/trip"
-            className="inline-flex items-center justify-center gap-2 min-h-[48px] px-7 py-3 rounded-full bg-sun text-ink font-heading font-semibold text-base sm:text-lg hover:bg-[#cf7d18] active:bg-[#bd7114] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun select-none"
+            className="inline-flex items-center justify-center gap-2 min-h-[48px] px-7 py-3 rounded-full bg-sun text-ink font-heading font-semibold text-base sm:text-lg hover:bg-[#cf7d18] active:bg-[#bd7114] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun select-none text-center"
           >
             Plan a Trip
             <svg
@@ -177,7 +208,7 @@ export function HeroVideo() {
           </a>
           <a
             href="#how"
-            className="inline-flex items-center justify-center min-h-[48px] px-6 py-3 rounded-full border-2 border-white/60 text-white font-heading font-semibold text-base sm:text-lg hover:bg-white/15 active:bg-white/25 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white select-none"
+            className="inline-flex items-center justify-center min-h-[48px] px-6 py-3 rounded-full border-2 border-white/60 text-white font-heading font-semibold text-base sm:text-lg hover:bg-white/15 active:bg-white/25 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white select-none text-center"
           >
             How it works
           </a>
@@ -185,7 +216,7 @@ export function HeroVideo() {
       </div>
 
       {/* ── Slide navigation arrows + dots (bottom-left) ── */}
-      <div className="absolute z-20 bottom-6 sm:bottom-8 left-5 sm:left-8 md:left-12 lg:left-20 flex items-center gap-3">
+      <div className="absolute z-20 bottom-5 sm:bottom-8 left-4 sm:left-8 md:left-12 lg:left-20 flex items-center gap-3">
         <button
           type="button"
           onClick={prev}

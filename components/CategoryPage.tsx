@@ -58,7 +58,7 @@ export function CategoryPage({ category }: CategoryPageProps) {
           <h2 className="font-heading font-bold text-2xl sm:text-3xl text-ink mb-6">
             Ready to put it together?
           </h2>
-          <Button href="/trip" variant="primary">
+          <Button href="/trip" variant="primary" className="w-full sm:w-auto justify-center max-w-xs mx-auto">
             Build your trip
           </Button>
         </Container>

@@ -118,6 +118,11 @@ export function HeroVideo() {
         className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20 pointer-events-none"
         aria-hidden="true"
       />
+      {/* Top scrim gradient for header & logo legibility over bright video frames */}
+      <div
+        className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-black/85 via-black/45 to-transparent pointer-events-none"
+        aria-hidden="true"
+      />
       {/* Secondary left-side gradient for headline area */}
       <div
         className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent pointer-events-none"

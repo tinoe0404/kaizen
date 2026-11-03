@@ -144,18 +144,32 @@ export function Header() {
         {/* Logo */}
         <Link
           href="/"
-          className="inline-flex items-center min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink rounded-[8px]"
+          className="relative inline-flex items-center min-h-[44px] h-[72px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink rounded-[8px]"
           aria-label="Kaizen Travel and Adventures home"
           onClick={handleClose}
         >
+          {/* Default colored logo for light navbar background */}
           <Image
             src="/logo.png"
             alt="Kaizen Travel and Adventures"
             width={116}
             height={72}
             priority
-            className={`h-[72px] w-auto object-contain transition-all duration-300 ${
-              isTransparent ? "brightness-0 invert" : ""
+            className={`h-[72px] w-auto object-contain transition-opacity duration-300 ${
+              isTransparent ? "opacity-0" : "opacity-100"
+            }`}
+            style={{ height: "72px", width: "auto" }}
+          />
+          {/* White logo for transparent navbar over hero video */}
+          <Image
+            src="/logo-white.png"
+            alt=""
+            aria-hidden="true"
+            width={116}
+            height={72}
+            priority
+            className={`absolute inset-0 h-[72px] w-auto object-contain transition-opacity duration-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] ${
+              isTransparent ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}
             style={{ height: "72px", width: "auto" }}
           />

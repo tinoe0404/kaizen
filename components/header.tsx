@@ -118,13 +118,26 @@ export function Header() {
   };
 
   const isHome = pathname === "/";
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const isTransparent = isHome && !isScrolled && !isOpen;
 
   return (
     <header
-      className={`w-full sticky top-0 z-40 transition-colors duration-300 ${
-        isHome
+      className={`w-full sticky top-0 z-40 transition-all duration-300 ${
+        isTransparent
           ? "bg-transparent border-b border-white/10"
-          : "bg-white border-b border-sand"
+          : "bg-white/95 backdrop-blur-md border-b border-sand shadow-xs"
       }`}
     >
       <Container className="flex items-center justify-between h-[88px]">
@@ -142,7 +155,7 @@ export function Header() {
             height={72}
             priority
             className={`h-[72px] w-auto object-contain transition-all duration-300 ${
-              isHome ? "brightness-0 invert" : ""
+              isTransparent ? "brightness-0 invert" : ""
             }`}
             style={{ height: "72px", width: "auto" }}
           />
@@ -158,7 +171,7 @@ export function Header() {
               key={link.href}
               href={link.href}
               className={`font-heading font-semibold transition-colors min-h-[44px] inline-flex items-center px-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 rounded-[4px] ${
-                isHome
+                isTransparent
                   ? "text-white/90 hover:text-white focus-visible:outline-white"
                   : "text-ink hover:text-forest focus-visible:outline-ink"
               }`}
@@ -176,7 +189,7 @@ export function Header() {
           ref={menuButtonRef}
           type="button"
           className={`md:hidden w-[48px] h-[48px] min-h-[48px] min-w-[48px] inline-flex items-center justify-center rounded-[8px] border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer ${
-            isHome
+            isTransparent
               ? "border-white/40 text-white hover:bg-white/15 focus-visible:outline-white"
               : "border-sand text-ink hover:bg-sand/40 focus-visible:outline-ink"
           }`}

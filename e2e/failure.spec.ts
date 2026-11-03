@@ -23,7 +23,7 @@ test.describe("Failure and Recovery Handling", () => {
   }) => {
     await page.goto("/trip", { waitUntil: "networkidle" });
 
-    // 1. Add destination to trip
+    // 1. Add activity to trip
     const addBtn = page.locator('button:has-text("Add to trip")').first();
     await addBtn.click();
     await expect(page.locator('button:has-text("Added")').first()).toBeVisible();
@@ -71,7 +71,7 @@ test.describe("Failure and Recovery Handling", () => {
 
     // Assert: Trip is retained (not cleared) in the summary panel
     await expect(
-      page.locator("#trip-summary").getByRole("link", { name: "Safari Destination A" })
+      page.locator("#trip-summary").getByRole("link", { name: "Safari Activity A" })
     ).toBeVisible();
     await expect(page.locator("text=Your trip is empty.")).not.toBeVisible();
 

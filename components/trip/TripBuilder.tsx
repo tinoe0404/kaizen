@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useTrip } from "./TripProvider";
 import { RequestForm } from "./RequestForm";
 import { getAll } from "@/lib/content";
-import { Category, Offering } from "@/content/types";
+import { Offering } from "@/content/types";
 import { currencies, Currency, ratesUpdated } from "@/content/currency";
 import { formatCurrencyAmount } from "@/lib/pricing";
 import { offeringHref } from "@/lib/routes";
@@ -17,10 +17,9 @@ import { OfferingCard } from "@/components/OfferingCard";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 
-const CATEGORIES: { key: Category; label: string }[] = [
-  { key: "destination", label: "Destinations" },
+const CATEGORIES: { key: "activity" | "lodge" | "vehicle"; label: string }[] = [
   { key: "activity", label: "Activities" },
-  { key: "lodge", label: "Lodges" },
+  { key: "lodge", label: "Lodges & Stays" },
   { key: "vehicle", label: "Vehicle hire" },
 ];
 
@@ -37,7 +36,16 @@ export function TripBuilder() {
     clear,
   } = useTrip();
 
-  const [activeCategory, setActiveCategory] = useState<Category>("destination");
+  const [activeCategory, setActiveCategory] = useState<
+    "activity" | "lodge" | "vehicle"
+  >("activity");
+  const [selectedDestination, setSelectedDestination] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("destination") || "all";
+    }
+    return "all";
+  });
 
   // Handle ?add=<id> in URL
   useEffect(() => {
@@ -53,7 +61,14 @@ export function TripBuilder() {
     }
   }, [isReady, add]);
 
-  const categoryOfferings: Offering[] = getAll(activeCategory);
+  const destinations = getAll("destination");
+  const allCategoryOfferings: Offering[] = getAll(activeCategory);
+  const categoryOfferings: Offering[] =
+    selectedDestination === "all" || activeCategory === "vehicle"
+      ? allCategoryOfferings
+      : allCategoryOfferings.filter(
+          (item) => item.destinationSlug === selectedDestination
+        );
 
   // Compute minimum date for arrival (today in local ISO)
   const todayIso = new Date().toISOString().split("T")[0];
@@ -67,8 +82,8 @@ export function TripBuilder() {
             Build your trip
           </h1>
           <p className="mt-2 text-ink/75 max-w-2xl text-base md:text-lg">
-            Pick your destinations, activities, lodges and vehicle. See your
-            estimate in your preferred currency and send one combined request.
+            Pick your activities, lodges and vehicle hire. Filter by destination,
+            see your estimate in your preferred currency and send one combined request.
           </p>
         </div>
 
@@ -177,7 +192,7 @@ export function TripBuilder() {
               <div
                 role="tablist"
                 aria-label="Offerings categories"
-                className="flex flex-wrap gap-2 mb-6"
+                className="flex flex-wrap gap-2 mb-4"
               >
                 {CATEGORIES.map((cat) => {
                   const isActive = activeCategory === cat.key;
@@ -200,16 +215,85 @@ export function TripBuilder() {
                 })}
               </div>
 
+              {/* Destination filter sub-bar for Activities & Lodges */}
+              {activeCategory !== "vehicle" && (
+                <div className="flex flex-col gap-2 mb-6 p-4 rounded-[12px] bg-sand/30 border border-sand">
+                  <div className="flex items-center justify-between text-xs font-heading">
+                    <span className="font-semibold uppercase tracking-wider text-ink/70">
+                      Filter by destination:
+                    </span>
+                    {selectedDestination !== "all" && (
+                      <button
+                        type="button"
+                        onClick={() => setSelectedDestination("all")}
+                        className="text-forest hover:underline font-medium min-h-[32px] inline-flex items-center cursor-pointer"
+                      >
+                        Show all ({allCategoryOfferings.length})
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedDestination("all")}
+                      className={`min-h-[44px] px-3.5 py-1.5 rounded-full text-xs font-heading font-semibold transition-colors cursor-pointer ${
+                        selectedDestination === "all"
+                          ? "bg-forest text-bone shadow-xs"
+                          : "bg-white border border-sand text-ink/80 hover:bg-sand/60"
+                      }`}
+                    >
+                      All destinations ({allCategoryOfferings.length})
+                    </button>
+                    {destinations.map((dest) => {
+                      const count = allCategoryOfferings.filter(
+                        (i) => i.destinationSlug === dest.slug
+                      ).length;
+                      if (count === 0) return null;
+                      const isSel = selectedDestination === dest.slug;
+                      return (
+                        <button
+                          key={dest.slug}
+                          type="button"
+                          onClick={() => setSelectedDestination(dest.slug)}
+                          className={`min-h-[44px] px-3.5 py-1.5 rounded-full text-xs font-heading font-semibold transition-colors cursor-pointer ${
+                            isSel
+                              ? "bg-forest text-bone shadow-xs"
+                              : "bg-white border border-sand text-ink/80 hover:bg-sand/60"
+                          }`}
+                        >
+                          {dest.name} ({count})
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
               {/* Offerings Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {categoryOfferings.map((offering) => (
-                  <OfferingCard
-                    key={offering.id}
-                    offering={offering}
-                    headingLevel="h3"
-                  />
-                ))}
-              </div>
+              {categoryOfferings.length === 0 ? (
+                <div className="p-8 text-center bg-white rounded-[12px] border border-sand">
+                  <p className="font-body text-ink/75 text-sm">
+                    No {activeCategory === "activity" ? "activities" : "lodges"} found for this destination.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedDestination("all")}
+                    className="mt-3 text-sm font-heading font-semibold text-forest hover:underline min-h-[44px] inline-flex items-center cursor-pointer"
+                  >
+                    View all {activeCategory === "activity" ? "activities" : "lodges"} →
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  {categoryOfferings.map((offering) => (
+                    <OfferingCard
+                      key={offering.id}
+                      offering={offering}
+                      headingLevel="h3"
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -273,8 +357,8 @@ export function TripBuilder() {
                   </div>
                 ) : derived.lines.length === 0 ? (
                   <p className="text-sm text-ink/60 py-4 text-center">
-                    Your trip is empty. Explore our destinations, activities,
-                    lodges and vehicle hire to add them to your trip.
+                    Your trip is empty. Explore our activities, lodges and vehicle hire
+                    on the left, or add a curated safari package.
                   </p>
                 ) : (
                   <ul className="space-y-3 divide-y divide-sand/60">

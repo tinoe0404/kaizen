@@ -19,9 +19,8 @@ test.describe("Full Trip Booking Flow", () => {
     // 1. Navigate to Trip Builder page
     await page.goto("/trip", { waitUntil: "networkidle" });
 
-    // 2. Add one item of each category via the UI
+    // 2. Add one item of each bookable category via the UI
     const categories = [
-      "Destinations",
       "Activities",
       "Lodges",
       "Vehicle hire",
@@ -106,19 +105,17 @@ test.describe("Full Trip Booking Flow", () => {
     expect(teamEmail!.subject).toContain(reference);
     expect(teamEmail!.text).toContain(reference);
 
-    // Assert every item name is in the team email
-    expect(teamEmail!.text).toContain("Safari Destination A");
+    // Assert every bookable item name is in the team email
     expect(teamEmail!.text).toContain("Safari Activity A");
     expect(teamEmail!.text).toContain("Safari Lodge A");
     expect(teamEmail!.text).toContain("Safari Vehicle A");
 
     // Compute total independently inside the test without importing app code:
-    // Destination: 100 * 4 guests = $400 USD -> 400 * 18.5 = 7,400 ZAR
     // Activity: 150 flat group = $150 USD -> 150 * 18.5 = 2,775 ZAR
     // Lodge: 200 * 4 guests * 3 nights = $2,400 USD -> 2400 * 18.5 = 44,400 ZAR
     // Vehicle: 250 * (3 nights + 1 day = 4 days) = $1,000 USD -> 1000 * 18.5 = 18,500 ZAR
-    // Total ZAR: 7,400 + 2,775 + 44,400 + 18,500 = 73,075 ZAR
-    const expectedIndependentTotalZar = "73,075";
+    // Total ZAR: 2,775 + 44,400 + 18,500 = 65,675 ZAR
+    const expectedIndependentTotalZar = "65,675";
     expect(teamEmail!.text).toContain(expectedIndependentTotalZar);
 
     // 11. Assert: Guest email details

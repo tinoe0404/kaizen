@@ -1,156 +1,66 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 
-/**
- * A single hero slide: each has a video (mp4 + webm), poster, headline,
- * subtitle, and an optional label badge (e.g. "Explore").
- */
-interface HeroSlide {
-  mp4: string;
-  webm: string;
-  poster: string;
-  headline: string;
-  subtitle: string;
-  label?: string;
-}
-
-const SLIDES: HeroSlide[] = [
-  {
-    mp4: "/videos/victoria-falls.mp4",
-    webm: "/videos/victoria-falls.webm",
-    poster: "/videos/victoria-falls-poster.jpg",
-    headline: "Discover Southern Africa\nWith Kaizen",
-    subtitle:
-      "Your trusted local tour operator for bespoke safaris, activities, and lodge bookings across Victoria Falls, Chobe, and Namibia.",
-    label: "Kaizen Travel & Adventures",
-  },
-];
-
-const SLIDE_DURATION_MS = 8000;
+const HERO = {
+  mp4: "/videos/victoria-falls.mp4",
+  webm: "/videos/victoria-falls.webm",
+  poster: "/videos/victoria-falls-poster.jpg",
+  headline: "Discover Southern Africa\nWith Kaizen",
+  subtitle:
+    "Your trusted local tour operator for bespoke safaris, activities, and lodge bookings across Victoria Falls, Chobe, and Namibia.",
+  label: "Kaizen Travel & Adventures",
+};
 
 export function HeroVideo() {
   // Preload the hero poster image with high priority so it renders before the video loads
-  ReactDOM.preload(SLIDES[0].poster, { as: "image", fetchPriority: "high" });
+  ReactDOM.preload(HERO.poster, { as: "image", fetchPriority: "high" });
 
-  const [active, setActive] = useState(0);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const touchStartXRef = useRef<number | null>(null);
-  const touchStartYRef = useRef<number | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  const slideCount = SLIDES.length;
-
-  const goTo = useCallback(
-    (index: number) => {
-      setActive((index + slideCount) % slideCount);
-    },
-    [slideCount]
-  );
-
-  const next = useCallback(() => goTo(active + 1), [active, goTo]);
-  const prev = useCallback(() => goTo(active - 1), [active, goTo]);
-
-  const handleTouchStart = (e: React.TouchEvent<HTMLElement>) => {
-    if (slideCount <= 1) return;
-    if (e.touches.length === 1) {
-      touchStartXRef.current = e.touches[0].clientX;
-      touchStartYRef.current = e.touches[0].clientY;
-    }
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent<HTMLElement>) => {
-    if (slideCount <= 1) return;
-    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
-    const touchEndX = e.changedTouches[0].clientX;
-    const touchEndY = e.changedTouches[0].clientY;
-    const deltaX = touchEndX - touchStartXRef.current;
-    const deltaY = touchEndY - touchStartYRef.current;
-
-    // 40px threshold and horizontal motion dominates vertical
-    if (Math.abs(deltaX) >= 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
-      if (deltaX < 0) {
-        next();
-      } else {
-        prev();
-      }
-    }
-
-    touchStartXRef.current = null;
-    touchStartYRef.current = null;
-  };
-
-  // Auto-advance timer
   useEffect(() => {
-    if (slideCount <= 1) return;
-    timerRef.current = setTimeout(next, SLIDE_DURATION_MS);
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [active, next, slideCount]);
-
-  // Play the active video, pause others
-  useEffect(() => {
-    videoRefs.current.forEach((vid, i) => {
-      if (!vid) return;
-      vid.defaultMuted = true;
-      vid.muted = true;
-      if (i === active) {
-        vid.currentTime = 0;
-        vid.play().catch(() => {
-          /* autoplay may be blocked; poster is shown */
-        });
-      } else {
-        vid.pause();
-      }
+    const vid = videoRef.current;
+    if (!vid) return;
+    vid.defaultMuted = true;
+    vid.muted = true;
+    vid.play().catch(() => {
+      /* browser autoplay policy fallback: poster background remains visible */
     });
-  }, [active]);
+  }, []);
 
   return (
     <section
-      className="relative w-full h-[100dvh] min-h-[520px] max-h-[1200px] overflow-hidden touch-pan-y bg-cover bg-center bg-no-repeat"
+      className="relative w-full h-[100dvh] min-h-[520px] max-h-[1200px] overflow-hidden bg-cover bg-center bg-no-repeat"
       aria-label="Hero showcase"
       style={{
         backgroundColor: "#1a3a2a",
-        backgroundImage: `url(${SLIDES[0].poster})`,
+        backgroundImage: `url(${HERO.poster})`,
       }}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
-      {/* ── Video layers ── */}
-      {SLIDES.map((slide, i) => (
-        <div
-          key={slide.mp4}
-          className="absolute inset-0 transition-opacity duration-1000 ease-in-out pointer-events-none"
-          style={{ opacity: i === active ? 1 : 0 }}
-          aria-hidden={i !== active}
+      {/* ── Video layer ── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+      >
+        <video
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          poster={HERO.poster}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          disablePictureInPicture
+          disableRemotePlayback
+          tabIndex={-1}
+          aria-hidden="true"
         >
-          <video
-            ref={(el) => {
-              videoRefs.current[i] = el;
-              if (el) {
-                el.defaultMuted = true;
-                el.muted = true;
-              }
-            }}
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-            poster={slide.poster}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            disablePictureInPicture
-            disableRemotePlayback
-            tabIndex={-1}
-            aria-hidden="true"
-          >
-            <source src={slide.webm} type="video/webm" />
-            <source src={slide.mp4} type="video/mp4" />
-          </video>
-        </div>
-      ))}
+          <source src={HERO.webm} type="video/webm" />
+          <source src={HERO.mp4} type="video/mp4" />
+        </video>
+      </div>
 
       {/* ── Gradient overlay for text legibility ── */}
       <div
@@ -171,23 +81,20 @@ export function HeroVideo() {
       {/* ── Content overlay ── */}
       <div className="relative z-10 flex flex-col justify-end h-full px-4 sm:px-8 md:px-12 lg:px-20 pb-[calc(var(--float-bottom,16px)+3.75rem)] sm:pb-24 md:pb-28 lg:pb-32">
         {/* Label badge */}
-        {SLIDES[active].label && (
+        {HERO.label && (
           <span className="font-heading font-semibold text-xs sm:text-sm tracking-[0.2em] uppercase text-bone/90 mb-1.5 sm:mb-4 select-none">
-            — {SLIDES[active].label}
+            — {HERO.label}
           </span>
         )}
 
         {/* Headline */}
-        <h1
-          className="font-heading font-bold text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.12] sm:leading-[1.08] tracking-tight max-w-3xl whitespace-pre-line"
-          key={`headline-${active}`}
-        >
-          {SLIDES[active].headline}
+        <h1 className="font-heading font-bold text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.12] sm:leading-[1.08] tracking-tight max-w-3xl whitespace-pre-line">
+          {HERO.headline}
         </h1>
 
         {/* Subtitle */}
         <p className="font-body text-sm sm:text-lg md:text-xl text-white/90 max-w-xl mt-2.5 sm:mt-5 leading-relaxed">
-          {SLIDES[active].subtitle}
+          {HERO.subtitle}
         </p>
 
         {/* CTA */}
@@ -219,76 +126,6 @@ export function HeroVideo() {
         </div>
       </div>
 
-      {/* ── Slide navigation arrows + dots (bottom-left) ── */}
-      {slideCount > 1 && (
-        <div className="absolute z-20 bottom-5 sm:bottom-8 left-4 sm:left-8 md:left-12 lg:left-20 flex items-center gap-3">
-          <button
-            type="button"
-            onClick={prev}
-            aria-label="Previous slide"
-            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-white/50 text-white flex items-center justify-center hover:bg-white/15 active:bg-white/25 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white cursor-pointer"
-          >
-            <svg
-              className="w-5 h-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={next}
-            aria-label="Next slide"
-            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-white/50 text-white flex items-center justify-center hover:bg-white/15 active:bg-white/25 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white cursor-pointer"
-          >
-            <svg
-              className="w-5 h-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
-
-          {/* Dot indicators — inner dot is decorative, outer button is ≥44px tap target */}
-          <div className="flex items-center gap-0 ml-1" role="tablist">
-            {SLIDES.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                role="tab"
-                aria-selected={i === active}
-                aria-label={`Go to slide ${i + 1}`}
-                onClick={() => goTo(i)}
-                className="min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white bg-transparent"
-              >
-                <span
-                  aria-hidden="true"
-                  className={`block rounded-full transition-all duration-500 ${
-                    i === active
-                      ? "w-8 h-2.5 bg-sun"
-                      : "w-2.5 h-2.5 bg-white/50 hover:bg-white/80"
-                  }`}
-                />
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-
-
       {/* ── Scroll-down indicator ── */}
       <div className="absolute z-20 bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1 text-white/60">
         <span className="text-xs font-heading tracking-wider uppercase select-none">
@@ -310,4 +147,3 @@ export function HeroVideo() {
     </section>
   );
 }
-

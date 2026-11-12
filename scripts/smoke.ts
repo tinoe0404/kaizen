@@ -25,8 +25,8 @@ function record(name: string, passed: boolean, details?: string) {
 
 function stripTags(html: string): string {
   // Remove script and style tags completely
-  const noScripts = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
-  const noStyles = noScripts.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, "");
+  const noScripts = html.replace(/<script\b[\s\S]*?<\/script>/gi, "");
+  const noStyles = noScripts.replace(/<style\b[\s\S]*?<\/style>/gi, "");
   // Strip remaining tags
   return noStyles.replace(/<[^>]+>/g, " ");
 }
@@ -48,7 +48,7 @@ async function run() {
   const routesToTest = [
     "/",
     "/destinations",
-    "/destinations/destination-a",
+    "/destinations/victoria-falls",
     "/sitemap.xml",
     "/robots.txt",
   ];

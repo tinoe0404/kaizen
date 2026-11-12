@@ -119,6 +119,10 @@ describe("Email Builders", () => {
       // Contains contact info from site.ts
       expect(email.text).toContain(site.bookingEmail);
       expect(email.text).toContain(site.whatsappNumber);
+      if (site.phoneNumber) {
+        expect(email.text).toContain(site.phoneNumber);
+        expect(email.html).toContain(site.phoneNumber);
+      }
       expect(email.html).toContain(site.bookingEmail);
       expect(email.html).toContain(site.whatsappNumber);
 

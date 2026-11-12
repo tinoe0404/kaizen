@@ -98,6 +98,34 @@ export default function ContactPage() {
               </div>
             </div>
 
+            {/* Direct Phone Line Card */}
+            {site.phoneNumber && (
+              <div className="bg-white border border-sand rounded-[14px] p-6 sm:p-8 flex flex-col justify-between">
+                <div>
+                  <h2 className="font-heading font-semibold text-xl text-ink mb-2">
+                    Direct Phone Line
+                  </h2>
+                  <p className="font-body text-sm text-ink/70 mb-4">
+                    Call our operations team directly for urgent inquiries or safari consultations.
+                  </p>
+                  <a
+                    href={`tel:${site.phoneNumber.replace(/\s+/g, "")}`}
+                    className="font-heading font-semibold text-base text-forest hover:underline inline-flex items-center min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest rounded-[4px]"
+                  >
+                    {site.phoneNumber}
+                  </a>
+                </div>
+                <div className="mt-6 pt-4 border-t border-sand">
+                  <a
+                    href={`tel:${site.phoneNumber.replace(/\s+/g, "")}`}
+                    className="inline-flex items-center justify-center font-heading font-semibold text-base min-h-[44px] px-5 py-2.5 rounded-[8px] bg-forest text-bone hover:bg-[#163920] active:bg-[#102b18] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest w-full sm:w-auto text-center"
+                  >
+                    Call Now
+                  </a>
+                </div>
+              </div>
+            )}
+
             {/* Address Card */}
             <div className="bg-white border border-sand rounded-[14px] p-6 sm:p-8 flex flex-col justify-between">
               <div>

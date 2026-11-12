@@ -6,12 +6,13 @@ import { normalizeWhatsappNumber } from "@/lib/whatsapp";
 
 describe("Company Pages & Content Logic", () => {
   describe("site.ts extensions", () => {
-    it("contains hours, address, bookingEmail, whatsappNumber", () => {
+    it("contains hours, address, bookingEmail, whatsappNumber, phoneNumber", () => {
       expect(site.hours).toBeDefined();
       expect(typeof site.hours).toBe("string");
       expect(site.address).toBeDefined();
       expect(site.bookingEmail).toBeDefined();
       expect(site.whatsappNumber).toBeDefined();
+      expect(site.phoneNumber).toBeDefined();
       expect(site.contactIntro).toBeDefined();
       expect(Array.isArray(site.socialLinks)).toBe(true);
     });
@@ -21,7 +22,7 @@ describe("Company Pages & Content Logic", () => {
     });
 
     it("normalizes site.whatsappNumber correctly to international format", () => {
-      expect(normalizeWhatsappNumber(site.whatsappNumber)).toBe("263776408014");
+      expect(normalizeWhatsappNumber(site.whatsappNumber)).toBe("263713402010");
     });
 
     it("when whatsappNumber is valid, normalizes correctly", () => {

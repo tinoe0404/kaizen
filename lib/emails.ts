@@ -253,6 +253,9 @@ export function buildGuestEmail(
   textLines.push("If you have questions or updates, reach out to us:");
   textLines.push(`Email: ${site.bookingEmail}`);
   textLines.push(`WhatsApp: ${site.whatsappNumber}`);
+  if (site.phoneNumber) {
+    textLines.push(`Phone: ${site.phoneNumber}`);
+  }
   textLines.push("");
   textLines.push(`Warm regards,\n${site.name}`);
 
@@ -333,6 +336,7 @@ export function buildGuestEmail(
         <ul style="margin:0 0 20px 0;padding-left:20px;font-size:14px;line-height:1.6;color:#0F2A1A;">
           <li>Email: <a href="mailto:${escapeHtml(site.bookingEmail)}" style="color:#1E4D2B;font-weight:600;">${escapeHtml(site.bookingEmail)}</a></li>
           <li>WhatsApp: <span style="font-weight:600;">${escapeHtml(site.whatsappNumber)}</span></li>
+          ${site.phoneNumber ? `<li>Phone: <a href="tel:${escapeHtml(site.phoneNumber.replace(/\s+/g, ""))}" style="color:#1E4D2B;font-weight:600;">${escapeHtml(site.phoneNumber)}</a></li>` : ""}
         </ul>
 
         <p style="margin:0;font-size:15px;line-height:1.5;color:#0F2A1A;">

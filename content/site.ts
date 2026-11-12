@@ -4,7 +4,8 @@ export const site: SiteConfig = {
   name: "Kaizen Travel and Adventures",
   tagline:
     "Bespoke safari expeditions, lodge reservations, and 4x4 vehicle hire across Southern Africa",
-  whatsappNumber: "+263 77 640 8014",
+  whatsappNumber: "+263 71 340 2010",
+  phoneNumber: "+263 77 640 8014",
   bookingEmail: "kaizenvicfalls@gmail.com",
   address: "Shop 4, Phumula Centre, Parkway Drive, Victoria Falls, Zimbabwe",
   hours:

@@ -63,6 +63,7 @@ export interface SiteConfig {
   name: string;
   tagline: string;
   whatsappNumber: string;
+  phoneNumber?: string;
   bookingEmail: string;
   address: string;
   hours: string;

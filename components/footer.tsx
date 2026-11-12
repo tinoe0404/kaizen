@@ -86,6 +86,19 @@ export function Footer() {
                   {site.whatsappNumber}
                 </span>
               </WhatsAppLink>
+              {site.phoneNumber && (
+                <a
+                  href={`tel:${site.phoneNumber.replace(/\s+/g, "")}`}
+                  className="min-h-[44px] flex flex-col justify-center hover:text-sun transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-sun rounded-[4px]"
+                >
+                  <span className="text-bone/60 text-sm uppercase tracking-wider font-heading">
+                    Direct call
+                  </span>
+                  <span className="text-bone font-medium">
+                    {site.phoneNumber}
+                  </span>
+                </a>
+              )}
               <div className="min-h-[44px] flex flex-col justify-center">
                 <span className="text-bone/60 text-sm uppercase tracking-wider font-heading">
                   Booking email

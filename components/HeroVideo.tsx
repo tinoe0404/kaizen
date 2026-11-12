@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import ReactDOM from "react-dom";
 
 /**
  * A single hero slide: each has a video (mp4 + webm), poster, headline,
@@ -30,6 +31,9 @@ const SLIDES: HeroSlide[] = [
 const SLIDE_DURATION_MS = 8000;
 
 export function HeroVideo() {
+  // Preload the hero poster image with high priority so it renders before the video loads
+  ReactDOM.preload(SLIDES[0].poster, { as: "image", fetchPriority: "high" });
+
   const [active, setActive] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);

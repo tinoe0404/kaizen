@@ -3,6 +3,7 @@ import {
   normalizeWhatsappNumber,
   whatsappLink,
   buildTripMessage,
+  buildBookingConfirmationMessage,
   formatDateManual,
 } from "./whatsapp";
 import { site } from "@/content/site";
@@ -206,6 +207,64 @@ describe("WhatsApp Integration", () => {
       expect(msg).toContain("Hello Kaizen Travel and Adventures");
       expect(msg).toContain("Estimated total:");
       expect(msg).toContain("Please let me know what is available.");
+    });
+  });
+
+  describe("buildBookingConfirmationMessage", () => {
+    it("formats a complete booking confirmation message for WhatsApp", () => {
+      const trip: TripState = {
+        ids: ["destination-victoria-falls", "activity-bunji"],
+        arrival: "2027-04-10",
+        departure: "2027-04-14",
+        guests: 2,
+        currency: "USD",
+      };
+      const derived = derive(trip);
+      const msg = buildBookingConfirmationMessage({
+        reference: "KZ-270410-TEST",
+        name: "Jane Doe",
+        email: "jane@example.com",
+        phone: "+1 555 123 4567",
+        message: "Honeymoon safari package please",
+        trip,
+        derived,
+      });
+
+      expect(msg).toContain("#KZ-270410-TEST");
+      expect(msg).toContain("Guest: Jane Doe");
+      expect(msg).toContain("Email: jane@example.com");
+      expect(msg).toContain("Phone: +1 555 123 4567");
+      expect(msg).toContain("Dates: 10 Apr 2027 to 14 Apr 2027 (4 nights)");
+      expect(msg).toContain("Guests: 2");
+      expect(msg).toContain("- Victoria Falls");
+      expect(msg).toContain("- Bungee Jumping");
+      expect(msg).toContain("Notes: Honeymoon safari package please");
+      expect(msg).toContain("Please confirm availability with me.");
+      expect(encodeURIComponent(msg).length).toBeLessThanOrEqual(1800);
+    });
+
+    it("handles missing phone and notes gracefully", () => {
+      const trip: TripState = {
+        ids: ["destination-victoria-falls"],
+        arrival: "",
+        departure: "",
+        guests: 1,
+        currency: "USD",
+      };
+      const derived = derive(trip);
+      const msg = buildBookingConfirmationMessage({
+        reference: "KZ-270410-MINI",
+        name: "John Smith",
+        email: "john@example.com",
+        trip,
+        derived,
+      });
+
+      expect(msg).toContain("#KZ-270410-MINI");
+      expect(msg).toContain("Guest: John Smith");
+      expect(msg).not.toContain("Phone:");
+      expect(msg).not.toContain("Notes:");
+      expect(msg).toContain("Dates: not set yet");
     });
   });
 });

@@ -6,10 +6,12 @@ import { useTrip } from "./TripProvider";
 import { validateRequest, RequestPayload } from "@/lib/request";
 import { site } from "@/content/site";
 import { Button } from "@/components/ui/button";
+import { buildBookingConfirmationMessage, whatsappLink } from "@/lib/whatsapp";
 
 interface SuccessInfo {
   reference: string;
   confirmationSent: boolean;
+  whatsappUrl: string | null;
 }
 
 export function RequestForm() {
@@ -122,10 +124,23 @@ export function RequestForm() {
         return;
       }
 
+      // Generate direct WhatsApp link with the submitted booking details
+      const whatsappMsg = buildBookingConfirmationMessage({
+        reference: data.reference,
+        name,
+        email,
+        phone,
+        message: notes,
+        trip: state,
+        derived,
+      });
+      const whatsappUrl = whatsappLink(whatsappMsg);
+
       // Success
       setSuccessInfo({
         reference: data.reference,
         confirmationSent: data.confirmationSent,
+        whatsappUrl,
       });
 
       // Clear the trip state
@@ -159,6 +174,37 @@ export function RequestForm() {
         <p className="text-base text-ink mb-4 leading-relaxed">
           We will check availability and contact you to confirm the details and payment.
         </p>
+
+        {successInfo.whatsappUrl && (
+          <div className="bg-white border-2 border-forest/30 rounded-[8px] p-4 mb-4 shadow-sm">
+            <p className="font-heading font-semibold text-sm text-forest mb-1">
+              ⚡ Instant WhatsApp Delivery
+            </p>
+            <p className="text-xs sm:text-sm text-ink/75 mb-3 leading-relaxed">
+              Send your booking details directly to our WhatsApp ({site.whatsappNumber}) for fastest confirmation:
+            </p>
+            <a
+              href={successInfo.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 w-full min-h-[44px] px-5 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20bd5a] active:bg-[#1caa51] text-white font-heading font-semibold text-sm sm:text-base shadow-sm transition-colors select-none text-center cursor-pointer"
+            >
+              <svg
+                className="w-4 h-4 shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              Send Booking on WhatsApp
+            </a>
+          </div>
+        )}
 
         {!successInfo.confirmationSent && (
           <div className="p-3 bg-bone rounded-[6px] border border-ink/10 text-sm text-ink/80 mb-4 leading-normal">

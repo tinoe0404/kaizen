@@ -141,3 +141,73 @@ export function buildTripMessage(
 
   return header + `...and ${items.length} items.` + footer;
 }
+
+export interface BookingConfirmationMessageOptions {
+  reference: string;
+  name: string;
+  email: string;
+  phone?: string;
+  message?: string;
+  trip: TripState;
+  derived: DerivedTrip;
+}
+
+/**
+ * Builds a plain-text WhatsApp message for an already-submitted booking request,
+ * including reference code, guest details, dates, items, and total price.
+ */
+export function buildBookingConfirmationMessage(
+  options: BookingConfirmationMessageOptions
+): string {
+  const { reference, name, email, phone, message, trip, derived } = options;
+
+  let datesLine = "Dates: not set yet";
+  const arrFormatted = formatDateManual(trip.arrival);
+  const depFormatted = formatDateManual(trip.departure);
+
+  if (arrFormatted && depFormatted && derived.nights > 0) {
+    datesLine = `Dates: ${arrFormatted} to ${depFormatted} (${derived.nights} ${
+      derived.nights === 1 ? "night" : "nights"
+    })`;
+  }
+
+  const header = `Hello Kaizen Travel & Adventures! I just submitted booking request #${reference} on your website.\n\n` +
+    `Guest: ${name}\n` +
+    `Email: ${email}\n` +
+    (phone ? `Phone: ${phone}\n` : "") +
+    `${datesLine}\n` +
+    `Guests: ${trip.guests}\n\n` +
+    `Selected Itinerary:\n`;
+
+  const totalFormatted = formatCurrencyAmount(
+    derived.totalConverted,
+    trip.currency
+  );
+  const notesText =
+    message && message.trim() ? `\nNotes: ${message.trim()}` : "";
+  const footer = `\n\nTotal: ${totalFormatted} (${trip.currency})${notesText}\n\nPlease confirm availability with me.`;
+
+  const items = derived.lines.map(
+    (line) => `- ${line.offering.name} (${line.breakdown})`
+  );
+
+  const fullText = header + items.join("\n") + footer;
+  if (encodeURIComponent(fullText).length <= 1800) {
+    return fullText;
+  }
+
+  let includedCount = items.length;
+  while (includedCount > 0) {
+    includedCount--;
+    const remaining = items.length - includedCount;
+    const itemsPart = items.slice(0, includedCount).join("\n");
+    const overflowNote = `\n...and ${remaining} more items.`;
+    const candidate = header + itemsPart + overflowNote + footer;
+
+    if (encodeURIComponent(candidate).length <= 1800) {
+      return candidate;
+    }
+  }
+
+  return header + `...and ${items.length} items.` + footer;
+}

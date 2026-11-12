@@ -31,7 +31,6 @@ const SLIDE_DURATION_MS = 8000;
 
 export function HeroVideo() {
   const [active, setActive] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartXRef = useRef<number | null>(null);
@@ -91,6 +90,8 @@ export function HeroVideo() {
   useEffect(() => {
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
+      vid.defaultMuted = true;
+      vid.muted = true;
       if (i === active) {
         vid.currentTime = 0;
         vid.play().catch(() => {
@@ -105,7 +106,7 @@ export function HeroVideo() {
   return (
     <section
       className="relative w-full h-[100dvh] min-h-[520px] max-h-[1200px] overflow-hidden touch-pan-y"
-      aria-label="Hero slideshow"
+      aria-label="Hero showcase"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -113,24 +114,29 @@ export function HeroVideo() {
       {SLIDES.map((slide, i) => (
         <div
           key={slide.mp4}
-          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+          className="absolute inset-0 transition-opacity duration-1000 ease-in-out pointer-events-none"
           style={{ opacity: i === active ? 1 : 0 }}
           aria-hidden={i !== active}
         >
           <video
             ref={(el) => {
               videoRefs.current[i] = el;
+              if (el) {
+                el.defaultMuted = true;
+                el.muted = true;
+              }
             }}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
             poster={slide.poster}
-            autoPlay={i === 0}
+            autoPlay
             muted
             loop
             playsInline
-            preload={i === 0 ? "auto" : "none"}
-            onLoadedData={() => {
-              if (i === 0) setIsLoaded(true);
-            }}
+            preload="auto"
+            disablePictureInPicture
+            disableRemotePlayback
+            tabIndex={-1}
+            aria-hidden="true"
           >
             <source src={slide.webm} type="video/webm" />
             <source src={slide.mp4} type="video/mp4" />
@@ -155,11 +161,7 @@ export function HeroVideo() {
       />
 
       {/* ── Content overlay ── */}
-      <div
-        className={`relative z-10 flex flex-col justify-end h-full px-4 sm:px-8 md:px-12 lg:px-20 pb-20 sm:pb-24 md:pb-28 lg:pb-32 transition-opacity duration-700 ${
-          isLoaded ? "opacity-100" : "opacity-0"
-        }`}
-      >
+      <div className="relative z-10 flex flex-col justify-end h-full px-4 sm:px-8 md:px-12 lg:px-20 pb-20 sm:pb-24 md:pb-28 lg:pb-32">
         {/* Label badge */}
         {SLIDES[active].label && (
           <span className="font-heading font-semibold text-xs sm:text-sm tracking-[0.2em] uppercase text-bone/90 mb-2 sm:mb-4 select-none">

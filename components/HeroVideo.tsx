@@ -17,22 +17,13 @@ interface HeroSlide {
 
 const SLIDES: HeroSlide[] = [
   {
-    mp4: "/videos/safari-hero.mp4",
-    webm: "/videos/safari-hero.webm",
-    poster: "/videos/safari-hero-poster.jpg",
+    mp4: "/videos/victoria-falls.mp4",
+    webm: "/videos/victoria-falls.webm",
+    poster: "/videos/victoria-falls-poster.jpg",
     headline: "Discover Southern\nAfrica's Wild Heart",
     subtitle:
       "Bespoke safari expeditions across Victoria Falls, Chobe and Namibia.",
     label: "Explore",
-  },
-  {
-    mp4: "/videos/victoria-falls.mp4",
-    webm: "/videos/victoria-falls.webm",
-    poster: "/videos/victoria-falls-poster.jpg",
-    headline: "The Smoke\nThat Thunders",
-    subtitle:
-      "Stand at the edge of Victoria Falls — one of the Seven Natural Wonders of the World.",
-    label: "Victoria Falls",
   },
 ];
 
@@ -59,6 +50,7 @@ export function HeroVideo() {
   const prev = useCallback(() => goTo(active - 1), [active, goTo]);
 
   const handleTouchStart = (e: React.TouchEvent<HTMLElement>) => {
+    if (slideCount <= 1) return;
     if (e.touches.length === 1) {
       touchStartXRef.current = e.touches[0].clientX;
       touchStartYRef.current = e.touches[0].clientY;
@@ -66,6 +58,7 @@ export function HeroVideo() {
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLElement>) => {
+    if (slideCount <= 1) return;
     if (touchStartXRef.current === null || touchStartYRef.current === null) return;
     const touchEndX = e.changedTouches[0].clientX;
     const touchEndY = e.changedTouches[0].clientY;
@@ -87,11 +80,12 @@ export function HeroVideo() {
 
   // Auto-advance timer
   useEffect(() => {
+    if (slideCount <= 1) return;
     timerRef.current = setTimeout(next, SLIDE_DURATION_MS);
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [active, next]);
+  }, [active, next, slideCount]);
 
   // Play the active video, pause others
   useEffect(() => {
@@ -216,70 +210,72 @@ export function HeroVideo() {
       </div>
 
       {/* ── Slide navigation arrows + dots (bottom-left) ── */}
-      <div className="absolute z-20 bottom-5 sm:bottom-8 left-4 sm:left-8 md:left-12 lg:left-20 flex items-center gap-3">
-        <button
-          type="button"
-          onClick={prev}
-          aria-label="Previous slide"
-          className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-white/50 text-white flex items-center justify-center hover:bg-white/15 active:bg-white/25 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white cursor-pointer"
-        >
-          <svg
-            className="w-5 h-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
+      {slideCount > 1 && (
+        <div className="absolute z-20 bottom-5 sm:bottom-8 left-4 sm:left-8 md:left-12 lg:left-20 flex items-center gap-3">
+          <button
+            type="button"
+            onClick={prev}
+            aria-label="Previous slide"
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-white/50 text-white flex items-center justify-center hover:bg-white/15 active:bg-white/25 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white cursor-pointer"
           >
-            <path
-              fillRule="evenodd"
-              d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-        <button
-          type="button"
-          onClick={next}
-          aria-label="Next slide"
-          className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-white/50 text-white flex items-center justify-center hover:bg-white/15 active:bg-white/25 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white cursor-pointer"
-        >
-          <svg
-            className="w-5 h-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-
-        {/* Dot indicators — inner dot is decorative, outer button is ≥44px tap target */}
-        <div className="flex items-center gap-0 ml-1" role="tablist">
-          {SLIDES.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              role="tab"
-              aria-selected={i === active}
-              aria-label={`Go to slide ${i + 1}`}
-              onClick={() => goTo(i)}
-              className="min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white bg-transparent"
+            <svg
+              className="w-5 h-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
             >
-              <span
-                aria-hidden="true"
-                className={`block rounded-full transition-all duration-500 ${
-                  i === active
-                    ? "w-8 h-2.5 bg-sun"
-                    : "w-2.5 h-2.5 bg-white/50 hover:bg-white/80"
-                }`}
+              <path
+                fillRule="evenodd"
+                d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z"
+                clipRule="evenodd"
               />
-            </button>
-          ))}
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={next}
+            aria-label="Next slide"
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-white/50 text-white flex items-center justify-center hover:bg-white/15 active:bg-white/25 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white cursor-pointer"
+          >
+            <svg
+              className="w-5 h-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+
+          {/* Dot indicators — inner dot is decorative, outer button is ≥44px tap target */}
+          <div className="flex items-center gap-0 ml-1" role="tablist">
+            {SLIDES.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                role="tab"
+                aria-selected={i === active}
+                aria-label={`Go to slide ${i + 1}`}
+                onClick={() => goTo(i)}
+                className="min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white bg-transparent"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`block rounded-full transition-all duration-500 ${
+                    i === active
+                      ? "w-8 h-2.5 bg-sun"
+                      : "w-2.5 h-2.5 bg-white/50 hover:bg-white/80"
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ── Decorative script tagline (bottom-right, like the reference) ── */}
       <div

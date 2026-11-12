@@ -109,8 +109,12 @@ export function HeroVideo() {
 
   return (
     <section
-      className="relative w-full h-[100dvh] min-h-[520px] max-h-[1200px] overflow-hidden touch-pan-y"
+      className="relative w-full h-[100dvh] min-h-[520px] max-h-[1200px] overflow-hidden touch-pan-y bg-cover bg-center bg-no-repeat"
       aria-label="Hero showcase"
+      style={{
+        backgroundColor: "#1a3a2a",
+        backgroundImage: `url(${SLIDES[0].poster})`,
+      }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >

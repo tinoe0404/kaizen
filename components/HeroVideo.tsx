@@ -277,17 +277,7 @@ export function HeroVideo() {
         </div>
       )}
 
-      {/* ── Decorative script tagline (bottom-right, like the reference) ── */}
-      <div
-        className="absolute z-20 bottom-6 sm:bottom-8 right-5 sm:right-8 md:right-12 lg:right-20 hidden sm:block"
-        aria-hidden="true"
-      >
-        <p className="font-body italic text-white/70 text-sm sm:text-base leading-snug text-right select-none">
-          Wild Places,
-          <br />
-          Warmer Hearts
-        </p>
-      </div>
+
 
       {/* ── Scroll-down indicator ── */}
       <div className="absolute z-20 bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1 text-white/60">

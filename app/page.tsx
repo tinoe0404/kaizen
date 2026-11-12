@@ -97,7 +97,7 @@ export default function HomePage() {
     <div className="w-full flex flex-col">
       {hasAgencyData && <JsonLd data={agencyData as Record<string, unknown>} />}
       {/* A. HERO SECTION — full-bleed video slideshow (homepage only) */}
-      <div className="-mt-[88px]">
+      <div className="-mt-[68px] sm:-mt-[80px] md:-mt-[88px]">
         <HeroVideo />
       </div>
 

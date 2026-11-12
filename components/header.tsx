@@ -140,11 +140,11 @@ export function Header() {
           : "bg-white/95 backdrop-blur-md border-b border-sand shadow-xs"
       }`}
     >
-      <Container className="flex items-center justify-between h-[88px]">
+      <Container className="flex items-center justify-between h-[68px] sm:h-[80px] md:h-[88px]">
         {/* Logo */}
         <Link
           href="/"
-          className="relative inline-flex items-center min-h-[44px] h-[72px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink rounded-[8px]"
+          className="relative inline-flex items-center min-h-[44px] h-[52px] sm:h-[64px] md:h-[72px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink rounded-[8px]"
           aria-label="Kaizen Travel and Adventures home"
           onClick={handleClose}
         >
@@ -155,10 +155,10 @@ export function Header() {
             width={116}
             height={72}
             priority
-            className={`h-[72px] w-auto object-contain transition-opacity duration-300 ${
+            className={`h-[52px] sm:h-[64px] md:h-[72px] w-auto object-contain transition-opacity duration-300 ${
               isTransparent ? "opacity-0" : "opacity-100"
             }`}
-            style={{ height: "72px", width: "auto" }}
+            style={{ width: "auto" }}
           />
           {/* White logo for transparent navbar over hero video */}
           <Image
@@ -168,10 +168,10 @@ export function Header() {
             width={116}
             height={72}
             priority
-            className={`absolute inset-0 h-[72px] w-auto object-contain transition-opacity duration-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] ${
+            className={`absolute inset-0 h-[52px] sm:h-[64px] md:h-[72px] w-auto object-contain transition-opacity duration-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] ${
               isTransparent ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}
-            style={{ height: "72px", width: "auto" }}
+            style={{ width: "auto" }}
           />
         </Link>
 
@@ -250,7 +250,7 @@ export function Header() {
         <div
           ref={panelRef}
           id="mobile-navigation"
-          className="md:hidden w-full bg-white/98 backdrop-blur-md border-b border-sand shadow-lg overflow-y-auto max-h-[calc(100dvh-88px)]"
+          className="md:hidden w-full bg-white/98 backdrop-blur-md border-b border-sand shadow-lg overflow-y-auto max-h-[calc(100dvh-68px)] sm:max-h-[calc(100dvh-80px)] md:max-h-[calc(100dvh-88px)]"
         >
           <Container className="py-4 pb-[calc(20px+env(safe-area-inset-bottom,0px))] flex flex-col gap-1">
             {NAV_LINKS.map((link, idx) => (

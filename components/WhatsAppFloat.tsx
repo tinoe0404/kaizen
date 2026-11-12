@@ -33,10 +33,10 @@ export function WhatsAppFloat() {
       <WhatsAppLink
         message={message}
         aria-label="Chat on WhatsApp"
-        className="inline-flex items-center justify-center min-h-[48px] px-4 py-2.5 rounded-full bg-forest text-bone border-2 border-bone font-heading font-semibold text-sm shadow-lg hover:bg-[#163920] active:bg-[#102b18] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest transition-colors select-none"
+        className="inline-flex items-center justify-center min-h-[48px] min-w-[48px] w-12 sm:w-auto h-12 sm:h-auto px-0 sm:px-4 py-0 sm:py-2.5 rounded-full bg-forest text-bone border-2 border-bone font-heading font-semibold text-sm shadow-xl hover:bg-[#163920] active:bg-[#102b18] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest transition-colors select-none"
       >
         <svg
-          className="w-5 h-5 mr-2 shrink-0"
+          className="w-5 h-5 sm:mr-2 shrink-0"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -47,7 +47,7 @@ export function WhatsAppFloat() {
         >
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
         </svg>
-        <span>WhatsApp</span>
+        <span className="hidden sm:inline">WhatsApp</span>
       </WhatsAppLink>
     </div>
   );

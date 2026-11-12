@@ -155,7 +155,7 @@ export function HeroVideo() {
       />
       {/* Top scrim gradient for header & logo legibility over bright video frames */}
       <div
-        className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-black/85 via-black/45 to-transparent pointer-events-none"
+        className="absolute inset-x-0 top-0 h-28 sm:h-44 bg-gradient-to-b from-black/70 via-black/35 to-transparent pointer-events-none"
         aria-hidden="true"
       />
       {/* Secondary left-side gradient for headline area */}
@@ -165,36 +165,36 @@ export function HeroVideo() {
       />
 
       {/* ── Content overlay ── */}
-      <div className="relative z-10 flex flex-col justify-end h-full px-4 sm:px-8 md:px-12 lg:px-20 pb-20 sm:pb-24 md:pb-28 lg:pb-32">
+      <div className="relative z-10 flex flex-col justify-end h-full px-4 sm:px-8 md:px-12 lg:px-20 pb-[calc(var(--float-bottom,16px)+3.75rem)] sm:pb-24 md:pb-28 lg:pb-32">
         {/* Label badge */}
         {SLIDES[active].label && (
-          <span className="font-heading font-semibold text-xs sm:text-sm tracking-[0.2em] uppercase text-bone/90 mb-2 sm:mb-4 select-none">
+          <span className="font-heading font-semibold text-xs sm:text-sm tracking-[0.2em] uppercase text-bone/90 mb-1.5 sm:mb-4 select-none">
             — {SLIDES[active].label}
           </span>
         )}
 
         {/* Headline */}
         <h1
-          className="font-heading font-bold text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.1] sm:leading-[1.08] tracking-tight max-w-3xl whitespace-pre-line"
+          className="font-heading font-bold text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.12] sm:leading-[1.08] tracking-tight max-w-3xl whitespace-pre-line"
           key={`headline-${active}`}
         >
           {SLIDES[active].headline}
         </h1>
 
         {/* Subtitle */}
-        <p className="font-body text-sm sm:text-lg md:text-xl text-white/85 max-w-xl mt-3 sm:mt-5 leading-relaxed">
+        <p className="font-body text-sm sm:text-lg md:text-xl text-white/90 max-w-xl mt-2.5 sm:mt-5 leading-relaxed">
           {SLIDES[active].subtitle}
         </p>
 
         {/* CTA */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mt-6 sm:mt-8">
+        <div className="flex flex-row items-center gap-2.5 sm:gap-4 mt-5 sm:mt-8">
           <a
             href="/trip"
-            className="inline-flex items-center justify-center gap-2 min-h-[48px] px-7 py-3 rounded-full bg-sun text-ink font-heading font-semibold text-base sm:text-lg hover:bg-[#cf7d18] active:bg-[#bd7114] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun select-none text-center"
+            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 sm:gap-2 min-h-[44px] sm:min-h-[48px] px-4 sm:px-7 py-2.5 sm:py-3 rounded-full bg-sun text-ink font-heading font-semibold text-sm sm:text-lg hover:bg-[#cf7d18] active:bg-[#bd7114] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun select-none text-center whitespace-nowrap"
           >
             Plan a Trip
             <svg
-              className="w-5 h-5"
+              className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
               viewBox="0 0 20 20"
               fill="currentColor"
               aria-hidden="true"
@@ -208,7 +208,7 @@ export function HeroVideo() {
           </a>
           <a
             href="#how"
-            className="inline-flex items-center justify-center min-h-[48px] px-6 py-3 rounded-full border-2 border-white/60 text-white font-heading font-semibold text-base sm:text-lg hover:bg-white/15 active:bg-white/25 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white select-none text-center"
+            className="flex-1 sm:flex-initial inline-flex items-center justify-center min-h-[44px] sm:min-h-[48px] px-3.5 sm:px-6 py-2.5 sm:py-3 rounded-full border-2 border-white/60 text-white font-heading font-semibold text-sm sm:text-lg hover:bg-white/15 active:bg-white/25 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white select-none text-center whitespace-nowrap"
           >
             How it works
           </a>

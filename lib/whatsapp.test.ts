@@ -52,7 +52,7 @@ describe("WhatsApp Integration", () => {
 
     it("returns null for bracketed placeholders and normalizes valid numbers", () => {
       expect(normalizeWhatsappNumber("[WhatsApp number]")).toBeNull();
-      expect(normalizeWhatsappNumber(site.whatsappNumber)).toBe("263772123456");
+      expect(normalizeWhatsappNumber(site.whatsappNumber)).toBe("263776408014");
     });
   });
 
@@ -75,7 +75,7 @@ describe("WhatsApp Integration", () => {
       expect(whatsappLink("Hello", "[WhatsApp number]")).toBeNull();
       expect(whatsappLink("Hello", "invalid")).toBeNull();
       expect(whatsappLink("Hello", "")).toBeNull();
-      expect(whatsappLink()).toBe("https://wa.me/263772123456");
+      expect(whatsappLink()).toBe("https://wa.me/263776408014");
     });
 
     it("returns a correctly encoded wa.me URL for a valid number (round-trip with decodeURIComponent)", () => {

@@ -21,7 +21,7 @@ describe("Company Pages & Content Logic", () => {
     });
 
     it("normalizes site.whatsappNumber correctly to international format", () => {
-      expect(normalizeWhatsappNumber(site.whatsappNumber)).toBe("263772123456");
+      expect(normalizeWhatsappNumber(site.whatsappNumber)).toBe("263776408014");
     });
 
     it("when whatsappNumber is valid, normalizes correctly", () => {

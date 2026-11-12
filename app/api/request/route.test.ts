@@ -32,8 +32,8 @@ function createJsonRequest(
 function makeValidBody() {
   return {
     ids: ["destination-victoria-falls", "activity-bunji"],
-    arrival: "2026-11-10",
-    departure: "2026-11-15",
+    arrival: "2027-11-10",
+    departure: "2027-11-15",
     guests: 2,
     currency: "USD",
     name: "Jane Doe",

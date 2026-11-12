@@ -12,8 +12,8 @@ import { Currency, currencies } from "@/content/currency";
 function makeValidPayload(overrides: Partial<RequestPayload> = {}): RequestPayload {
   return {
     ids: ["destination-victoria-falls", "activity-bunji"],
-    arrival: "2026-11-10",
-    departure: "2026-11-15",
+    arrival: "2027-11-10",
+    departure: "2027-11-15",
     guests: 2,
     currency: "USD",
     name: "John Doe",
@@ -94,13 +94,13 @@ describe("Request Logic", () => {
 
       it("rejects departure that is on or before arrival", () => {
         const resSame = validateRequest(
-          makeValidPayload({ arrival: "2026-11-10", departure: "2026-11-10" })
+          makeValidPayload({ arrival: "2027-11-10", departure: "2027-11-10" })
         );
         expect(resSame.ok).toBe(false);
         if (!resSame.ok) expect(resSame.errors.departure).toContain("after arrival");
 
         const resBefore = validateRequest(
-          makeValidPayload({ arrival: "2026-11-10", departure: "2026-11-09" })
+          makeValidPayload({ arrival: "2027-11-10", departure: "2027-11-09" })
         );
         expect(resBefore.ok).toBe(false);
         if (!resBefore.ok) expect(resBefore.errors.departure).toContain("after arrival");
@@ -273,8 +273,8 @@ describe("Request Logic", () => {
         const payload = makeValidPayload({
           currency,
           ids: ["destination-victoria-falls", "lodge-victoria-falls-safari-lodge", "activity-bunji"],
-          arrival: "2026-11-10",
-          departure: "2026-11-14",
+          arrival: "2027-11-10",
+          departure: "2027-11-14",
           guests: 3,
         });
 

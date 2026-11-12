@@ -21,10 +21,10 @@ const SLIDES: HeroSlide[] = [
     mp4: "/videos/victoria-falls.mp4",
     webm: "/videos/victoria-falls.webm",
     poster: "/videos/victoria-falls-poster.jpg",
-    headline: "Discover Southern\nAfrica's Wild Heart",
+    headline: "Discover Southern Africa\nWith Kaizen",
     subtitle:
-      "Bespoke safari expeditions across Victoria Falls, Chobe and Namibia.",
-    label: "Explore",
+      "Your trusted local tour operator for bespoke safaris, activities, and lodge bookings across Victoria Falls, Chobe, and Namibia.",
+    label: "Kaizen Travel & Adventures",
   },
 ];
 

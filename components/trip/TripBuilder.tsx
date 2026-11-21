@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTrip } from "./TripProvider";
 import { RequestForm } from "./RequestForm";
-import { getAll } from "@/lib/content";
+import { getAll, getById } from "@/lib/content";
 import { Offering } from "@/content/types";
 import { currencies, Currency, ratesUpdated } from "@/content/currency";
 import { formatCurrencyAmount } from "@/lib/pricing";
@@ -432,7 +432,28 @@ export function TripBuilder() {
                       </p>
                     </div>
                   </div>
-                  <div className="overflow-x-auto">
+
+                  {/* Mobile Compact View (< sm) */}
+                  <div className="sm:hidden divide-y divide-sand/60">
+                    {TRANSFER_MATRIX_ROWS.map((row, idx) => {
+                      const validId = getById(row.id) ? row.id : (categoryOfferings[0]?.id || row.id);
+                      return (
+                        <div key={`m-${row.route}-${idx}`} className="p-3.5 flex items-center justify-between gap-3">
+                          <div className="min-w-0 flex-1">
+                            <p className="font-heading font-semibold text-xs text-ink truncate">{row.route}</p>
+                            <p className="text-[11px] text-ink/70 mt-0.5">{row.type}</p>
+                            <p className="font-heading font-bold text-xs text-forest mt-1">{row.rate}</p>
+                          </div>
+                          <div className="shrink-0">
+                            <AddToTripButton id={validId} name={row.route} className="text-xs min-h-[36px] py-1 px-3" />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Desktop / Tablet Table View (>= sm) */}
+                  <div className="hidden sm:block overflow-x-auto">
                     <table className="w-full text-left text-xs border-collapse">
                       <thead>
                         <tr className="bg-sand/60 text-ink/80 font-heading uppercase tracking-wider border-b border-sand">
@@ -443,16 +464,19 @@ export function TripBuilder() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-sand/60">
-                        {TRANSFER_MATRIX_ROWS.map((row, idx) => (
-                          <tr key={`${row.route}-${idx}`} className="hover:bg-sand/20 transition-colors">
-                            <td className="py-2.5 px-3 font-medium text-ink">{row.route}</td>
-                            <td className="py-2.5 px-3 text-ink/70">{row.type}</td>
-                            <td className="py-2.5 px-3 font-heading font-semibold text-forest">{row.rate}</td>
-                            <td className="py-2.5 px-3 text-right">
-                              <AddToTripButton id={row.id} name={row.route} className="text-xs min-h-[36px] py-1 px-3" />
-                            </td>
-                          </tr>
-                        ))}
+                        {TRANSFER_MATRIX_ROWS.map((row, idx) => {
+                          const validId = getById(row.id) ? row.id : (categoryOfferings[0]?.id || row.id);
+                          return (
+                            <tr key={`${row.route}-${idx}`} className="hover:bg-sand/20 transition-colors">
+                              <td className="py-2.5 px-3 font-medium text-ink">{row.route}</td>
+                              <td className="py-2.5 px-3 text-ink/70">{row.type}</td>
+                              <td className="py-2.5 px-3 font-heading font-semibold text-forest">{row.rate}</td>
+                              <td className="py-2.5 px-3 text-right">
+                                <AddToTripButton id={validId} name={row.route} className="text-xs min-h-[36px] py-1 px-3" />
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>

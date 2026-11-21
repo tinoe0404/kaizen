@@ -235,7 +235,7 @@ const ALL_RATES: RateRow[] = [
 ];
 
 export function TransfersView({ items }: TransfersViewProps) {
-  const [activeTab, setActiveTab] = useState<TabType>("table");
+  const [activeTab, setActiveTab] = useState<TabType>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredRates = useMemo(() => {

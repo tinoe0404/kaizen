@@ -44,7 +44,7 @@ const CATEGORIES_DATA: {
   },
   {
     category: "vehicle",
-    title: "Vehicle hire",
+    title: "Transfers",
     tagline: "How you get around.",
   },
 ];
@@ -61,7 +61,7 @@ const HOW_STEPS = [
     number: "1",
     badgeVariant: "forest",
     title: "Choose what you want",
-    body: "Browse destinations, activities, lodges and vehicles, each with photos. Add what you like to your trip.",
+    body: "Browse destinations, activities, lodges, and transfers. Add what you like to your trip.",
   },
   {
     number: "2",

@@ -2,102 +2,14 @@ import { Offering } from "./types";
 
 export const vehicles: Offering[] = [
   {
-    id: "vehicle-toyota-land-cruiser",
-    slug: "toyota-land-cruiser",
+    id: "vehicle-private-chauffeur",
+    slug: "full-day-chauffeur-safari-vehicle",
     category: "vehicle",
-    name: "Toyota Land Cruiser",
+    name: "Full-Day Private Chauffeur & Safari Vehicle",
     summary:
-      "Rugged 4x4 workhorse built for off-road safari terrain with seating for up to 5 passengers.",
+      "Dedicated private air-conditioned vehicle and professional driver for full-day touring, game viewing, and custom itineraries.",
     description:
-      "The Toyota Land Cruiser is the definitive safari vehicle — trusted across Southern Africa for its legendary reliability and go-anywhere capability. Equipped with full-time four-wheel drive, high ground clearance, and a reinforced chassis, it handles gravel roads, river crossings, and sandy tracks with ease. Air-conditioned cabin with comfortable seating for up to 5 passengers, roof rack, and ample cargo space for luggage and camping gear. Includes comprehensive insurance, unlimited mileage, and 24-hour roadside assistance.",
-    pricing: {
-      unit: "per_group_per_day",
-      amountUsd: 120,
-    },
-    photos: [
-      {
-        src: "/images/vehicles/toyota-land-cruiser-1.jpg",
-        alt: "White Toyota Land Cruiser 4x4 parked on a scenic road ready for a safari adventure",
-      },
-    ],
-    capacity: 5,
-    featured: true,
-  },
-  {
-    id: "vehicle-toyota-hilux",
-    slug: "toyota-hilux",
-    category: "vehicle",
-    name: "Toyota Hilux Double Cab",
-    summary:
-      "Versatile double-cab pickup with 4WD, ideal for self-drive safari tours and luggage-heavy trips.",
-    description:
-      "The Toyota Hilux Double Cab combines rugged off-road performance with the comfort and space needed for extended self-drive safaris. Its powerful diesel engine delivers excellent fuel economy over long distances, while the four-wheel-drive system provides traction on all terrain types. The double-cab configuration seats up to 5 comfortably, with a large rear load bed for luggage, cooler boxes, and outdoor equipment. Fitted with a canopy for weather protection and security.",
-    pricing: {
-      unit: "per_group_per_day",
-      amountUsd: 95,
-    },
-    photos: [
-      {
-        src: "/images/vehicles/toyota-hilux-1.jpg",
-        alt: "Toyota Hilux Double Cab pickup truck on an open African road",
-      },
-    ],
-    capacity: 5,
-    featured: true,
-  },
-  {
-    id: "vehicle-ford-ranger",
-    slug: "ford-ranger",
-    category: "vehicle",
-    name: "Ford Ranger",
-    summary:
-      "Powerful and comfortable 4x4 bakkie with modern tech and seating for up to 5.",
-    description:
-      "The Ford Ranger delivers a refined driving experience without compromising off-road capability. Its turbodiesel engine provides strong torque for hill climbs and towing, while the modern interior features touchscreen infotainment, climate control, and supportive seats for long-distance comfort. Available in double-cab configuration with a fitted canopy, making it practical for both family holidays and adventure-seeking travellers exploring Southern Africa's bush roads and national parks.",
-    pricing: {
-      unit: "per_group_per_day",
-      amountUsd: 100,
-    },
-    photos: [
-      {
-        src: "/images/vehicles/ford-ranger-1.jpg",
-        alt: "Ford Ranger double cab bakkie parked with scenic bushveld in the background",
-      },
-    ],
-    capacity: 5,
-    featured: true,
-  },
-  {
-    id: "vehicle-isuzu-dmax",
-    slug: "isuzu-dmax",
-    category: "vehicle",
-    name: "Isuzu D-Max",
-    summary:
-      "Fuel-efficient and durable 4x4 pickup trusted for long-haul African road trips.",
-    description:
-      "The Isuzu D-Max is renowned across Africa for its exceptional fuel efficiency, low running costs, and bombproof reliability. Its 3.0-litre turbodiesel engine provides smooth, effortless cruising on highways and confident handling on gravel and dirt roads. The double-cab interior is spacious and practical, with ample legroom and modern convenience features. An excellent choice for budget-conscious travellers who need a dependable 4x4 without sacrificing comfort.",
-    pricing: {
-      unit: "per_group_per_day",
-      amountUsd: 85,
-    },
-    photos: [
-      {
-        src: "/images/vehicles/isuzu-dmax-1.jpg",
-        alt: "Isuzu D-Max 4x4 pickup on a dusty Southern African dirt road",
-      },
-    ],
-    capacity: 5,
-    featured: true,
-  },
-  {
-    id: "vehicle-safari-van",
-    slug: "safari-van",
-    category: "vehicle",
-    name: "Safari Van",
-    summary:
-      "Spacious 10-seater minibus ideal for group transfers, guided tours, and airport shuttles.",
-    description:
-      "The Safari Van is the go-to vehicle for group travel, airport transfers, and guided day tours. With seating for up to 10 passengers and generous luggage space, it comfortably accommodates families, tour groups, and corporate delegations. Air-conditioned with reclining seats, large windows for game viewing, and a pop-up roof for photography stops. Available with a professional driver-guide for fully serviced tour packages or as a self-drive rental for flexible group itineraries.",
+      "Enjoy complete freedom and comfort around Victoria Falls and regional national parks with your own private vehicle and dedicated chauffeur. Ideal for families, custom photography safaris, and flexible travelers who want to explore at their own pace without worrying about local taxi hailing or navigation. Includes unlimited mileage within the greater Victoria Falls area, fuel, mineral water, and a knowledgeable local driver-guide. Daily charter rate: $150 per day for the entire group (up to 10 passengers).",
     pricing: {
       unit: "per_group_per_day",
       amountUsd: 150,
@@ -105,10 +17,120 @@ export const vehicles: Offering[] = [
     photos: [
       {
         src: "/images/vehicles/safari-van-1.jpg",
-        alt: "White safari van with pop-up roof parked at a scenic viewpoint",
+        alt: "Private safari minivan with professional chauffeur in Victoria Falls",
       },
     ],
     capacity: 10,
+    featured: true,
+  },
+  {
+    id: "vehicle-vic-falls-airport",
+    slug: "victoria-falls-airport-transfer",
+    category: "vehicle",
+    name: "Victoria Falls Airport Transfer",
+    summary:
+      "Reliable private and shuttle transfers between Victoria Falls International Airport (VFA) and all town hotels or lodges.",
+    description:
+      "Arrive stress-free with our premier Victoria Falls Airport transfer service. Your professional driver welcomes you in the arrivals terminal with a personalized name board, assists with your luggage, and escorts you to a clean, air-conditioned vehicle for a smooth ride to your lodge or hotel. We track flights live to accommodate any delays at no extra charge. Available as private taxi transfers ($30 for 1-4 passengers, $40 for 5-7 passengers), shared airport shuttles ($15 per person rack rate, minimum 2 passengers), or chartered 15+ passenger group buses ($120 per bus).",
+    pricing: {
+      unit: "per_group",
+      amountUsd: 30,
+    },
+    photos: [
+      {
+        src: "/images/vehicles/toyota-land-cruiser-1.jpg",
+        alt: "Air-conditioned Kaizen airport transfer vehicle in Victoria Falls",
+      },
+    ],
+    capacity: 7,
+    featured: true,
+  },
+  {
+    id: "vehicle-livingstone",
+    slug: "livingstone-zambia-transfer",
+    category: "vehicle",
+    name: "Livingstone Airport & Town Transfer (Zambia)",
+    summary:
+      "Seamless cross-border transfers across the Victoria Falls Bridge to Livingstone Town and Airport (LVI).",
+    description:
+      "Convenient cross-border transfers connecting Victoria Falls (Zimbabwe) with Livingstone Town and Harry Mwanga Nkumbula International Airport (LVI) in Zambia. Enjoy scenic views crossing the iconic Victoria Falls Bridge while our experienced drivers guide you seamlessly through both border immigration and customs posts. Rates: Private taxi to Livingstone Town is $40 per vehicle (1-4 passengers), and $60 per vehicle to Livingstone Airport. Shared shuttle rack rate is $20 per person (minimum 4 passengers).",
+    pricing: {
+      unit: "per_group",
+      amountUsd: 40,
+    },
+    photos: [
+      {
+        src: "/images/vehicles/safari-van-1.jpg",
+        alt: "Modern transfer vehicle for cross-border trips between Victoria Falls and Livingstone Zambia",
+      },
+    ],
+    capacity: 7,
+    featured: true,
+  },
+  {
+    id: "vehicle-kasane-chobe",
+    slug: "kasane-chobe-botswana-transfer",
+    category: "vehicle",
+    name: "Kasane & Chobe Transfer (Botswana)",
+    summary:
+      "Door-to-door transfer connecting Victoria Falls to Kazungula Border and Kasane Town / Chobe Safari Lodges.",
+    description:
+      "Direct cross-border connections linking Victoria Falls to Kazungula Border post and Kasane Town, the gateway to Chobe National Park in Botswana. Travel in air-conditioned comfort with experienced drivers who assist with border clearance. Private taxi transfer to Kazungula Border: $80 per vehicle (1-4 passengers); direct to Kasane Town: $120 per vehicle. Shared shuttle rack rates: $25 per person to Kazungula Border (min 4), $35 per person to Kasane Town (min 4). Large group bus (15+ passengers): $230 to Kazungula Border, $420 to Kasane Town.",
+    pricing: {
+      unit: "per_group",
+      amountUsd: 80,
+    },
+    photos: [
+      {
+        src: "/images/vehicles/toyota-land-cruiser-1.jpg",
+        alt: "Kaizen transfer vehicle ready for cross-border journeys to Botswana",
+      },
+    ],
+    capacity: 7,
+    featured: true,
+  },
+  {
+    id: "vehicle-hwange",
+    slug: "hwange-national-park-transfer",
+    category: "vehicle",
+    name: "Hwange National Park Safari Transfer",
+    summary:
+      "Comfortable overland highway transfer connecting Victoria Falls to Hwange National Park safari lodges.",
+    description:
+      "Scenic overland transfer linking Victoria Falls to the gates, safari lodges, and wilderness camps of Hwange National Park (approx. 2.5 hours on well-maintained tar road). Travel in spacious, air-conditioned comfort with complimentary bottled water and flexible departure timing to coordinate with game drive schedules. Shared shuttle rack rate: $60 per person (minimum 4 passengers). Group charter bus (15+ passengers): $600 per bus. Private vehicle charter available upon request.",
+    pricing: {
+      unit: "per_person",
+      amountUsd: 60,
+    },
+    photos: [
+      {
+        src: "/images/vehicles/safari-van-1.jpg",
+        alt: "Spacious overland transfer vehicle on the road to Hwange National Park",
+      },
+    ],
+    capacity: 15,
+    featured: true,
+  },
+  {
+    id: "vehicle-inter-hotel",
+    slug: "inter-hotel-town-taxi",
+    category: "vehicle",
+    name: "Local Town & Inter-Hotel Taxi Service",
+    summary:
+      "On-demand private taxi transfers between Victoria Falls hotels, lodges, The Lookout Café, and town center.",
+    description:
+      "Fast, dependable local taxi service for dinners, activities, and lodge transfers around Victoria Falls. Whether heading from your lodge to a local restaurant, the rainforest gate, The Boma Dinner & Drum Show, or The Lookout Café, our private fleet is on standby. Lodges to Town: $5 per vehicle (1-4 passengers). Lodges to Border / The Lookout Café / Baines: $7 per vehicle (1-4 pax), $10 (5-7 pax). Lodges to A'Zambezi River Lodge / Safari Lodge / Crocodile Farm: $10 per vehicle. Inter-hotel shared shuttle: $6 per person (min 3) or $60 per bus (15+ passengers).",
+    pricing: {
+      unit: "per_group",
+      amountUsd: 5,
+    },
+    photos: [
+      {
+        src: "/images/vehicles/safari-van-1.jpg",
+        alt: "Prompt private chauffeur taxi vehicle in Victoria Falls",
+      },
+    ],
+    capacity: 7,
     featured: true,
   },
 ];

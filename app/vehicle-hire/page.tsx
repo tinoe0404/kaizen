@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { CategoryPage } from "@/components/CategoryPage";
+import { TransfersView } from "@/components/TransfersView";
+import { getAll } from "@/lib/content";
 import { getCategoryConfig } from "@/content/categories";
 
 const config = getCategoryConfig("vehicle");
@@ -11,5 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default function VehicleHirePage() {
-  return <CategoryPage category="vehicle" />;
+  const items = getAll("vehicle");
+  return <TransfersView items={items} />;
 }

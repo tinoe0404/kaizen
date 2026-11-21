@@ -94,7 +94,7 @@ const realPackages: SafariPackage[] = [
       "activity-sossusvlei",
       "activity-sandboarding",
       "activity-swakopmund-skydiving",
-      "vehicle-toyota-land-cruiser",
+      "vehicle-private-chauffeur",
     ],
     photo: {
       src: "/images/destinations/namibia-1.jpg",

@@ -165,7 +165,7 @@ describe("WhatsApp Integration", () => {
         "destination-victoria-falls", "destination-chobe", "destination-namibia",
         "activity-bunji", "activity-rafting", "activity-cruises", "activity-flights-over-the-falls",
         "lodge-victoria-falls-safari-lodge", "lodge-hwange-safari-lodge", "lodge-mana-pools-camp", "lodge-matobo-hills-lodge",
-        "vehicle-toyota-land-cruiser", "vehicle-toyota-hilux", "vehicle-ford-ranger", "vehicle-isuzu-dmax", "vehicle-safari-van",
+        "vehicle-private-chauffeur", "vehicle-vic-falls-airport", "vehicle-livingstone", "vehicle-kasane-chobe", "vehicle-hwange", "vehicle-inter-hotel",
       ];
 
       const trip: TripState = {

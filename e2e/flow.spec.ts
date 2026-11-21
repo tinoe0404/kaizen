@@ -23,7 +23,7 @@ test.describe("Full Trip Booking Flow", () => {
     const categories = [
       "Activities",
       "Lodges",
-      "Vehicle hire",
+      "Transfers",
     ];
 
     for (const cat of categories) {

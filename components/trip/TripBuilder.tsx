@@ -14,13 +14,127 @@ import { WhatsAppLink } from "@/components/WhatsAppLink";
 import { Button } from "@/components/ui/button";
 import { site } from "@/content/site";
 import { OfferingCard } from "@/components/OfferingCard";
+import { AddToTripButton } from "@/components/trip/AddToTripButton";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
+
+interface TransferMetaItem {
+  icon: string;
+  badge: string;
+  pickup: string;
+  dropoff: string;
+  rates: { label: string; price: string }[];
+  features: string[];
+}
+
+const TRANSFER_META: Record<string, TransferMetaItem> = {
+  "vehicle-vic-falls-airport": {
+    icon: "✈️",
+    badge: "Airport Meet & Greet",
+    pickup: "Victoria Falls Airport (VFA)",
+    dropoff: "Victoria Falls Town / Lodges",
+    rates: [
+      { label: "Private Taxi (1–4 pax)", price: "$30 / vehicle" },
+      { label: "Private Taxi (5–7 pax)", price: "$40 / vehicle" },
+      { label: "Shared Shuttle", price: "$15 / person (min 2)" },
+      { label: "Group Bus (15+ pax)", price: "$120 / bus" },
+    ],
+    features: ["Live Flight Tracking", "Meet & Greet", "Luggage Assist", "A/C Comfort"],
+  },
+  "vehicle-inter-hotel": {
+    icon: "🚕",
+    badge: "Town & Dining Taxis",
+    pickup: "Your Lodge / Hotel",
+    dropoff: "Town Center, Rainforest Gate, Lookout Café, Boma",
+    rates: [
+      { label: "Lodges to Town (1–4 pax)", price: "$5 / vehicle" },
+      { label: "To Lookout / Border / Boma (1–4 pax)", price: "$7 / vehicle" },
+      { label: "To Lookout / Border / Boma (5–7 pax)", price: "$10 / vehicle" },
+      { label: "To A'Zambezi / Safari Lodge", price: "$10 / vehicle" },
+      { label: "Shared Shuttle", price: "$6 / person (min 3)" },
+      { label: "Group Bus (15+ pax)", price: "$60 / bus" },
+    ],
+    features: ["On-Demand Dispatch", "All Lodges Covered", "Door-to-Door"],
+  },
+  "vehicle-livingstone": {
+    icon: "🇿🇲",
+    badge: "Cross-Border Zambia",
+    pickup: "Victoria Falls (Zimbabwe)",
+    dropoff: "Livingstone Town & Airport (LVI)",
+    rates: [
+      { label: "Private Taxi to Town (1–4 pax)", price: "$40 / vehicle" },
+      { label: "Private Taxi to Airport (1–4 pax)", price: "$60 / vehicle" },
+      { label: "Shared Shuttle", price: "$20 / person (min 4)" },
+    ],
+    features: ["Victoria Falls Bridge Crossing", "Immigration Assistance", "Air-Conditioned"],
+  },
+  "vehicle-kasane-chobe": {
+    icon: "🇧🇼",
+    badge: "Cross-Border Botswana",
+    pickup: "Victoria Falls (Zimbabwe)",
+    dropoff: "Kazungula Border / Kasane Town & Chobe Lodges",
+    rates: [
+      { label: "Private Taxi to Kazungula (1–4 pax)", price: "$80 / vehicle" },
+      { label: "Private Taxi to Kasane Town (1–4 pax)", price: "$120 / vehicle" },
+      { label: "Shared Shuttle to Kazungula", price: "$25 / person (min 4)" },
+      { label: "Shared Shuttle to Kasane Town", price: "$35 / person (min 4)" },
+      { label: "Group Bus to Kazungula (15+ pax)", price: "$230 / bus" },
+      { label: "Group Bus to Kasane Town (15+ pax)", price: "$420 / bus" },
+    ],
+    features: ["Chobe Safari Gateway", "Kazungula Clearance Support", "Luggage Handling"],
+  },
+  "vehicle-hwange": {
+    icon: "🐘",
+    badge: "Safari Highway Shuttle",
+    pickup: "Victoria Falls",
+    dropoff: "Hwange National Park Safari Lodges",
+    rates: [
+      { label: "Shared Shuttle Rack Rate", price: "$60 / person (min 4)" },
+      { label: "Group Bus Charter (15+ pax)", price: "$600 / bus" },
+    ],
+    features: ["2.5hr Highway Drive", "Complimentary Water", "Spacious Minibus"],
+  },
+  "vehicle-private-chauffeur": {
+    icon: "🚐",
+    badge: "Full-Day Charter",
+    pickup: "Your Accommodation",
+    dropoff: "Custom Full-Day Itinerary (Unlimited Local Mileage)",
+    rates: [
+      { label: "Full Day Private Charter (up to 10 pax)", price: "$150 / day" },
+    ],
+    features: ["Dedicated Driver-Guide", "Flexible Day Itinerary", "Fuel & Water Included"],
+  },
+};
+
+const TRANSFER_MATRIX_ROWS = [
+  { route: "Victoria Falls Airport Transfer", type: "Per Bus (15+ Pax)", rate: "$120.00 / bus", id: "vehicle-vic-falls-airport" },
+  { route: "Inter-Hotel Transfer", type: "Per Bus (15+ Pax)", rate: "$60.00 / bus", id: "vehicle-inter-hotel" },
+  { route: "Kazungula Border Transfer", type: "Per Bus (15+ Pax)", rate: "$230.00 / bus", id: "vehicle-kasane-chobe" },
+  { route: "Kasane Transfer (Botswana)", type: "Per Bus (15+ Pax)", rate: "$420.00 / bus", id: "vehicle-kasane-chobe" },
+  { route: "Hwange National Park Transfer", type: "Per Bus (15+ Pax)", rate: "$600.00 / bus", id: "vehicle-hwange" },
+  { route: "Victoria Falls Airport Shuttle", type: "Per Person (Min 2)", rate: "$15.00 / person", id: "vehicle-vic-falls-airport" },
+  { route: "Inter-Hotel Shuttle Transfer", type: "Per Person (Min 3)", rate: "$6.00 / person", id: "vehicle-inter-hotel" },
+  { route: "Kazungula Border Shuttle", type: "Per Person (Min 4)", rate: "$25.00 / person", id: "vehicle-kasane-chobe" },
+  { route: "Kasane Town Shuttle", type: "Per Person (Min 4)", rate: "$35.00 / person", id: "vehicle-kasane-chobe" },
+  { route: "Hwange National Park Shuttle", type: "Per Person (Min 4)", rate: "$60.00 / person", id: "vehicle-hwange" },
+  { route: "Livingstone Airport Shuttle (Zambia)", type: "Per Person (Min 4)", rate: "$20.00 / person", id: "vehicle-livingstone" },
+  { route: "VF Airport to Town Taxi", type: "Private Taxi (1–4 Pax)", rate: "$30.00 / vehicle", id: "vehicle-vic-falls-airport" },
+  { route: "VF Airport to Town Taxi", type: "Private Taxi (5–7 Pax)", rate: "$40.00 / vehicle", id: "vehicle-vic-falls-airport" },
+  { route: "Lodges to Town Transfer", type: "Private Taxi (1–4 Pax)", rate: "$5.00 / vehicle", id: "vehicle-inter-hotel" },
+  { route: "Lodges to Border / Lookout / Boma", type: "Private Taxi (1–4 Pax)", rate: "$7.00 / vehicle", id: "vehicle-inter-hotel" },
+  { route: "Lodges to Border / Lookout / Boma", type: "Private Taxi (5–7 Pax)", rate: "$10.00 / vehicle", id: "vehicle-inter-hotel" },
+  { route: "Lodges to A'Zambezi / Safari Lodge", type: "Private Taxi (1–4 Pax)", rate: "$10.00 / vehicle", id: "vehicle-inter-hotel" },
+  { route: "Victoria Falls to Kazungula Border", type: "Private Taxi (1–4 Pax)", rate: "$80.00 / vehicle", id: "vehicle-kasane-chobe" },
+  { route: "Victoria Falls to Kasane Town", type: "Private Taxi (1–4 Pax)", rate: "$120.00 / vehicle", id: "vehicle-kasane-chobe" },
+  { route: "VF to Livingstone Town (Zambia)", type: "Private Taxi (1–4 Pax)", rate: "$40.00 / vehicle", id: "vehicle-livingstone" },
+  { route: "VF to Livingstone Airport (Zambia)", type: "Private Taxi (1–4 Pax)", rate: "$60.00 / vehicle", id: "vehicle-livingstone" },
+  { route: "Full-Day Chauffeur Safari Vehicle", type: "Private Charter (Up to 10 Pax)", rate: "$150.00 / day", id: "vehicle-private-chauffeur" },
+];
 
 const CATEGORIES: { key: "activity" | "lodge" | "vehicle"; label: string }[] = [
   { key: "activity", label: "Activities" },
   { key: "lodge", label: "Lodges & Stays" },
-  { key: "vehicle", label: "Vehicle hire" },
+  { key: "vehicle", label: "Transfers" },
 ];
 
 export function TripBuilder() {
@@ -39,6 +153,7 @@ export function TripBuilder() {
   const [activeCategory, setActiveCategory] = useState<
     "activity" | "lodge" | "vehicle"
   >("activity");
+  const [transfersViewMode, setTransfersViewMode] = useState<"cards" | "matrix">("matrix");
   const [selectedDestination, setSelectedDestination] = useState<string>(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
@@ -82,7 +197,7 @@ export function TripBuilder() {
             Build your trip
           </h1>
           <p className="mt-2 text-ink/75 max-w-2xl text-base md:text-lg">
-            Pick your activities, lodges and vehicle hire. Filter by destination,
+            Pick your activities, lodges, and transfers. Filter by destination,
             see your estimate in your preferred currency and send one combined request.
           </p>
         </div>
@@ -269,8 +384,167 @@ export function TripBuilder() {
                 </div>
               )}
 
-              {/* Offerings Grid */}
-              {categoryOfferings.length === 0 ? (
+              {/* Transfer Header Bar */}
+              {activeCategory === "vehicle" && (
+                <div className="mb-6 p-4 rounded-[12px] bg-sand/40 border border-sand flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-heading font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-forest/15 text-forest">
+                        Official Rate Sheet
+                      </span>
+                      <span className="text-xs text-ink/60 font-heading">
+                        2025/2026 Season
+                      </span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-ink/80 mt-1 font-body">
+                      Fixed pricing for private taxis, shared airport shuttles, cross-border transfers & group buses.
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setTransfersViewMode(transfersViewMode === "cards" ? "matrix" : "cards")}
+                    className="min-h-[40px] px-3.5 py-1.5 rounded-full text-xs font-heading font-semibold bg-white border border-sand hover:bg-forest hover:text-bone text-forest transition-colors shadow-2xs inline-flex items-center gap-1.5 cursor-pointer shrink-0"
+                  >
+                    {transfersViewMode === "cards" ? (
+                      <>
+                        <span>📋</span> View Rate Sheet Matrix
+                      </>
+                    ) : (
+                      <>
+                        <span>🚖</span> View Transfer Cards
+                      </>
+                    )}
+                  </button>
+                </div>
+              )}
+
+              {/* Offerings Grid / Transfers Custom Experience */}
+              {activeCategory === "vehicle" && transfersViewMode === "matrix" ? (
+                <div className="bg-white border border-sand rounded-[14px] overflow-hidden shadow-xs">
+                  <div className="p-4 border-b border-sand bg-sand/30 flex items-center justify-between">
+                    <div>
+                      <h3 className="font-heading font-semibold text-base text-ink">
+                        Official Transfer Rates Matrix
+                      </h3>
+                      <p className="text-xs text-ink/70">
+                        Transcribed directly from the Kaizen Travel and Adventures rate sheet.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs border-collapse">
+                      <thead>
+                        <tr className="bg-sand/60 text-ink/80 font-heading uppercase tracking-wider border-b border-sand">
+                          <th className="py-2.5 px-3 font-semibold">Route</th>
+                          <th className="py-2.5 px-3 font-semibold">Service Type</th>
+                          <th className="py-2.5 px-3 font-semibold">Rate</th>
+                          <th className="py-2.5 px-3 font-semibold text-right">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-sand/60">
+                        {TRANSFER_MATRIX_ROWS.map((row, idx) => (
+                          <tr key={`${row.route}-${idx}`} className="hover:bg-sand/20 transition-colors">
+                            <td className="py-2.5 px-3 font-medium text-ink">{row.route}</td>
+                            <td className="py-2.5 px-3 text-ink/70">{row.type}</td>
+                            <td className="py-2.5 px-3 font-heading font-semibold text-forest">{row.rate}</td>
+                            <td className="py-2.5 px-3 text-right">
+                              <AddToTripButton id={row.id} name={row.route} className="text-xs min-h-[36px] py-1 px-3" />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ) : activeCategory === "vehicle" ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  {categoryOfferings.map((offering) => {
+                    const meta = TRANSFER_META[offering.id];
+                    return (
+                      <div
+                        key={offering.id}
+                        className="flex flex-col justify-between bg-white border border-sand rounded-[14px] overflow-hidden shadow-xs hover:border-forest/40 transition-all"
+                      >
+                        {/* Transit Route Header */}
+                        <div className="bg-sand/40 border-b border-sand p-4 flex flex-col justify-between">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-[11px] font-heading font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-forest/10 text-forest">
+                              {meta?.badge || "Official Transfer"}
+                            </span>
+                            <span className="text-xs font-heading font-semibold text-ink/70">
+                              Seats up to {offering.capacity || 7}
+                            </span>
+                          </div>
+
+                          <div className="my-3 p-2.5 rounded-[8px] bg-white border border-sand/80 flex items-center justify-between text-xs text-ink/80 shadow-2xs">
+                            <div className="flex items-center gap-1.5 font-medium truncate">
+                              <span className="w-2 h-2 rounded-full bg-forest shrink-0" />
+                              <span className="truncate">{meta?.pickup || "Victoria Falls"}</span>
+                            </div>
+                            <span className="text-sun text-sm font-bold shrink-0 px-2">➔</span>
+                            <div className="flex items-center gap-1.5 font-medium truncate justify-end">
+                              <span className="truncate">{meta?.dropoff || offering.name}</span>
+                              <span className="w-2 h-2 rounded-full bg-sun shrink-0" />
+                            </div>
+                          </div>
+
+                          <div className="flex flex-wrap items-center gap-2 text-[11px] text-ink/65 font-medium">
+                            {meta?.features.slice(0, 3).map((f) => (
+                              <span key={f} className="flex items-center gap-1">
+                                <span className="text-forest">✓</span> {f}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Card Body */}
+                        <div className="p-4 sm:p-5 flex flex-col flex-1">
+                          <h3 className="font-heading font-semibold text-lg text-ink hover:text-forest transition-colors">
+                            <Link href={offeringHref(offering)}>
+                              {offering.name}
+                            </Link>
+                          </h3>
+
+                          <p className="font-body text-xs sm:text-sm text-ink/75 mt-1.5 line-clamp-2">
+                            {offering.summary}
+                          </p>
+
+                          {/* Rate Breakdown Table */}
+                          <div className="mt-4 pt-3 border-t border-sand/80 space-y-1.5">
+                            <span className="text-[11px] font-heading font-semibold uppercase tracking-wider text-ink/60 block">
+                              Available Rates:
+                            </span>
+                            <div className="space-y-1">
+                              {meta?.rates.map((r) => (
+                                <div key={r.label} className="flex items-center justify-between text-xs">
+                                  <span className="text-ink/75">{r.label}</span>
+                                  <span className="font-heading font-semibold text-forest">{r.price}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="mt-5 pt-3 border-t border-sand flex items-center gap-2">
+                            <AddToTripButton
+                              id={offering.id}
+                              name={offering.name}
+                              className="flex-1"
+                            />
+                            <Link
+                              href={offeringHref(offering)}
+                              className="inline-flex items-center justify-center font-heading font-semibold text-xs min-h-[44px] px-3 py-2 rounded-[8px] border border-sand hover:border-forest/40 text-ink/80 hover:text-forest transition-colors"
+                            >
+                              Details
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : categoryOfferings.length === 0 ? (
                 <div className="p-8 text-center bg-white rounded-[12px] border border-sand">
                   <p className="font-body text-ink/75 text-sm">
                     No {activeCategory === "activity" ? "activities" : "lodges"} found for this destination.
@@ -357,7 +631,7 @@ export function TripBuilder() {
                   </div>
                 ) : derived.lines.length === 0 ? (
                   <p className="text-sm text-ink/60 py-4 text-center">
-                    Your trip is empty. Explore our activities, lodges and vehicle hire
+                    Your trip is empty. Explore our activities, lodges, and transfers
                     on the left, or add a curated safari package.
                   </p>
                 ) : (

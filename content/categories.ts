@@ -43,12 +43,12 @@ export const categories: Record<Category, CategoryConfig> = {
   vehicle: {
     category: "vehicle",
     path: "/vehicle-hire",
-    title: "Vehicle hire",
-    singular: "vehicle",
+    title: "Transfers",
+    singular: "transfer",
     intro:
-      "Choose how you get around. Vehicle prices are shown per day for your group.",
+      "Reliable airport pickups, inter-hotel shuttles, cross-border transfers to Botswana & Zambia, and private safari charters across Victoria Falls.",
     metaDescription:
-      "Hire rugged, fully equipped 4x4 safari vehicles and comfortable overland transport for your trip.",
+      "Book airport transfers, private taxis, and safari shuttles across Victoria Falls, Chobe, Livingstone, and Hwange with Kaizen Travel.",
   },
 };
 

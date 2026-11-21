@@ -19,6 +19,7 @@ export function OfferingCard({
   const href = offeringHref(offering);
   const HeadingTag = headingLevel;
   const isDestination = offering.category === "destination";
+  const isVehicle = offering.category === "vehicle";
 
   let destSummary = "";
   if (isDestination) {
@@ -38,12 +39,49 @@ export function OfferingCard({
 
   return (
     <div className="group relative flex flex-col bg-white border border-sand rounded-[14px] overflow-hidden transition-colors hover:border-forest/40">
-      {/* 4:3 Photo on top with rounded top corners */}
-      <Photo
-        photo={offering.photos?.[0]}
-        label={offering.name}
-        className="aspect-[4/3] w-full rounded-t-[14px] rounded-b-none"
-      />
+      {/* Visual Header: Transit Route banner for transfers, 4:3 photo for activities/lodges/destinations */}
+      {isVehicle ? (
+        <div className="bg-sand/40 border-b border-sand p-4 sm:p-5 flex flex-col justify-between min-h-[140px] relative overflow-hidden select-none">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[11px] font-heading font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-forest/10 text-forest">
+              Official Transfer Service
+            </span>
+            <span className="text-xs font-heading font-semibold text-ink/70 flex items-center gap-1">
+              <span>👥</span> {offering.capacity ? `Up to ${offering.capacity} pax` : "Private & Shuttle"}
+            </span>
+          </div>
+
+          <div className="my-2 p-2.5 rounded-[8px] bg-white/90 border border-sand/80 flex items-center justify-between text-xs text-ink/80 shadow-2xs">
+            <div className="flex items-center gap-1.5 font-medium truncate">
+              <span className="w-2 h-2 rounded-full bg-forest shrink-0" />
+              <span className="truncate">Victoria Falls Area</span>
+            </div>
+            <span className="text-sun text-sm font-bold shrink-0 px-2">➔</span>
+            <div className="flex items-center gap-1.5 font-medium truncate justify-end">
+              <span className="truncate">{offering.name.replace(" Transfer", "").replace(" Service", "")}</span>
+              <span className="w-2 h-2 rounded-full bg-sun shrink-0" />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 text-[11px] text-ink/65 font-medium">
+            <span className="flex items-center gap-1">
+              <span className="text-forest">✓</span> A/C Comfort
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="text-forest">✓</span> Meet & Greet
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="text-forest">✓</span> Luggage Assist
+            </span>
+          </div>
+        </div>
+      ) : (
+        <Photo
+          photo={offering.photos?.[0]}
+          label={offering.name}
+          className="aspect-[4/3] w-full rounded-t-[14px] rounded-b-none"
+        />
+      )}
 
       {/* Card Content */}
       <div className="p-4 sm:p-6 flex flex-col flex-1 min-w-0">

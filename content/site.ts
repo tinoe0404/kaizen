@@ -3,7 +3,7 @@ import { SiteConfig } from "./types";
 export const site: SiteConfig = {
   name: "Kaizen Travel and Adventures",
   tagline:
-    "Bespoke safari expeditions, lodge reservations, and 4x4 vehicle hire across Southern Africa",
+    "Bespoke safari expeditions, lodge reservations, and private transfers across Southern Africa",
   whatsappNumber: "+263 71 340 2010",
   phoneNumber: "+263 77 640 8014",
   bookingEmail: "kaizenvicfalls@gmail.com",

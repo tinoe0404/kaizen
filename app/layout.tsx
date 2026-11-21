@@ -35,7 +35,7 @@ function getSiteUrl(): URL {
 }
 
 const description =
-  "Build your trip online and send one booking request. Destinations, activities, lodges and vehicle hire across Southern Africa.";
+  "Build your trip online and send one booking request. Destinations, activities, lodges and transfers across Southern Africa.";
 
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),

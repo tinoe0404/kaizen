@@ -50,6 +50,16 @@ const nextConfig: NextConfig = {
 
     return headers;
   },
+
+  async redirects() {
+    return [
+      {
+        source: "/transfers",
+        destination: "/vehicle-hire",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

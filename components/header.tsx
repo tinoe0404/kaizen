@@ -13,7 +13,7 @@ const NAV_LINKS = [
   { href: "/packages", label: "Packages" },
   { href: "/activities", label: "Activities" },
   { href: "/lodges", label: "Lodges" },
-  { href: "/vehicle-hire", label: "Vehicle hire" },
+  { href: "/vehicle-hire", label: "Transfers" },
 ];
 
 const MOBILE_EXTRA_LINKS = [

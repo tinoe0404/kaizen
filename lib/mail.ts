@@ -46,8 +46,8 @@ export function getMailTransporter(): Transporter {
   const host = process.env.SMTP_HOST!;
   const port = parseInt(process.env.SMTP_PORT!, 10);
   const secure = process.env.SMTP_SECURE === "true";
-  const user = process.env.SMTP_USER!;
-  const pass = process.env.SMTP_PASS!;
+  const user = process.env.SMTP_USER!.trim();
+  const pass = process.env.SMTP_PASS!.trim();
 
   cachedTransporter = nodemailer.createTransport({
     host,

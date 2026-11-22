@@ -268,8 +268,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       typeof err === "object" && err !== null && "code" in err
         ? String((err as { code: unknown }).code)
         : "TEAM_MAIL_FAIL";
-    // Never log personal info. Only reference and error code.
-    console.error(`[REQUEST_ERR] Ref: ${reference}, Code: ${errorCode}`);
+    const errorDetails = err instanceof Error ? err.message : String(err);
+    // Never log personal info. Only reference, error code, and error details.
+    console.error(`[REQUEST_ERR] Ref: ${reference}, Code: ${errorCode}, Details: ${errorDetails}`);
 
     return NextResponse.json(
       {
@@ -303,8 +304,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       typeof err === "object" && err !== null && "code" in err
         ? String((err as { code: unknown }).code)
         : "GUEST_MAIL_FAIL";
-    // Log reference and error code only
-    console.error(`[REQUEST_WARN] Ref: ${reference}, Code: ${errorCode}`);
+    const errorDetails = err instanceof Error ? err.message : String(err);
+    // Log reference, error code, and error details
+    console.error(`[REQUEST_WARN] Ref: ${reference}, Code: ${errorCode}, Details: ${errorDetails}`);
     confirmationSent = false;
   }
 

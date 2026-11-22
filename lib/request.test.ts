@@ -211,8 +211,11 @@ describe("Request Logic", () => {
     });
 
     describe("phone validation", () => {
-      it("accepts empty or missing phone as it is optional", () => {
-        expect(validateRequest(makeValidPayload({ phone: "" })).ok).toBe(true);
+      it("rejects empty or missing phone as WhatsApp is mandatory", () => {
+        expect(validateRequest(makeValidPayload({ phone: "" })).ok).toBe(false);
+        expect(
+          validateRequest(makeValidPayload({ phone: undefined as unknown as string })).ok
+        ).toBe(false);
       });
 
       it("rejects letters or illegal symbols in phone", () => {
@@ -231,6 +234,11 @@ describe("Request Logic", () => {
         const res = validateRequest(
           makeValidPayload({ phone: "+1234567890123456789012345678901" })
         );
+        expect(res.ok).toBe(false);
+      });
+
+      it("rejects phone with fewer than 8 digits", () => {
+        const res = validateRequest(makeValidPayload({ phone: "+1 234" }));
         expect(res.ok).toBe(false);
       });
 

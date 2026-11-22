@@ -2,6 +2,7 @@ import { RequestPayload, RequestSummary } from "@/lib/request";
 import { site } from "@/content/site";
 import { ratesUpdated } from "@/content/currency";
 import { formatCurrencyAmount } from "@/lib/pricing";
+import { whatsappLink } from "@/lib/whatsapp";
 
 // ─── HTML Escaping ────────────────────────────────────────────────────────
 
@@ -78,6 +79,10 @@ export function buildTeamEmail(
   textLines.push(`Total (USD): ${formattedUsdTotal}`);
   textLines.push(`Exchange rates as of: ${ratesUpdated}`);
   textLines.push("");
+  textLines.push("Status: PENDING WHATSAPP CONFIRMATION (Action Required)");
+  textLines.push(
+    "The guest has been instructed to complete their booking by sending their reference via WhatsApp."
+  );
   textLines.push(
     "Status: This is a request, not a booking. We will check availability and confirm the details and payment with you directly."
   );
@@ -185,7 +190,9 @@ export function buildTeamEmail(
           </tr>
         </table>
 
-        <div style="margin-top:20px;padding:12px;background-color:#FBF8F1;border:1px solid #F2EADA;border-radius:6px;font-size:13px;color:#0F2A1A;line-height:1.4;">
+        <div style="margin-top:20px;padding:14px;background-color:#FEF3C7;border:1px solid #F59E0B;border-radius:6px;font-size:13px;color:#92400E;line-height:1.5;">
+          <strong style="font-size:14px;color:#78350F;display:block;margin-bottom:4px;">Status: PENDING WHATSAPP CONFIRMATION</strong>
+          The guest has been instructed to complete their booking by sending their reference via WhatsApp.<br>
           This is a request, not a booking. We will check availability and confirm the details and payment with you directly.
         </div>
 
@@ -219,12 +226,21 @@ export function buildGuestEmail(
     summary.currency
   );
 
+  const confirmMsg = `Hello Kaizen Travel & Adventures! I am confirming my booking request #${reference} for ${data.name}.`;
+  const whatsappConfirmUrl =
+    whatsappLink(confirmMsg) ||
+    `https://wa.me/${site.whatsappNumber.replace(/\D/g, "")}`;
+
   // Plain-text version
   const textLines: string[] = [
     `Dear ${data.name},`,
     "",
     `Thank you for your trip request with ${site.name}.`,
     `Your request reference is: ${reference}`,
+    "",
+    "STATUS: PENDING WHATSAPP CONFIRMATION (Action Required)",
+    "To lock in availability with our safari guides and lodges, you must confirm your booking via WhatsApp within 24 hours.",
+    `Confirm on WhatsApp: ${whatsappConfirmUrl}`,
     "",
     "Trip Details:",
     `Arrival: ${data.arrival}`,
@@ -301,8 +317,21 @@ export function buildGuestEmail(
       <td style="padding:24px;">
         <p style="margin:0 0 16px 0;font-size:16px;line-height:1.5;">Dear ${escapeHtml(data.name)},</p>
         <p style="margin:0 0 16px 0;font-size:15px;line-height:1.5;">
-          Thank you for reaching out to plan your journey with us. We have received your trip request and our team is reviewing availability.
+          Thank you for reaching out to plan your journey with us. We have received your trip request.
         </p>
+
+        <div style="margin:20px 0;padding:16px;background-color:#FEF3C7;border:2px solid #F59E0B;border-radius:6px;font-size:14px;line-height:1.5;color:#92400E;">
+          <strong style="font-size:15px;display:block;margin-bottom:6px;color:#78350F;">⚠️ Action Required: WhatsApp Confirmation Mandatory</strong>
+          Your provisional booking reference is <strong>${escapeHtml(reference)}</strong>. To lock in availability with our safari guides and lodges, <strong>you must confirm your request on WhatsApp</strong>:
+          <div style="margin:14px 0 8px 0;text-align:center;">
+            <a href="${escapeHtml(whatsappConfirmUrl)}" style="display:inline-block;background-color:#25D366;color:#ffffff;text-decoration:none;font-weight:bold;padding:12px 24px;border-radius:30px;font-size:15px;">
+              Complete Booking on WhatsApp
+            </a>
+          </div>
+          <div style="font-size:12px;color:#78350F;text-align:center;margin-top:6px;">
+            Requests without WhatsApp confirmation within 24 hours are automatically released.
+          </div>
+        </div>
 
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0;background-color:#FBF8F1;border-radius:6px;padding:12px;font-size:14px;">
           <tr>

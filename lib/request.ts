@@ -223,19 +223,28 @@ export function validateRequest(input: unknown): ValidationResult {
     }
   }
 
-  // 7. phone: optional, max 30 chars, only digits, spaces, + - ( ), no control/newlines
+  // 7. phone: required WhatsApp number, max 30 chars, only digits, spaces, + - ( ), no control/newlines, min 8 digits
   let phone = "";
-  if (raw.phone !== undefined && raw.phone !== null && raw.phone !== "") {
-    if (typeof raw.phone !== "string") {
-      errors.phone = "Enter a valid phone number.";
-    } else if (CONTROL_OR_NEWLINE_RE.test(raw.phone)) {
-      errors.phone = "Phone number contains invalid characters.";
+  if (
+    raw.phone === undefined ||
+    raw.phone === null ||
+    typeof raw.phone !== "string" ||
+    raw.phone.trim().length === 0
+  ) {
+    errors.phone = "Enter your WhatsApp phone number so we can confirm your booking.";
+  } else if (CONTROL_OR_NEWLINE_RE.test(raw.phone)) {
+    errors.phone = "Phone number contains invalid characters.";
+  } else {
+    const trimmed = raw.phone.trim();
+    if (trimmed.length > 30) {
+      errors.phone = "Phone number must be 30 characters or fewer.";
+    } else if (!PHONE_CHARS_RE.test(trimmed)) {
+      errors.phone =
+        "Phone number may only contain digits, spaces, +, -, and parentheses.";
     } else {
-      const trimmed = raw.phone.trim();
-      if (trimmed.length > 30) {
-        errors.phone = "Phone number must be 30 characters or fewer.";
-      } else if (!PHONE_CHARS_RE.test(trimmed)) {
-        errors.phone = "Phone number may only contain digits, spaces, +, -, and parentheses.";
+      const digits = trimmed.replace(/\D/g, "");
+      if (digits.length < 8) {
+        errors.phone = "Enter a valid WhatsApp phone number with country code.";
       } else {
         phone = trimmed;
       }

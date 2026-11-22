@@ -136,6 +136,15 @@ export function RequestForm() {
       });
       const whatsappUrl = whatsappLink(whatsappMsg);
 
+      // Auto-open WhatsApp handoff
+      if (whatsappUrl && typeof window !== "undefined") {
+        try {
+          window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+        } catch {
+          // Silently handle if popup is blocked
+        }
+      }
+
       // Success
       setSuccessInfo({
         reference: data.reference,
@@ -161,36 +170,53 @@ export function RequestForm() {
         className="rounded-[8px] bg-sand/60 border border-sand p-6 text-ink animate-in fade-in duration-200"
         aria-live="polite"
       >
-        <h2
-          ref={successHeadingRef}
-          tabIndex={-1}
-          className="font-heading font-bold text-2xl text-forest mb-2 focus:outline-none"
-        >
-          Request sent
-        </h2>
+        <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+          <h2
+            ref={successHeadingRef}
+            tabIndex={-1}
+            className="font-heading font-bold text-2xl text-forest focus:outline-none"
+          >
+            Request sent
+          </h2>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 border border-amber-300 text-amber-900 font-semibold text-xs tracking-wide">
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true" />
+            STEP 2 OF 2: WHATSAPP CONFIRMATION REQUIRED
+          </span>
+        </div>
+
         <div className="font-heading font-semibold text-lg text-ink mb-3">
-          Reference: <span className="text-sun font-bold">{successInfo.reference}</span>
+          Provisional Reference: <span className="text-sun font-bold">{successInfo.reference}</span>
         </div>
         <p className="text-base text-ink mb-4 leading-relaxed">
-          We will check availability and contact you to confirm the details and payment.
+          Your trip request has been logged. To protect availability and confirm your booking with our local safari guides and lodges, <strong>you must confirm your request via WhatsApp</strong>.
         </p>
 
         {successInfo.whatsappUrl && (
-          <div className="bg-white border-2 border-forest/30 rounded-[8px] p-4 mb-4 shadow-sm">
-            <p className="font-heading font-semibold text-sm text-forest mb-1">
-              ⚡ Instant WhatsApp Delivery
-            </p>
-            <p className="text-xs sm:text-sm text-ink/75 mb-3 leading-relaxed">
-              Send your booking details directly to our WhatsApp ({site.whatsappNumber}) for fastest confirmation:
-            </p>
+          <div className="bg-white border-2 border-[#25D366] rounded-[8px] p-5 mb-4 shadow-md">
+            <div className="flex items-start gap-2.5 mb-2">
+              <span className="text-2xl shrink-0" aria-hidden="true">📲</span>
+              <div>
+                <h3 className="font-heading font-bold text-base text-forest">
+                  Action Required: Send WhatsApp Confirmation
+                </h3>
+                <p className="text-xs sm:text-sm text-ink/80 mt-1 leading-relaxed">
+                  Sending your booking details to our official WhatsApp ({site.whatsappNumber}) is <strong>mandatory</strong> to lock in availability.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-3 bg-amber-50/80 border border-amber-200 rounded-[6px] text-xs text-amber-900 mb-4">
+              ⏰ <strong>24-Hour Expiration:</strong> Provisional holds are kept for 24 hours. Unconfirmed email requests are automatically released.
+            </div>
+
             <a
               href={successInfo.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 w-full min-h-[44px] px-5 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20bd5a] active:bg-[#1caa51] text-white font-heading font-semibold text-sm sm:text-base shadow-sm transition-colors select-none text-center cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 w-full min-h-[48px] px-5 py-3 rounded-full bg-[#25D366] hover:bg-[#20bd5a] active:bg-[#1caa51] text-white font-heading font-bold text-sm sm:text-base shadow-sm hover:shadow transition-all select-none text-center cursor-pointer"
             >
               <svg
-                className="w-4 h-4 shrink-0"
+                className="w-5 h-5 shrink-0"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -201,19 +227,22 @@ export function RequestForm() {
               >
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
-              Send Booking on WhatsApp
+              Complete Booking on WhatsApp
             </a>
+            <p className="text-center text-xs text-ink/60 mt-2">
+              Opens WhatsApp with your booking reference #{successInfo.reference} pre-loaded. Simply tap Send!
+            </p>
           </div>
         )}
 
         {!successInfo.confirmationSent && (
           <div className="p-3 bg-bone rounded-[6px] border border-ink/10 text-sm text-ink/80 mb-4 leading-normal">
-            We could not email you a confirmation, but we did receive your request. Please keep your reference.
+            We could not email you a confirmation, but your provisional reference is saved. Please ensure you tap above to complete your booking on WhatsApp.
           </div>
         )}
 
         <div className="pt-2 border-t border-ink/10 text-sm text-ink/70">
-          Have an urgent question? Message us on WhatsApp:{" "}
+          Direct WhatsApp operations line:{" "}
           <span className="font-semibold text-forest">{site.whatsappNumber}</span>
         </div>
       </div>
@@ -319,15 +348,17 @@ export function RequestForm() {
         )}
       </div>
 
-      {/* Phone or WhatsApp */}
+      {/* WhatsApp Phone Number (Required) */}
       <div>
         <label
           htmlFor="request-phone"
           className="block font-heading font-semibold text-sm text-ink mb-1"
         >
-          Phone or WhatsApp{" "}
-          <span className="font-normal text-ink/60">(optional)</span>
+          WhatsApp Phone Number <span className="text-forest">*</span>
         </label>
+        <p className="text-xs text-ink/65 mb-1.5">
+          Required with country code (e.g. +263 71 ... or +1 ...). Bookings must be confirmed via WhatsApp to lock in dates.
+        </p>
         <input
           ref={phoneInputRef}
           id="request-phone"
@@ -335,6 +366,8 @@ export function RequestForm() {
           type="tel"
           inputMode="tel"
           autoComplete="tel"
+          required
+          placeholder="+263 71 234 5678"
           value={phone}
           onChange={(e) => {
             setPhone(e.target.value);

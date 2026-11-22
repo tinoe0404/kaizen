@@ -163,7 +163,7 @@ describe("WhatsApp Integration", () => {
       // Create a trip with all 16 items repeated or duplicated in derived lines
       const allIds = [
         "destination-victoria-falls", "destination-chobe", "destination-namibia",
-        "activity-bunji", "activity-rafting", "activity-cruises", "activity-flights-over-the-falls",
+        "activity-bunji", "activity-rafting", "activity-cruises", "activity-game-drives",
         "lodge-victoria-falls-safari-lodge", "lodge-hwange-safari-lodge", "lodge-mana-pools-camp", "lodge-matobo-hills-lodge",
         "vehicle-private-chauffeur", "vehicle-vic-falls-airport", "vehicle-livingstone", "vehicle-kasane-chobe", "vehicle-hwange", "vehicle-inter-hotel",
       ];

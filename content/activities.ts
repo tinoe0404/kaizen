@@ -60,25 +60,6 @@ export const activities: Offering[] = [
     featured: true,
   },
   {
-    id: "activity-flights-over-the-falls",
-    slug: "flights-over-the-falls",
-    category: "activity",
-    name: "Flights Over the Falls",
-    summary:
-      "Scenic helicopter tours offering breathtaking aerial views of Victoria Falls and the Batoka Gorge.",
-    description:
-      "Take to the skies for an awe-inspiring aerial perspective of Victoria Falls, known locally as the 'Flight of Angels'. Marvel at the sheer scale of the curtain of water, the zigzagging gorges carved by the Zambezi River, and surrounding national park landscapes. Spectacular photo opportunities from specially designed viewing windows.",
-    pricing: { unit: "per_person", amountUsd: 175 },
-    photos: [
-      {
-        src: "/images/activities/flights-over-the-falls-1.jpg",
-        alt: "Aerial helicopter view of the dramatic gorge and mist of Victoria Falls",
-      },
-    ],
-    destinationSlug: "victoria-falls",
-    featured: true,
-  },
-  {
     id: "activity-game-drives",
     slug: "game-drives",
     category: "activity",

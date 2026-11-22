@@ -4,38 +4,6 @@ const useFixtures = process.env.NEXT_PUBLIC_CONTENT_FIXTURES === "1";
 
 const realPackages: SafariPackage[] = [
   {
-    id: "package-vic-falls-adrenaline",
-    slug: "vic-falls-adrenaline",
-    title: "Victoria Falls Adrenaline & Falls",
-    subtitle:
-      "Helicopter flight, bridge bungee, Batoka rafting & plateau lodge",
-    duration: "3 Days / 2 Nights",
-    destination: "Victoria Falls",
-    badge: "Most Popular Adventure",
-    description:
-      "The definitive adrenaline long-weekend in Africa's adventure capital. Plunge 111 meters from the Victoria Falls Bridge, conquer Grade 5 rapids in the Batoka Gorge, take in the breathtaking Flight of Angels helicopter tour, and unwind on a golden-hour Zambezi sunset cruise. Base yourself at Victoria Falls Safari Lodge with private balconies overlooking an active game waterhole.",
-    highlights: [
-      "111-meter Victoria Falls Bridge Bungee Jump",
-      "Scenic 'Flight of Angels' helicopter tour over the gorge",
-      "World-class Grade 5 Batoka Gorge white-water rafting",
-      "Sunset river cruise with drinks & birdlife",
-      "Luxury stay at Victoria Falls Safari Lodge",
-    ],
-    itemIds: [
-      "destination-victoria-falls",
-      "lodge-victoria-falls-safari-lodge",
-      "activity-flights-over-the-falls",
-      "activity-bunji",
-      "activity-rafting",
-      "activity-cruises",
-    ],
-    photo: {
-      src: "/images/activities/flights-over-the-falls-1.jpg",
-      alt: "Aerial helicopter view of Victoria Falls and gorge",
-    },
-    featured: true,
-  },
-  {
     id: "package-vic-falls-chobe-combo",
     slug: "vic-falls-chobe-combo",
     title: "Best of Victoria Falls & Chobe Wildlife Combo",
@@ -45,11 +13,11 @@ const realPackages: SafariPackage[] = [
     destination: "Victoria Falls & Chobe",
     badge: "Top Wildlife Pick",
     description:
-      "Experience the ultimate safari double-bill: the roar and adrenaline of Victoria Falls paired with the world's densest elephant population in Chobe National Park, Botswana. Includes sunset river safaris, open 4x4 predator drives, helicopter flights over the falls, and premium riverside lodging on both sides of the border.",
+      "Experience the ultimate safari double-bill: the roar of Victoria Falls paired with the world's densest elephant population in Chobe National Park, Botswana. Includes sunset river safaris, open 4x4 predator drives, wildlife game drives, and premium riverside lodging on both sides of the border.",
     highlights: [
       "Up-close boat safaris among huge elephant herds on the Chobe River",
       "Open 4x4 predator tracking in Chobe National Park",
-      "Helicopter tour over the roaring Victoria Falls",
+      "Guided wildlife game drives in Victoria Falls",
       "Sunset wildlife cruise along the upper Zambezi",
       "Riverside lodge accommodations in Kasane and Victoria Falls",
     ],
@@ -58,7 +26,7 @@ const realPackages: SafariPackage[] = [
       "destination-chobe",
       "lodge-victoria-falls-safari-lodge",
       "lodge-chobe-safari-lodge",
-      "activity-flights-over-the-falls",
+      "activity-game-drives",
       "activity-cruises",
       "activity-chobe-boat-safari",
       "activity-chobe-game-drive",
@@ -114,7 +82,7 @@ const realPackages: SafariPackage[] = [
     description:
       "The premier bucket-list overland and fly-in journey connecting the three greatest highlights of Southern Africa. From the sheer curtain of Victoria Falls to the massive elephant herds along the Chobe River and the vast shimmering salt pans of Etosha and red dunes of Sossusvlei, this journey offers an unparalleled diversity of wildlife, scenery, and luxury camps.",
     highlights: [
-      "Victoria Falls helicopter 'Flight of Angels' and luxury plunge pool tent",
+      "Sunset Zambezi wildlife cruise and luxury plunge pool tent",
       "Exclusive safari boat cruises inside Chobe National Park",
       "Multi-day big cat and rhino tracking in Etosha National Park",
       "Iconic red dunes of Sossusvlei at sunrise",
@@ -127,7 +95,7 @@ const realPackages: SafariPackage[] = [
       "lodge-elephant-camp",
       "lodge-chobe-game-lodge",
       "lodge-sossusvlei-lodge",
-      "activity-flights-over-the-falls",
+      "activity-cruises",
       "activity-chobe-boat-safari",
       "activity-sossusvlei",
       "activity-etosha-safari",

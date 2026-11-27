@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
 import { CategoryPage } from "@/components/CategoryPage";
-import { getCategoryConfig } from "@/content/categories";
+import { getCategoryMetadata } from "@/lib/og";
 
-const config = getCategoryConfig("activity");
-
-export const metadata: Metadata = {
-  title: config.title,
-  description: config.metaDescription,
-  alternates: { canonical: config.path },
-};
+export const metadata: Metadata = getCategoryMetadata("activity");
 
 export default function ActivitiesPage() {
   return <CategoryPage category="activity" />;

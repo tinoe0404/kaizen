@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { categoryPath, offeringHref } from "./routes";
+import { categoryPath, offeringHref, packageHref, guideHref } from "./routes";
 import { Offering } from "@/content/types";
 
 describe("routes", () => {
@@ -23,6 +23,18 @@ describe("routes", () => {
     };
 
     expect(offeringHref(dummyOffering)).toBe("/destinations/serengeti-plains");
+  });
+
+  it("packageHref generates correct href", () => {
+    expect(packageHref({ slug: "vic-falls-chobe-combo" })).toBe(
+      "/packages/vic-falls-chobe-combo"
+    );
+  });
+
+  it("guideHref generates correct href", () => {
+    expect(guideHref({ slug: "best-time-to-visit-victoria-falls" })).toBe(
+      "/guides/best-time-to-visit-victoria-falls"
+    );
   });
 });
 

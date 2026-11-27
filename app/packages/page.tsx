@@ -1,37 +1,109 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getPackages } from "@/lib/content";
+import { getOgImage } from "@/lib/og";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { PackageCard } from "@/components/PackageCard";
+import { JsonLd } from "@/components/JsonLd";
+
+const packagesOgImage = getOgImage(
+  getPackages()[0]?.photo,
+  "Zimbabwe and Southern Africa safari packages across Victoria Falls, Chobe, and Namibia"
+);
 
 export const metadata: Metadata = {
-  title: "Curated Safari Packages & Itineraries",
+  title: "Zimbabwe & Southern Africa Packages",
   description:
-    "Explore pre-planned 3 to 10 day safari itineraries across Victoria Falls, Chobe, and Namibia. Add an entire package to your trip planner with one click.",
+    "Explore 5 to 10 day Zimbabwe, Chobe, and Southern Africa safari packages. Customize lodges, Victoria Falls activities, and transfers with instant pricing.",
   alternates: { canonical: "/packages" },
+  openGraph: {
+    title: "Zimbabwe & Southern Africa Safari Packages | Kaizen Travel and Adventures",
+    description:
+      "Explore 5 to 10 day Zimbabwe, Chobe, and Southern Africa safari packages. Customize lodges, Victoria Falls activities, and transfers with instant pricing.",
+    url: "/packages",
+    images: [packagesOgImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Zimbabwe & Southern Africa Safari Packages | Kaizen Travel and Adventures",
+    description:
+      "Explore tailor-made 5 to 10 day Zimbabwe, Chobe, and Southern Africa safari packages.",
+    images: [packagesOgImage.url],
+  },
 };
 
 export default function PackagesPage() {
   const packages = getPackages();
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "";
+
+  const packagesLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Curated Safari Packages & Itineraries",
+    itemListElement: packages.map((pkg, idx) => {
+      const photoSrc = pkg.photo?.src;
+      const photoUrl = photoSrc
+        ? photoSrc.startsWith("http")
+          ? photoSrc
+          : `${siteUrl}${photoSrc}`
+        : undefined;
+
+      return {
+        "@type": "ListItem",
+        position: idx + 1,
+        item: {
+          "@type": "TouristTrip",
+          name: pkg.title,
+          description: pkg.description,
+          ...(photoUrl ? { image: photoUrl } : {}),
+          touristType: "Safari",
+          provider: {
+            "@type": "TravelAgency",
+            name: "Kaizen Travel and Adventures",
+            ...(siteUrl ? { url: siteUrl } : {}),
+          },
+        },
+      };
+    }),
+  };
 
   return (
     <div className="w-full flex flex-col">
+      <JsonLd data={packagesLd} />
       {/* Top Banner */}
       <Section sand className="py-12 md:py-16 border-b border-forest/10">
         <Container>
           <span className="font-heading font-semibold text-xs uppercase tracking-wider text-sun mb-2 block">
-            Curated Expeditions
+            Tailor-Made Multi-Country &amp; Zimbabwe Itineraries
           </span>
           <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-ink">
-            Curated Safari Packages & Itineraries
+            Zimbabwe &amp; Southern Africa Safari Packages
           </h1>
           <p className="font-body text-ink/80 text-base sm:text-lg mt-3 max-w-[680px] leading-relaxed">
-            Hand-crafted journeys connecting Southern Africa&apos;s most iconic
-            experiences. Add an entire itinerary to your trip planner with a
-            single click, or customize it to your personal travel party and
-            dates.
+            Hand-crafted multi-day journeys connecting Victoria Falls, Chobe
+            National Park, and Namibia. Add an entire itinerary to your trip
+            planner with one click, swap lodges or add airport transfers, and see
+            live totals in USD, EUR, GBP, or ZAR.
           </p>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-5 text-sm font-heading font-medium text-forest">
+            <Link href="/destinations/victoria-falls" className="hover:underline">
+              Victoria Falls Hub →
+            </Link>
+            <Link href="/destinations/zimbabwe-safaris" className="hover:underline">
+              Zimbabwe Safari Parks →
+            </Link>
+            <Link href="/destinations/chobe" className="hover:underline">
+              Chobe, Botswana →
+            </Link>
+            <Link href="/destinations/namibia" className="hover:underline">
+              Namibia Self-Drive →
+            </Link>
+            <Link href="/vehicle-hire" className="hover:underline">
+              Airport &amp; Border Transfers →
+            </Link>
+          </div>
         </Container>
       </Section>
 
@@ -49,6 +121,7 @@ export default function PackagesPage() {
       {/* Value Pillars */}
       <Section sand className="py-12 md:py-16 border-t border-forest/10">
         <Container>
+          <h2 className="sr-only">Package Highlights and Booking Benefits</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center sm:text-left">
             <div className="flex flex-col gap-2">
               <span className="w-10 h-10 rounded-full bg-forest/10 text-forest font-heading font-bold flex items-center justify-center text-base mb-1">

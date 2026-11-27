@@ -13,6 +13,7 @@ const EXPLORE_LINKS = [
 ];
 
 const COMPANY_LINKS = [
+  { href: "/guides", label: "Travel Guides" },
   { href: "/about", label: "About" },
   { href: "/faq", label: "FAQ & Guide" },
   { href: "/contact", label: "Contact" },

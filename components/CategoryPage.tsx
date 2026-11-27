@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Category } from "@/content/types";
 import { getCategoryConfig } from "@/content/categories";
 import { getAll } from "@/lib/content";
@@ -22,11 +23,24 @@ export function CategoryPage({ category }: CategoryPageProps) {
       <Section sand className="py-12 md:py-16 border-b border-forest/10">
         <Container>
           <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-ink">
-            {config.title}
+            {config.seoHeading || config.title}
           </h1>
           <p className="font-body text-ink/80 text-base sm:text-lg mt-3 max-w-[640px] leading-relaxed">
             {config.intro}
           </p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-5 text-sm font-heading font-medium text-forest">
+            <Link href="/packages" className="hover:underline">
+              Browse Safari Packages →
+            </Link>
+            {category !== "vehicle" && (
+              <Link href="/vehicle-hire" className="hover:underline">
+                Airport &amp; Safari Transfers →
+              </Link>
+            )}
+            <Link href="/faq" className="hover:underline">
+              Visas &amp; Travel Guide →
+            </Link>
+          </div>
         </Container>
       </Section>
 

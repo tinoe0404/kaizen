@@ -10,7 +10,7 @@ export const activities: Offering[] = [
     summary:
       "111-meter bungee jump from the Victoria Falls Bridge over the Zambezi River.",
     description:
-      "Experience the ultimate adrenaline rush with a 111-meter bungee jump from the iconic Victoria Falls Bridge. Suspended directly over the roaring Zambezi River against the backdrop of the majestic falls, this world-renowned leap combines sheer thrill with breathtaking canyon views. Fully supervised by certified jump masters with international safety standards.",
+      "Experience the ultimate adrenaline rush with a 111-meter bungee jump from the iconic Victoria Falls Bridge. Suspended directly over the roaring Zambezi River against the backdrop of the majestic falls, this world-renowned leap combines sheer thrill with breathtaking canyon views. The bridge sits in the border zone between Zimbabwe and Zambia, so jumpers walking out from either side must carry their passport for the bridge gate pass. Fully supervised by certified jump masters with international safety standards.",
     pricing: { unit: "per_person", amountUsd: 160 },
     photos: [
       {
@@ -29,7 +29,7 @@ export const activities: Offering[] = [
     summary:
       "World-class Grade 5 white water rafting down the turbulent Batoka Gorge.",
     description:
-      "Recognized globally as one of the premier white-water rafting adventures on earth. Navigate the turbulent churning rapids of the Batoka Gorge directly beneath Victoria Falls, accompanied by expert river guides and full safety equipment. An unforgettable full-day or half-day excursion of high adventure, dramatic canyon scenery, and adrenaline.",
+      "Recognized globally as one of the premier white-water rafting adventures on earth. Navigate the turbulent churning rapids of the Batoka Gorge directly beneath Victoria Falls, accompanied by expert river guides and full safety equipment. Accessible from both the Zimbabwe and Zambia sides of the gorge, this excursion combines high-adrenaline rapids with dramatic basalt canyon scenery.",
     pricing: { unit: "per_person", amountUsd: 130 },
     photos: [
       {
@@ -48,7 +48,7 @@ export const activities: Offering[] = [
     summary:
       "Sunset and dinner boat cruises along the upper Zambezi River with wildlife viewing.",
     description:
-      "Drift peacefully along the tranquil waters of the upper Zambezi River above Victoria Falls. Enjoy panoramic golden-hour sunsets, complimentary refreshments, and frequent sightings of hippos, crocodiles, elephants on the riverbanks, and vibrant birdlife. A quintessentially relaxing African river safari experience.",
+      "Drift peacefully along the tranquil waters of the upper Zambezi River above Victoria Falls, departing from the Zimbabwe side with lodge pickups in Victoria Falls town. Enjoy panoramic golden-hour sunsets, complimentary refreshments, and frequent sightings of hippos, crocodiles, elephants on the riverbanks, and vibrant birdlife. A quintessentially relaxing African river safari experience.",
     pricing: { unit: "per_person", amountUsd: 75 },
     photos: [
       {
@@ -94,7 +94,7 @@ export const activities: Offering[] = [
         alt: "Scenic view of Victoria Falls and the lush surrounding rainforest landscape",
       },
     ],
-    destinationSlug: "victoria-falls",
+    destinationSlug: "zimbabwe-safaris",
     featured: true,
   },
   {
@@ -141,9 +141,9 @@ export const activities: Offering[] = [
     category: "activity",
     name: "Devil's Pool Swim",
     summary:
-      "Swim at the very edge of Victoria Falls in a natural rock pool on Livingstone Island.",
+      "Swim at the very edge of Victoria Falls in a natural rock pool on Livingstone Island (Zambia side).",
     description:
-      "One of the world's most exclusive natural swimming experiences. Accessible only during low-water season (roughly August to January), Devil's Pool is a natural rock pool perched on the lip of Victoria Falls. Guided by trained lifeguards, you wade to the edge and peer over the 108-meter drop while the Zambezi cascades around you. The excursion includes a boat transfer to Livingstone Island and a guided tour of the island's history and geology.",
+      "One of the world's most exclusive natural swimming experiences, located on Livingstone Island on the Zambian side of Victoria Falls. Accessible only during low-water season (roughly August to January), Devil's Pool is a natural rock pool perched on the lip of the falls. Guided by trained lifeguards, you wade to the edge and peer over the 108-meter drop while the Zambezi cascades around you. The excursion includes a boat transfer to Livingstone Island and a guided tour of the island's history and geology. Guests staying on the Zimbabwe side in Victoria Falls require a passport and valid cross-border visa (such as the KAZA UniVisa) to cross via the Victoria Falls Bridge.",
     pricing: { unit: "per_person", amountUsd: 100 },
     photos: [
       {
@@ -297,7 +297,7 @@ export const activities: Offering[] = [
     summary:
       "Full-day trip from Victoria Falls to Chobe National Park including game drive, boat cruise, and lunch.",
     description:
-      "A seamlessly organized full-day excursion departing from Victoria Falls, crossing the Kazungula border into Botswana, and entering Chobe National Park. The package includes a morning game drive through the park, a buffet lunch at a riverside lodge, and an afternoon boat cruise along the Chobe River. All border-crossing formalities, park fees, transport, and meals are included. Return to Victoria Falls by late afternoon. The most popular way to experience Chobe without an overnight stay.",
+      "A seamlessly organized full-day excursion departing from Victoria Falls (Zimbabwe), crossing the Kazungula border into Botswana, and entering Chobe National Park. The trip includes a morning game drive through the park, a buffet lunch at a riverside lodge, and an afternoon boat cruise along the Chobe River before returning to Victoria Falls by late afternoon. Transport, park fees, meals, and border-crossing guidance are included. Carry your passport for Zimbabwe–Botswana immigration; eligible travellers using the KAZA UniVisa can complete same-day return crossings via Kazungula.",
     pricing: { unit: "per_person", amountUsd: 180 },
     photos: [
       {

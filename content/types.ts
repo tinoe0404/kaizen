@@ -105,3 +105,29 @@ export interface PrivacyContent {
   sections: PrivacySection[];
 }
 
+export interface GuideSection {
+  heading: string;
+  paragraphs: string[];
+}
+
+export interface GuideLink {
+  label: string;
+  href: string;
+  note: string;
+}
+
+export interface TravelGuide {
+  slug: string;
+  title: string;
+  seoTitle: string;
+  metaDescription: string;
+  category: string;
+  publishedAt: string;
+  updatedAt: string;
+  verificationNote?: string;
+  intro: string;
+  photo: Photo;
+  sections: GuideSection[];
+  relatedLinks: GuideLink[];
+}
+

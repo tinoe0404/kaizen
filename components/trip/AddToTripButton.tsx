@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useTrip } from "./TripProvider";
+import { trackEvent } from "@/lib/analytics";
 
 export interface AddToTripButtonProps {
   id: string;
@@ -23,6 +24,10 @@ export function AddToTripButton({
     // Prevent activating card-level links if nested or wrapped
     e.stopPropagation();
     toggle(id);
+    trackEvent("trip_item_toggle", {
+      id,
+      action: isAdded ? "remove" : "add",
+    });
     setAnnouncement(
       isAdded ? `${name} removed from your trip` : `${name} added to your trip`
     );

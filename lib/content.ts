@@ -1,4 +1,4 @@
-import { Category, Offering, SafariPackage } from "@/content/types";
+import { Category, Offering, SafariPackage, TravelGuide } from "@/content/types";
 import {
   destinations,
   activities,
@@ -6,6 +6,7 @@ import {
   vehicles,
 } from "@/content";
 import { packages } from "@/content/packages";
+import { guides } from "@/content/guides";
 
 const categoryMap: Record<Category, Offering[]> = {
   destination: destinations,
@@ -53,5 +54,13 @@ export function getPackages(): SafariPackage[] {
 
 export function getPackageBySlug(slug: string): SafariPackage | undefined {
   return packages.find((p) => p.slug === slug);
+}
+
+export function getGuides(): TravelGuide[] {
+  return guides;
+}
+
+export function getGuideBySlug(slug: string): TravelGuide | undefined {
+  return guides.find((g) => g.slug === slug);
 }
 

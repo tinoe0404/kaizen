@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DetailPage } from "@/components/DetailPage";
 import { getAll, getBySlug } from "@/lib/content";
-import { getCategoryConfig } from "@/content/categories";
+import { getOfferingMetadata } from "@/lib/og";
 
 export const dynamicParams = false;
 
@@ -19,25 +19,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const offering = getBySlug("destination", slug);
-
-  if (!offering) {
-    return {};
-  }
-
-  const config = getCategoryConfig("destination");
-  const firstPhoto = offering.photos?.[0];
-
-  return {
-    title: offering.name,
-    description: offering.summary,
-    alternates: { canonical: `${config.path}/${slug}` },
-    openGraph: {
-      title: offering.name,
-      description: offering.summary,
-      images: firstPhoto ? [firstPhoto.src] : [],
-    },
-  };
+  return getOfferingMetadata("destination", slug);
 }
 
 export default async function DestinationDetailPage({ params }: Props) {

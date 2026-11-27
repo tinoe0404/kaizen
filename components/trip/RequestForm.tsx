@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useTrip } from "./TripProvider";
 import { validateRequest, RequestPayload } from "@/lib/request";
+import { trackEvent } from "@/lib/analytics";
 import { site } from "@/content/site";
 import { Button } from "@/components/ui/button";
 import { buildBookingConfirmationMessage, whatsappLink } from "@/lib/whatsapp";
@@ -110,6 +111,13 @@ export function RequestForm() {
       });
 
       const data = await res.json();
+
+      if (res.ok) {
+        trackEvent("trip_request_submit", {
+          itemCount: state.ids.length,
+          currency: state.currency,
+        });
+      }
 
       if (!res.ok) {
         if (data.errors && typeof data.errors === "object") {

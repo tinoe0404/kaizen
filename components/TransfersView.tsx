@@ -264,11 +264,25 @@ export function TransfersView({ items }: TransfersViewProps) {
               Kaizen Chauffeur & Transfer Services
             </span>
             <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-ink leading-tight">
-              Victoria Falls Transfers & Taxis
+              Victoria Falls Airport Transfers &amp; Safari Shuttles
             </h1>
             <p className="font-body text-ink/80 text-base sm:text-lg mt-3 leading-relaxed">
-              Punctual airport meet & greet, cross-border shuttles connecting Zimbabwe, Botswana & Zambia, and reliable local lodge taxis. Clean, air-conditioned vehicles with professional licensed drivers.
+              Punctual Victoria Falls Airport (VFA) meet &amp; greet, cross-border shuttles to Kasane/Chobe (Botswana) and Livingstone (Zambia), highway transfers to Hwange National Park, and reliable local lodge taxis.
             </p>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4 text-sm font-heading font-medium text-forest">
+              <Link href="/destinations/victoria-falls" className="hover:underline">
+                Victoria Falls Hub →
+              </Link>
+              <Link href="/destinations/chobe" className="hover:underline">
+                Chobe &amp; Kasane →
+              </Link>
+              <Link href="/destinations/zimbabwe-safaris" className="hover:underline">
+                Hwange &amp; Zimbabwe Parks →
+              </Link>
+              <Link href="/faq" className="hover:underline">
+                KAZA UniVisa &amp; Border Info →
+              </Link>
+            </div>
 
             {/* Quick Service Highlights */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-6 border-t border-forest/10">
@@ -420,11 +434,22 @@ export function TransfersView({ items }: TransfersViewProps) {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-sand/60">
-                    {filteredRates.map((row, idx) => (
-                      <tr key={`${row.route}-${row.type}-${idx}`} className="hover:bg-sand/20 transition-colors">
-                        <td className="py-3.5 px-4 font-medium text-ink">
-                          {row.route}
-                        </td>
+                    {filteredRates.map((row, idx) => {
+                      const rowOffering = items.find((item) => item.id === row.offeringId);
+                      return (
+                        <tr key={`${row.route}-${row.type}-${idx}`} className="hover:bg-sand/20 transition-colors">
+                          <td className="py-3.5 px-4 font-medium text-ink">
+                            {rowOffering ? (
+                              <Link
+                                href={offeringHref(rowOffering)}
+                                className="hover:text-forest hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest rounded-[2px]"
+                              >
+                                {row.route}
+                              </Link>
+                            ) : (
+                              row.route
+                            )}
+                          </td>
                         <td className="py-3.5 px-4 text-xs font-semibold text-forest">
                           <span className="inline-block px-2 py-0.5 rounded bg-forest/10">
                             {row.category}
@@ -456,7 +481,8 @@ export function TransfersView({ items }: TransfersViewProps) {
                           )}
                         </td>
                       </tr>
-                    ))}
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -486,7 +512,12 @@ export function TransfersView({ items }: TransfersViewProps) {
 
                       {/* Route Title */}
                       <h2 className="font-heading font-semibold text-lg text-ink group-hover:text-forest transition-colors leading-snug">
-                        {rate.route}
+                        <Link
+                          href={detailHref}
+                          className="hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest rounded-[2px]"
+                        >
+                          {rate.route}
+                        </Link>
                       </h2>
 
                       {/* Route Path Indicator */}
@@ -523,11 +554,21 @@ export function TransfersView({ items }: TransfersViewProps) {
                       {/* Actions */}
                       <div className="flex items-center gap-2">
                         {rate.offeringId ? (
-                          <AddToTripButton
-                            id={rate.offeringId}
-                            name={rate.route}
-                            className="flex-1"
-                          />
+                          <>
+                            <AddToTripButton
+                              id={rate.offeringId}
+                              name={rate.route}
+                              className="flex-1"
+                            />
+                            {offering && (
+                              <Link
+                                href={detailHref}
+                                className="inline-flex items-center justify-center font-heading font-semibold text-xs sm:text-sm min-h-[44px] px-3 py-2 rounded-[8px] border border-sand hover:border-forest/40 text-ink/80 hover:text-forest transition-colors shrink-0"
+                              >
+                                Details
+                              </Link>
+                            )}
+                          </>
                         ) : (
                           <Link
                             href={detailHref}
@@ -665,7 +706,23 @@ export function TransfersView({ items }: TransfersViewProps) {
                   How do cross-border transfers to Chobe (Botswana) or Livingstone (Zambia) work?
                 </h3>
                 <p className="text-sm text-ink/75 leading-relaxed">
-                  Our driver assists you with luggage and guides you through both border immigration and visa stations. For Botswana, we transfer you seamlessly to Kazungula Border or directly to your Kasane lodge.
+                  Our driver assists you with luggage and guides you through both border immigration and visa stations. For Botswana, we transfer you directly to Kazungula Border or your{" "}
+                  <Link href="/destinations/chobe" className="text-forest font-medium hover:underline">
+                    Chobe &amp; Kasane safari lodge
+                  </Link>{" "}
+                  via our{" "}
+                  <Link href="/vehicle-hire/kasane-chobe-botswana-transfer" className="text-forest font-medium hover:underline">
+                    Kasane &amp; Chobe transfer service
+                  </Link>
+                  . For Zambia, explore our{" "}
+                  <Link href="/vehicle-hire/livingstone-zambia-transfer" className="text-forest font-medium hover:underline">
+                    Livingstone Bridge transfer
+                  </Link>{" "}
+                  and{" "}
+                  <Link href="/faq" className="text-forest font-medium hover:underline">
+                    KAZA UniVisa rules
+                  </Link>
+                  .
                 </p>
               </div>
 

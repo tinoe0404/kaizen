@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
+import { isProductionEnv } from "@/lib/env";
 
 export default function robots(): MetadataRoute.Robots {
-  const isProduction = process.env.VERCEL_ENV === "production";
+  const isProduction = isProductionEnv();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   if (!isProduction) {

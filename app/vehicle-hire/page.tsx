@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
 import { TransfersView } from "@/components/TransfersView";
 import { getAll } from "@/lib/content";
-import { getCategoryConfig } from "@/content/categories";
+import { getCategoryMetadata } from "@/lib/og";
 
-const config = getCategoryConfig("vehicle");
-
-export const metadata: Metadata = {
-  title: config.title,
-  description: config.metaDescription,
-  alternates: { canonical: config.path },
-};
+export const metadata: Metadata = getCategoryMetadata("vehicle");
 
 export default function VehicleHirePage() {
   const items = getAll("vehicle");

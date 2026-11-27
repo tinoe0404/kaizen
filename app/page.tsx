@@ -12,13 +12,12 @@ import { getAll, getFeatured, getPackages } from "@/lib/content";
 import { categoryPath } from "@/lib/routes";
 import { Category } from "@/content/types";
 import { WhatsAppLink } from "@/components/WhatsAppLink";
-import { site } from "@/content/site";
-import { safeStr, stripUndefined } from "@/lib/structured-data";
+import { buildTravelAgencyJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Kaizen Travel and Adventures",
+  title: "Victoria Falls Tours, Zimbabwe Safaris & Transfers | Kaizen Travel",
   description:
-    "Build your trip online and send one booking request. Destinations, activities, lodges and vehicle hire across Southern Africa.",
+    "Plan Victoria Falls tours, Zimbabwe and Chobe safari packages, lodges, and airport transfers online with transparent rates in USD, EUR, GBP, and ZAR.",
   alternates: { canonical: "/" },
 };
 
@@ -81,14 +80,7 @@ export default function HomePage() {
   const featuredOfferings = getFeatured().slice(0, 3);
   const curatedPackages = getPackages().slice(0, 2);
 
-  const agencyData = stripUndefined({
-    "@context": "https://schema.org",
-    "@type": "TravelAgency",
-    name: safeStr(site.name),
-    url: process.env.NEXT_PUBLIC_SITE_URL || undefined,
-    email: safeStr(site.bookingEmail),
-    address: safeStr(site.address),
-  });
+  const agencyData = buildTravelAgencyJsonLd(process.env.NEXT_PUBLIC_SITE_URL);
 
   // Only render if at least name is present (not a placeholder)
   const hasAgencyData = Boolean(agencyData.name);

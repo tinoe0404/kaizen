@@ -6,7 +6,7 @@ import { WhatsAppLink } from "@/components/WhatsAppLink";
 import { JsonLd } from "@/components/JsonLd";
 import { site } from "@/content/site";
 import { normalizeWhatsappNumber } from "@/lib/whatsapp";
-import { safeStr, stripUndefined } from "@/lib/structured-data";
+import { buildTravelAgencyJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -19,14 +19,7 @@ export default function ContactPage() {
   const isWhatsAppValid = normalizeWhatsappNumber(site.whatsappNumber) !== null;
   const hasSocialLinks = Boolean(site.socialLinks && site.socialLinks.length > 0);
 
-  const agencyData = stripUndefined({
-    "@context": "https://schema.org",
-    "@type": "TravelAgency",
-    name: safeStr(site.name),
-    url: process.env.NEXT_PUBLIC_SITE_URL || undefined,
-    email: safeStr(site.bookingEmail),
-    address: safeStr(site.address),
-  });
+  const agencyData = buildTravelAgencyJsonLd(process.env.NEXT_PUBLIC_SITE_URL);
 
   const hasAgencyData = Boolean(agencyData.name);
 

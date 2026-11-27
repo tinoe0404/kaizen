@@ -6,6 +6,11 @@ import {
 } from "@/lib/request";
 import { buildTeamEmail, buildGuestEmail } from "@/lib/emails";
 import { sendMail, getBookingEmail } from "@/lib/mail";
+import {
+  checkRateLimit,
+  getIdempotentResponse,
+  setIdempotentResponse,
+} from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,77 +18,6 @@ export const maxDuration = 30;
 
 // Maximum allowed payload size (20 KB)
 const MAX_BODY_BYTES = 20 * 1024;
-
-// ─── Sliding-Window Rate Limiting ─────────────────────────────────────────
-// 5 requests per IP per 10 minutes with RFC-compliant headers & automatic GC
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
-const MAX_REQUESTS_PER_WINDOW = 5;
-
-interface RateLimitResult {
-  allowed: boolean;
-  limit: number;
-  remaining: number;
-  resetSeconds: number;
-}
-
-const ipRequestsMap = new Map<string, number[]>();
-
-export function _resetRateLimitForTesting(): void {
-  ipRequestsMap.clear();
-  idempotencyMap.clear();
-}
-
-function checkRateLimit(ip: string): RateLimitResult {
-  const now = Date.now();
-  const timestamps = ipRequestsMap.get(ip) || [];
-
-  // Prune entries older than the window
-  const validTimestamps = timestamps.filter(
-    (time) => now - time < RATE_LIMIT_WINDOW_MS
-  );
-
-  // Periodic garbage collection to prevent memory leaks in long-running instances
-  if (ipRequestsMap.size > 1000) {
-    for (const [key, list] of ipRequestsMap.entries()) {
-      if (list.every((t) => now - t >= RATE_LIMIT_WINDOW_MS)) {
-        ipRequestsMap.delete(key);
-      }
-    }
-  }
-
-  const oldestTime = validTimestamps[0] || now;
-  const resetSeconds = Math.max(
-    1,
-    Math.ceil((oldestTime + RATE_LIMIT_WINDOW_MS - now) / 1000)
-  );
-
-  if (validTimestamps.length >= MAX_REQUESTS_PER_WINDOW) {
-    ipRequestsMap.set(ip, validTimestamps);
-    return {
-      allowed: false,
-      limit: MAX_REQUESTS_PER_WINDOW,
-      remaining: 0,
-      resetSeconds,
-    };
-  }
-
-  validTimestamps.push(now);
-  ipRequestsMap.set(ip, validTimestamps);
-  return {
-    allowed: true,
-    limit: MAX_REQUESTS_PER_WINDOW,
-    remaining: Math.max(0, MAX_REQUESTS_PER_WINDOW - validTimestamps.length),
-    resetSeconds,
-  };
-}
-
-// ─── Idempotency Cache ──────────────────────────────────────────────────
-interface CachedResponse {
-  reference: string;
-  confirmationSent: boolean;
-  timestamp: number;
-}
-const idempotencyMap = new Map<string, CachedResponse>();
 
 // ─── POST Handler ────────────────────────────────────────────────────────
 
@@ -182,8 +116,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   // Check idempotency header for network retries / duplicate submits
   const idempotencyKey = req.headers.get("idempotency-key");
-  if (idempotencyKey && idempotencyMap.has(idempotencyKey)) {
-    const cached = idempotencyMap.get(idempotencyKey)!;
+  const cached = idempotencyKey ? getIdempotentResponse(idempotencyKey) : undefined;
+  if (cached) {
     if (Date.now() - cached.timestamp < 10 * 60 * 1000) {
       return NextResponse.json(
         {
@@ -312,7 +246,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   // Store idempotency record if client passed a key
   if (idempotencyKey) {
-    idempotencyMap.set(idempotencyKey, {
+    setIdempotentResponse(idempotencyKey, {
       reference,
       confirmationSent,
       timestamp: Date.now(),

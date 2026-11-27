@@ -3,6 +3,7 @@
 import React from "react";
 import { whatsappLink } from "@/lib/whatsapp";
 import { ButtonVariant } from "@/components/ui/button";
+import { trackEvent } from "@/lib/analytics";
 
 let hasWarnedDevelopment = false;
 
@@ -58,6 +59,10 @@ export function WhatsAppLink({
       target={target}
       rel={rel}
       className={combinedClasses}
+      onClick={(e) => {
+        trackEvent("whatsapp_click", { variant: variant || "link" });
+        props.onClick?.(e);
+      }}
       {...props}
     >
       {children}

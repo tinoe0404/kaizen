@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
-import { validateEnv } from "./lib/env";
+import { isProductionEnv, validateEnv } from "./lib/env";
 
 // Enforce environment variable validation at build time
 validateEnv();
 
-const isProduction = process.env.VERCEL_ENV === "production";
+const isProduction = isProductionEnv();
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -56,7 +56,7 @@ const nextConfig: NextConfig = {
       {
         source: "/transfers",
         destination: "/vehicle-hire",
-        permanent: false,
+        permanent: true,
       },
     ];
   },

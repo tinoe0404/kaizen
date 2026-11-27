@@ -13,9 +13,12 @@ import { test, expect } from "@playwright/test";
 const STATIC_ROUTES = [
   "/",
   "/destinations",
+  "/packages",
   "/activities",
   "/lodges",
   "/vehicle-hire",
+  "/guides",
+  "/guides/best-time-to-visit-victoria-falls",
   "/about",
   "/contact",
   "/privacy",
@@ -109,6 +112,7 @@ test.describe("SEO: sitemap.xml", () => {
     expect(body).toContain("/activities/activity-a");
     expect(body).toContain("/lodges/lodge-a");
     expect(body).toContain("/vehicle-hire/vehicle-a");
+    expect(body).toContain("/guides/best-time-to-visit-victoria-falls");
 
     // Must NOT include /trip
     expect(body).not.toMatch(/\/trip<\/loc>/);

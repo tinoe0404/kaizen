@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { POST, _resetRateLimitForTesting } from "./route";
+import { POST } from "./route";
+import { _resetRateLimitForTesting } from "@/lib/rate-limit";
 import { NextRequest } from "next/server";
 import * as mailModule from "@/lib/mail";
 

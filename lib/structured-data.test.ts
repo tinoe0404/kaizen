@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { safeStr, deepClean, stripUndefined } from "./structured-data";
+import { safeStr, deepClean, stripUndefined, buildTravelAgencyJsonLd } from "./structured-data";
 
 describe("structured-data", () => {
   it("safeStr filters out placeholders and returns clean strings", () => {
@@ -37,6 +37,16 @@ describe("structured-data", () => {
     };
 
     expect(stripUndefined(allPlaceholders)).toEqual({});
+  });
+
+  it("buildTravelAgencyJsonLd builds verified TravelAgency schema with telephone and sameAs", () => {
+    const schema = buildTravelAgencyJsonLd("https://kaizentravel.co.zw");
+    expect(schema["@type"]).toBe("TravelAgency");
+    expect(schema.name).toBe("Kaizen Travel and Adventures");
+    expect(schema.url).toBe("https://kaizentravel.co.zw");
+    expect(schema.telephone).toBeTruthy();
+    expect(Array.isArray(schema.sameAs)).toBe(true);
+    expect((schema.sameAs as string[]).length).toBeGreaterThan(0);
   });
 });
 

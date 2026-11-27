@@ -1,3 +1,5 @@
+import { site } from "@/content/site";
+
 /**
  * Helpers for building structured data.
  * Guarantees that no string containing "[" (placeholder) is ever published
@@ -46,4 +48,28 @@ export function stripUndefined<T extends Record<string, unknown>>(
 ): Partial<T> {
   const cleaned = deepClean(obj);
   return (cleaned || {}) as Partial<T>;
+}
+
+/**
+ * Builds verified TravelAgency JSON-LD from `content/site.ts` without inventing
+ * unverified business credentials, ratings, or registration numbers.
+ */
+export function buildTravelAgencyJsonLd(
+  siteUrl?: string
+): Record<string, unknown> {
+  const sameAs = Object.values(site.social || {}).filter(
+    (url): url is string => Boolean(safeStr(url))
+  );
+
+  return stripUndefined({
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    name: safeStr(site.name),
+    description: safeStr(site.tagline),
+    url: safeStr(siteUrl),
+    email: safeStr(site.bookingEmail),
+    telephone: safeStr(site.phoneNumber || site.whatsappNumber),
+    address: safeStr(site.address),
+    ...(sameAs.length > 0 ? { sameAs } : {}),
+  }) as Record<string, unknown>;
 }

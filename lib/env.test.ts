@@ -1,5 +1,35 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { validateEnv, REQUIRED_PRODUCTION_VARS } from "./env";
+import { validateEnv, isProductionEnv, REQUIRED_PRODUCTION_VARS } from "./env";
+
+describe("isProductionEnv", () => {
+  const originalEnv = { ...process.env };
+
+  beforeEach(() => {
+    process.env = { ...originalEnv };
+  });
+
+  afterEach(() => {
+    process.env = originalEnv;
+  });
+
+  it("returns true for VERCEL_ENV=production and false for VERCEL_ENV=preview even when NODE_ENV=production", () => {
+    (process.env as Record<string, string | undefined>).NODE_ENV = "production";
+    process.env.VERCEL_ENV = "production";
+    expect(isProductionEnv()).toBe(true);
+
+    process.env.VERCEL_ENV = "preview";
+    expect(isProductionEnv()).toBe(false);
+  });
+
+  it("falls back to NODE_ENV=production when VERCEL_ENV is unset", () => {
+    delete process.env.VERCEL_ENV;
+    (process.env as Record<string, string | undefined>).NODE_ENV = "production";
+    expect(isProductionEnv()).toBe(true);
+
+    (process.env as Record<string, string | undefined>).NODE_ENV = "development";
+    expect(isProductionEnv()).toBe(false);
+  });
+});
 
 describe("validateEnv", () => {
   const originalEnv = { ...process.env };

@@ -7,6 +7,7 @@ import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { TripBar } from "@/components/trip/TripBar";
 import { TripProvider } from "@/components/trip/TripProvider";
 import { site } from "@/content/site";
+import { isProductionEnv } from "@/lib/env";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -26,9 +27,9 @@ function getSiteUrl(): URL {
   if (process.env.NEXT_PUBLIC_SITE_URL) {
     return new URL(process.env.NEXT_PUBLIC_SITE_URL);
   }
-  if (process.env.VERCEL_ENV === "production") {
+  if (isProductionEnv()) {
     throw new Error(
-      "NEXT_PUBLIC_SITE_URL is required in production. Set it in your Vercel environment variables."
+      "NEXT_PUBLIC_SITE_URL is required in production. Set it in your environment variables."
     );
   }
   return new URL("http://localhost:3000");

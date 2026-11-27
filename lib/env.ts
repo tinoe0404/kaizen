@@ -4,7 +4,9 @@
  * Validates required environment variables at build time and runtime.
  * Strict rules:
  * - Only names are reported in error messages, NEVER values.
- * - In production (VERCEL_ENV === "production"), all required variables must be present.
+ * - In Vercel environments (`VERCEL_ENV` set), only `VERCEL_ENV === "production"` is production
+ *   so preview deployments never expose production indexing or require live secrets unless configured.
+ * - Outside Vercel (`VERCEL_ENV` unset), falls back to `NODE_ENV === "production"`.
  * - Test fixtures (NEXT_PUBLIC_CONTENT_FIXTURES === "1") must NEVER be enabled in production.
  */
 
@@ -19,14 +21,21 @@ export const REQUIRED_PRODUCTION_VARS = [
   "BOOKING_EMAIL",
 ] as const;
 
+export function isProductionEnv(): boolean {
+  if (process.env.VERCEL_ENV) {
+    return process.env.VERCEL_ENV === "production";
+  }
+  return process.env.NODE_ENV === "production";
+}
+
 export function validateEnv(): void {
-  const isProduction = process.env.VERCEL_ENV === "production";
+  const isProduction = isProductionEnv();
   const useFixtures = process.env.NEXT_PUBLIC_CONTENT_FIXTURES === "1";
 
   // Safety: fail if fixtures are active in production
   if (useFixtures && isProduction) {
     throw new Error(
-      "Build failed: NEXT_PUBLIC_CONTENT_FIXTURES=1 is forbidden in production (VERCEL_ENV=production)."
+      "Build failed: NEXT_PUBLIC_CONTENT_FIXTURES=1 is forbidden in production."
     );
   }
 
@@ -45,7 +54,7 @@ export function validateEnv(): void {
 
   if (missing.length > 0) {
     throw new Error(
-      `Build failed: Missing required production environment variables (VERCEL_ENV=production):\n` +
+      `Build failed: Missing required production environment variables:\n` +
         missing.map((v) => `  - ${v}`).join("\n") +
         `\nPlease configure these variables in your deployment environment.`
     );

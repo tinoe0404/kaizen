@@ -65,4 +65,25 @@ export const destinations: Offering[] = [
     ],
     featured: true,
   },
+  {
+    id: "destination-zimbabwe-safaris",
+    slug: "zimbabwe-safaris",
+    category: "destination",
+    name: "Zimbabwe Safaris",
+    summary:
+      "Hwange elephant herds, UNESCO-listed Mana Pools, rhino tracking in Matobo Hills, and Lake Kariba houseboats.",
+    description:
+      "Beyond Victoria Falls, Zimbabwe offers some of Southern Africa's most rewarding and uncrowded wildlife parks. Explore Hwange National Park—renowned for its vast elephant herds and Big Five game viewing along pumped dry-season waterholes—or journey north to Mana Pools on the Zambezi River for UNESCO-listed walking and canoe safaris.\n\nIn western and northern Zimbabwe, track black and white rhinos on foot among the granite kopjes of Matobo Hills or unwind aboard a serviced houseboat cruising Lake Kariba. All regions connect cleanly by road or charter transfer from Victoria Falls and Bulawayo.",
+    pricing: {
+      unit: "per_person",
+      amountUsd: 50,
+    },
+    photos: [
+      {
+        src: "/images/lodges/hwange-safari-lodge-1.jpg",
+        alt: "Classic Zimbabwe safari lodge surrounded by bushveld near Hwange National Park",
+      },
+    ],
+    featured: true,
+  },
 ];

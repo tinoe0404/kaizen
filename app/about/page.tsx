@@ -3,7 +3,9 @@ import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Photo } from "@/components/ui/Photo";
+import { JsonLd } from "@/components/JsonLd";
 import { about } from "@/content/about";
+import { buildTravelAgencyJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "About",
@@ -15,9 +17,11 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   const hasValues = Boolean(about.values && about.values.length > 0);
   const hasPhotos = Boolean(about.photos && about.photos.length > 0);
+  const agencyData = buildTravelAgencyJsonLd(process.env.NEXT_PUBLIC_SITE_URL);
 
   return (
     <div className="w-full flex flex-col">
+      {Boolean(agencyData.name) && <JsonLd data={agencyData} />}
       {/* Top Header Section */}
       <Section sand className="py-12 md:py-16 border-b border-forest/10">
         <Container>

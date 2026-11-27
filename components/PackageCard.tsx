@@ -6,6 +6,7 @@ import { SafariPackage } from "@/content/types";
 import { Photo } from "@/components/ui/Photo";
 import { useTrip } from "@/components/trip/TripProvider";
 import { getById } from "@/lib/content";
+import { offeringHref, packageHref } from "@/lib/routes";
 
 export interface PackageCardProps {
   pkg: SafariPackage;
@@ -39,7 +40,7 @@ export function PackageCard({ pkg, headingLevel = "h2" }: PackageCardProps) {
   return (
     <article className="group relative flex flex-col bg-white border border-sand rounded-[14px] overflow-hidden transition-colors hover:border-forest/40">
       {/* Photo with duration & destination badges */}
-      <div className="relative">
+      <Link href={packageHref(pkg)} className="relative block">
         <Photo
           photo={pkg.photo}
           label={pkg.title}
@@ -58,12 +59,17 @@ export function PackageCard({ pkg, headingLevel = "h2" }: PackageCardProps) {
           <span>{pkg.destination}</span>
           <span className="text-sun font-bold">{pkg.duration}</span>
         </div>
-      </div>
+      </Link>
 
       {/* Card Body */}
       <div className="p-4 sm:p-6 flex flex-col flex-1">
         <HeadingTag className="font-heading font-bold text-xl text-ink group-hover:text-forest transition-colors">
-          {pkg.title}
+          <Link
+            href={packageHref(pkg)}
+            className="hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest rounded-[2px]"
+          >
+            {pkg.title}
+          </Link>
         </HeadingTag>
 
         <p className="font-body text-sm text-ink/75 mt-2 leading-relaxed">
@@ -100,12 +106,13 @@ export function PackageCard({ pkg, headingLevel = "h2" }: PackageCardProps) {
           </p>
           <div className="flex flex-wrap gap-1.5">
             {includedItems.map((item) => (
-              <span
+              <Link
                 key={item!.id}
-                className="text-xs font-heading font-medium bg-sand/60 text-ink/85 px-2.5 py-1 rounded-control"
+                href={offeringHref(item!)}
+                className="text-xs font-heading font-medium bg-sand/60 hover:bg-forest/15 text-ink/85 hover:text-forest px-2.5 py-1 rounded-control transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"
               >
                 {item!.name}
-              </span>
+              </Link>
             ))}
           </div>
         </div>
@@ -139,10 +146,10 @@ export function PackageCard({ pkg, headingLevel = "h2" }: PackageCardProps) {
               </button>
 
               <Link
-                href="/trip"
+                href={packageHref(pkg)}
                 className="w-full sm:w-auto inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-control border border-sand hover:border-forest/40 text-ink/80 hover:text-forest text-sm font-heading font-medium transition-colors"
               >
-                Trip planner
+                View details
               </Link>
             </div>
           )}

@@ -37,7 +37,7 @@ export const lodges: Offering[] = [
         alt: "Hwange Safari Lodge exterior with thatched roof surrounded by bushveld",
       },
     ],
-    destinationSlug: "victoria-falls",
+    destinationSlug: "zimbabwe-safaris",
     featured: true,
   },
   {
@@ -56,7 +56,7 @@ export const lodges: Offering[] = [
         alt: "Luxury safari tent interior at Mana Pools Wilderness Camp with warm lighting",
       },
     ],
-    destinationSlug: "victoria-falls",
+    destinationSlug: "zimbabwe-safaris",
     featured: true,
   },
   {
@@ -75,7 +75,7 @@ export const lodges: Offering[] = [
         alt: "Elegant lodge bedroom with warm décor set in the Matobo Hills landscape",
       },
     ],
-    destinationSlug: "victoria-falls",
+    destinationSlug: "zimbabwe-safaris",
     featured: true,
   },
   {
@@ -94,7 +94,7 @@ export const lodges: Offering[] = [
         alt: "Luxury houseboat cruising on the calm waters of Lake Kariba at sunset",
       },
     ],
-    destinationSlug: "victoria-falls",
+    destinationSlug: "zimbabwe-safaris",
     featured: true,
   },
   {
